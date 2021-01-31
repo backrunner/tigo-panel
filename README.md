@@ -1,24 +1,7 @@
 # tigo-panel
 
-## Project setup
-```
-npm install
-```
+A web panel for [tigo](https://github.com/backrunner/tigo).
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## License
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+MIT
