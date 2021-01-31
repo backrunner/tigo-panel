@@ -1,6 +1,20 @@
 /* eslint-disable no-param-reassign */
+// eslint-disable-next-line import/no-extraneous-dependencies
+const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
+  css: {
+    extract: true,
+    loaderOptions: {
+      less: {
+        globalVars: {
+          'color-primary': '#',
+          'color-bg': '#1e1e1e',
+        },
+      },
+    },
+  },
   productionSourceMap: false,
   chainWebpack: (config) => {
     // drop debug lines
@@ -14,10 +28,15 @@ module.exports = {
       });
     }
   },
-  configureWebpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'element-ui': '@pwp-app/better-element-ui',
-    };
-  },
+  configureWebpack: () => ({
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        'element-ui': '@pwp-app/better-element-ui',
+      },
+    },
+    plugins: [
+      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/),
+    ],
+  }),
 };

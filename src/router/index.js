@@ -7,10 +7,12 @@ const routes = [
   {
     path: '/',
     name: 'portal',
+    component: () => import(/* webpackChunkName: "portal" */ '@/view/portal.vue'),
   },
   {
     path: '/app',
     name: 'app',
+    component: () => import(/* webpackChunkName: "layout" */ '@/view/appLayout.vue'),
   },
 ];
 
