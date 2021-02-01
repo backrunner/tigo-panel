@@ -6,14 +6,6 @@ const path = require('path');
 module.exports = {
   css: {
     extract: true,
-    loaderOptions: {
-      less: {
-        globalVars: {
-          'color-primary': '#f16d41',
-          'color-bg': '#1e1e1e',
-        },
-      },
-    },
   },
   productionSourceMap: false,
   chainWebpack: (config) => {
