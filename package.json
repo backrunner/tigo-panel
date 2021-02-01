@@ -13,6 +13,7 @@
     "@pwp-app/better-element-ui": "^2.15.0-fix-1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "crypto-js": "^4.0.0",
     "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

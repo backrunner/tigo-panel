@@ -3,18 +3,20 @@
 /* eslint-disable no-shadow */
 import moment from 'moment';
 
-const stored = window.localStorage.getItem('refreshToken');
+const stored = window.localStorage.getItem('tokenInfo');
 
+let authToken;
 let refreshToken;
 
 try {
-  const refreshTokenObj = stored ? JSON.parse(stored) : null;
+  const tokenInfo = stored ? JSON.parse(stored) : null;
   if (
-    refreshTokenObj
-    && refreshTokenObj.fetchTime
-    && moment().diff(moment(refreshTokenObj.fetchTime), 'day') <= 6
+    tokenInfo
+    && tokenInfo.fetchTime
+    && moment().diff(moment(tokenInfo.fetchTime), 'day') <= 6
   ) {
-    refreshToken = refreshTokenObj.token;
+    authToken = tokenInfo.authToken;
+    refreshToken = tokenInfo.refreshToken;
   }
 } catch (e) {
   console.error('Parse token error', e);
@@ -23,18 +25,35 @@ try {
 const state = {
   uid: null,
   username: null,
-  token: null,
+  token: authToken || null,
   refreshToken: refreshToken || null,
   lastFetch: null,
 };
 
 const mutations = {
   setAuth(state, auth) {
-    state.uid = auth.uid;
-    state.username = auth.username;
-    state.token = auth.token.authToken;
-    state.refreshToken = auth.token.refreshToken;
+    const { uid, username, token } = auth;
+    const { refreshToken, authToken } = token;
+    state.uid = uid;
+    state.username = username;
+    state.token = authToken;
+    state.refreshToken = refreshToken;
     state.lastFetch = moment().valueOf();
+    window.localStorage.setItem('tokenInfo', {
+      authToken,
+      refreshToken,
+      fetchTime: state.lastFetch,
+    });
+  },
+  setToken(state, { authToken, refreshToken }) {
+    state.token = authToken;
+    state.refreshToken = refreshToken;
+    state.lastFetch = moment().valueOf();
+    window.localStorage.setItem('tokenInfo', {
+      authToken,
+      refreshToken,
+      fetchTime: state.lastFetch,
+    });
   },
 };
 

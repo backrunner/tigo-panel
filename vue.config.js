@@ -9,7 +9,7 @@ module.exports = {
     loaderOptions: {
       less: {
         globalVars: {
-          'color-primary': '#',
+          'color-primary': '#f16d41',
           'color-bg': '#1e1e1e',
         },
       },

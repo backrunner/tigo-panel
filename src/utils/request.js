@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios from 'axios';
 import { Message } from 'element-ui';
 import store from '../store';
@@ -21,14 +22,25 @@ const nApi = axios.create({
   },
 });
 
+const errorHandler = (err) => {
+  Message.error(err.response.data.message);
+  console.error('Request API error.', err);
+  return Promise.resolve(null);
+};
+
+tApi.interceptors.response.use((res) => {
+  return res;
+}, (err) => {
+  return errorHandler(err);
+});
+
 nApi.interceptors.response.use((res) => {
   return res;
 }, (err) => {
   if (err.response.status === 401) {
-    Message.warn('用户权限验证失败');
     router.replace('/');
   }
-  return err;
+  return errorHandler(err);
 });
 
 export {
