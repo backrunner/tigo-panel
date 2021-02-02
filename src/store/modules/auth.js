@@ -55,6 +55,10 @@ const mutations = {
       fetchTime: state.lastFetch,
     });
   },
+  setUserInfo(state, { uid, username }) {
+    state.uid = uid;
+    state.username = username;
+  },
 };
 
 export default {
