@@ -1,5 +1,8 @@
 {
   "portal.username": "Username",
   "portal.password": "Password",
-  "portal.confirmPassword": "Confirm Your Password"
+  "portal.confirmPassword": "Confirm Your Password",
+  "portal.remember": "Remember me",
+  "portal.login": "Login",
+  "portal.register": "Create Account"
 }

@@ -1,5 +1,8 @@
 {
   "portal.username": "用户名",
   "portal.password": "密码",
-  "portal.confirmPassword": "确认密码"
+  "portal.confirmPassword": "确认密码",
+  "portal.remember": "记住我",
+  "portal.login": "登录",
+  "portal.register": "创建帐户"
 }

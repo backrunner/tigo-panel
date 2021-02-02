@@ -10,8 +10,8 @@ import './plugins/element';
 
 Vue.config.productionTip = false;
 
-Vue.prototype.tApi = tApi;
-Vue.prototype.nApi = nApi;
+Vue.prototype.$tApi = tApi;
+Vue.prototype.$nApi = nApi;
 
 new Vue({
   router,

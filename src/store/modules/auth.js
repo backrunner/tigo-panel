@@ -13,10 +13,13 @@ try {
   if (
     tokenInfo
     && tokenInfo.fetchTime
-    && moment().diff(moment(tokenInfo.fetchTime), 'day') <= 6
   ) {
-    authToken = tokenInfo.authToken;
-    refreshToken = tokenInfo.refreshToken;
+    if (moment().diff(moment(tokenInfo.authToken), 'minute') <= 30) {
+      authToken = tokenInfo.authToken;
+    }
+    if (moment().diff(moment(tokenInfo.fetchTime), 'day') <= 6) {
+      refreshToken = tokenInfo.refreshToken;
+    }
   }
 } catch (e) {
   console.error('Parse token error', e);

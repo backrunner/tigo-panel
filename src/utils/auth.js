@@ -14,7 +14,11 @@ export const doTokenRefresh = async (token) => {
   if (!res) {
     return false;
   }
-  const { authToken, refreshToken } = res.data.data;
+  const { uid, username, authToken, refreshToken } = res.data.data;
+  store.commit('auth/setUserInfo', {
+    uid,
+    username,
+  });
   store.commit('auth/setToken', {
     authToken,
     refreshToken,
