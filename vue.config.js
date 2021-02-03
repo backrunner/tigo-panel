@@ -5,7 +5,7 @@ const path = require('path');
 
 module.exports = {
   css: {
-    extract: true,
+    extract: process.env.NODE_ENV === 'production',
   },
 
   productionSourceMap: false,
@@ -39,8 +39,8 @@ module.exports = {
     i18n: {
       locale: 'cn',
       fallbackLocale: 'en',
-      localeDir: 'locales',
-      enableInSFC: false
-    }
-  }
+      localeDir: 'src/locales',
+      enableInSFC: false,
+    },
+  },
 };

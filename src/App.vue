@@ -1,5 +1,5 @@
 <template>
-  <transition mode="out-in" name="fade">
+  <transition mode="out-in" name="fade" appear>
     <keep-alive v-if="$route.meta.keepAlive">
       <router-view></router-view>
     </keep-alive>
@@ -17,6 +17,7 @@ export default {
 :root {
   --primary: #f16d41;
   --bg-main: #1e1e1e;
+  --regular-text: #999;
 }
 
 html,
@@ -30,9 +31,9 @@ body,
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .125s;
+  transition: opacity 125ms;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter, .fade-leave {
   opacity: 0;
 }
 </style>
