@@ -1,7 +1,13 @@
 <template>
   <div class="entry-container">
     <div class="entry portal">
-      <el-form key="login" class="portal-form" ref="loginForm" v-if="showLoginForm">
+      <el-form
+        key="login"
+        class="portal-form"
+        ref="loginForm"
+        :model="loginForm"
+        v-show="showLoginForm"
+      >
         <div class="portal-form-title">
           <span>登录到 tigo</span>
         </div>
@@ -9,7 +15,12 @@
           <el-input v-model="loginForm.username" :placeholder="$t('portal.username')"> </el-input>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="loginForm.password" :placeholder="$t('portal.password')"> </el-input>
+          <el-input
+            v-model="loginForm.password"
+            type="password"
+            :placeholder="$t('portal.password')"
+          >
+          </el-input>
         </el-form-item>
         <el-form-item>
           <el-checkbox v-model="loginForm.remember">
@@ -25,7 +36,13 @@
           <span @click="switchToRegister">注册</span>
         </div>
       </el-form>
-      <el-form key="register" class="portal-form" ref="registerForm" v-if="showRegisterForm">
+      <el-form
+        key="register"
+        class="portal-form"
+        ref="registerForm"
+        :model="registerForm"
+        v-show="showRegisterForm"
+      >
         <div class="portal-form-title">
           <span>开始使用 tigo</span>
         </div>
@@ -34,13 +51,18 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="registerForm.password" :placeholder="$t('portal.password')">
+          <el-input
+            v-model="registerForm.password"
+            type="password"
+            :placeholder="$t('portal.password')"
+          >
           </el-input>
         </el-form-item>
         <el-form-item>
           <el-input
             v-model="registerForm.confirmPassword"
             :placeholder="$t('portal.confirmPassword')"
+            type="password"
           >
           </el-input>
         </el-form-item>
