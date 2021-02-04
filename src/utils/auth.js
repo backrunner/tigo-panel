@@ -31,7 +31,7 @@ export const doLogin = async ({
 }) => {
   const res = await tApi.post('/auth/login', {
     username,
-    password: sha256(password),
+    password: sha256(password).toString(),
   });
   if (!res) {
     return false;
@@ -51,8 +51,8 @@ export const doRegister = async ({
 }) => {
   const res = await tApi.post('/auth/register', {
     username,
-    password: sha256(password),
-    confirmPassword: sha256(confirmPassword),
+    password: sha256(password).toString(),
+    confirmPassword: sha256(confirmPassword).toString(),
   });
   return !!res;
 };
