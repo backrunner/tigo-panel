@@ -1,6 +1,6 @@
 <template>
-  <div class="portal-wrapper">
-    <div class="portal">
+  <div class="entry-container">
+    <div class="entry portal">
       <el-form key="login" class="portal-form" ref="loginForm" v-if="showLoginForm">
         <div class="portal-form-title">
           <span>登录到 tigo</span>
@@ -17,7 +17,9 @@
           </el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="login">{{ $t('portal.login') }}</el-button>
+          <el-button type="primary" @click="login" :loading="loginLoading">
+            {{ $t('portal.login') }}
+          </el-button>
         </el-form-item>
         <div class="form-footer">
           <span @click="switchToRegister">注册</span>
@@ -43,35 +45,26 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="register">{{ $t('portal.register') }}</el-button>
+          <el-button type="primary" @click="register" :loading="registerLoading">
+            {{ $t('portal.register') }}
+          </el-button>
         </el-form-item>
         <div class="form-footer">
           <span @click="switchToLogin">已有帐户？登录</span>
         </div>
       </el-form>
-      <div class="portal-footer">
-        <span class="version">tigo-panel v{{ version }}</span>
-        <a
-          href="https://github.com/tigojs/tigo-panel"
-          class="github"
-          target="_blank"
-          rel="noopener noreferer"
-          >
-          <GitHubIcon />
-        </a>
-      </div>
+      <EntryFooter />
     </div>
   </div>
 </template>
 
 <script>
-import { checkAuthStatus, doTokenRefresh } from '../utils/auth';
-import GitHubIcon from '@/common/icon/GitHub';
-import { version } from '@/common/version';
+import { checkAuthStatus, doLogin, doRegister, doTokenRefresh } from '@/utils/auth';
+import EntryFooter from './components/entryFooter';
 
 export default {
   components: {
-    GitHubIcon,
+    EntryFooter,
   },
   data() {
     return {
@@ -86,7 +79,8 @@ export default {
         password: '',
         confirmPassword: '',
       },
-      version,
+      loginLoading: false,
+      registerLoading: false,
     };
   },
   computed: {
@@ -115,86 +109,68 @@ export default {
   },
   methods: {
     // actions
-    login() {},
-    register() {},
+    async login() {
+      this.loginLoading = true;
+      const res = await doLogin(this.loginForm);
+      if (res) {
+        this.$message.success('登录成功');
+        this.$router.push('/app');
+      }
+      this.loginLoading = false;
+    },
+    async register() {
+      if (this.registerForm.password !== this.registerForm.confirmPassword) {
+        this.$message.error('两次输入的密码不一致');
+        return;
+      }
+      this.registerLoading = true;
+      const res = await doRegister(this.registerForm);
+      if (res) {
+        this.switchToLogin();
+        this.$message.success('注册成功！请使用您刚才填写的用户信息登录');
+      }
+      this.registerLoading = false;
+    },
     // switch
     switchToLogin() {
       this.formType = 'login';
+      this.$refs.loginForm.resetFields();
     },
     switchToRegister() {
       this.formType = 'register';
+      this.$refs.registerForm.resetFields();
     },
   },
 };
 </script>
 
 <style lang="less">
-@portal-padding-left: 50px;
 @portal-footer-height: 42px;
 
-.portal-wrapper {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  padding-left: @portal-padding-left;
-  .portal {
-    flex: 1;
-    transform: translateY(-3.75%);
-    .portal-form {
-      width: 460px;
-      &-title {
-        font-size: 22px;
-        font-weight: 600;
-        margin-bottom: 32px;
-        letter-spacing: 0.05rem;
-        color: var(--primary);
-      }
-      .el-button {
-        padding: 12px 64px;
-      }
-      .form-footer {
-        font-size: 16px;
-        margin-top: 64px;
-        user-select: none;
-        span {
-          color: var(--primary);
-          transition: 200ms ease;
-        }
-        span:hover {
-          cursor: pointer;
-          color: var(--regular-text);
-        }
-      }
+.portal {
+  .portal-form {
+    width: 460px;
+    &-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 32px;
+      letter-spacing: 0.05rem;
+      color: var(--primary);
     }
-    .portal-footer {
-      width: 100%;
-      display: flex;
-      align-items: center;
+    .el-button {
+      padding: 12px 64px;
+    }
+    .form-footer {
+      font-size: 16px;
+      margin-top: 64px;
       user-select: none;
-      margin-top: 72px;
-      span, a {
+      span {
         color: var(--primary);
-        font-size: 12px;
-        margin-right: 16px;
+        transition: 200ms ease;
       }
-      span:last-child {
-        margin-right: 0;
-      }
-      .github {
-        width: max-content;
-        transform: translateY(1.5px);
-        svg {
-          display: inline;
-          path {
-            transition: 200ms ease;
-          }
-        }
-        svg:hover {
-          path {
-            fill: var(--regular-text);
-            cursor: pointer;
-          }
-        }
+      span:hover {
+        cursor: pointer;
+        color: var(--regular-text);
       }
     }
   }

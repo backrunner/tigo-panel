@@ -9,8 +9,24 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
+    name: 'service-check',
+    component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/serviceCheck.vue'),
+    meta: {
+      title: i18n.t('entry.check'),
+    },
+  },
+  {
+    path: '/notAvaliable',
+    name: 'not-avaliable',
+    component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/notAvaliable.vue'),
+    meta: {
+      title: i18n.t('entry.cantuse'),
+    },
+  },
+  {
+    path: '/portal',
     name: 'portal',
-    component: () => import(/* webpackChunkName: "portal" */ '@/view/portal.vue'),
+    component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/portal.vue'),
     meta: {
       title: i18n.t('portal.login'),
     },
@@ -18,7 +34,7 @@ const routes = [
   {
     path: '/app',
     name: 'app',
-    component: () => import(/* webpackChunkName: "layout" */ '@/view/appLayout.vue'),
+    component: () => import(/* webpackChunkName: "layout" */ '@/view/main/appLayout.vue'),
   },
 ];
 

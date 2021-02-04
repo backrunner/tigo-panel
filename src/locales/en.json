@@ -1,4 +1,9 @@
 {
+  "entry.check": "Checking service",
+  "entry.check.checking": "Checking if service is avaliable",
+  "entry.cantuse": "Service not avaliable",
+  "entry.cantuse.message": "Sorry，service is not avaliable now.",
+  "entry.cantuse.recheck": "Recheck",
   "portal.username": "Username",
   "portal.password": "Password",
   "portal.confirmPassword": "Confirm Your Password",

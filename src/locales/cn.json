@@ -1,4 +1,9 @@
 {
+  "entry.check": "正在检测服务",
+  "entry.check.checking": "正在检测服务是否可用",
+  "entry.cantuse": "服务不可用",
+  "entry.cantuse.message": "很抱歉，服务暂时不可用...",
+  "entry.cantuse.recheck": "重新检查服务可用性",
   "portal.username": "用户名",
   "portal.password": "密码",
   "portal.confirmPassword": "确认密码",

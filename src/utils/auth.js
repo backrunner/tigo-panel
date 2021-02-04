@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
-import { Message } from 'element-ui';
 import { tApi, nApi } from './request';
-import router from '../router';
 import store from '../store';
 import sha256 from 'crypto-js/sha256';
 
@@ -29,6 +27,7 @@ export const doTokenRefresh = async (token) => {
 export const doLogin = async ({
   username,
   password,
+  remember,
 }) => {
   const res = await tApi.post('/auth/login', {
     username,
@@ -37,9 +36,11 @@ export const doLogin = async ({
   if (!res) {
     return false;
   }
-  store.commit('auth/setAuth', res.auth);
-  Message.success('登录成功');
-  router.push('/app');
+  if (remember) {
+    store.commit('auth/setAuth', res.auth);
+  } else {
+    store.commit('auth/setNoRememberAuth', res.auth);
+  }
   return true;
 };
 
@@ -48,10 +49,6 @@ export const doRegister = async ({
   password,
   confirmPassword,
 }) => {
-  if (password !== confirmPassword) {
-    Message.error('两次输入的密码不一致');
-    return false;
-  }
   const res = await tApi.post('/auth/register', {
     username,
     password: sha256(password),

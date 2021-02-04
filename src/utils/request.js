@@ -23,7 +23,10 @@ const nApi = axios.create({
 });
 
 const errorHandler = (err) => {
-  Message.error(err.response.data.message);
+  const message = err?.response?.data?.message;
+  if (message) {
+    Message.error(message);
+  }
   console.error('Request API error.', err);
   return Promise.resolve(null);
 };

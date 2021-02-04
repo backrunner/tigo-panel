@@ -48,6 +48,19 @@ const mutations = {
       fetchTime: state.lastFetch,
     });
   },
+  setNoRememberAuth(state, auth) {
+    const { uid, username, token } = auth;
+    const { authToken } = token;
+    state.uid = uid;
+    state.username = username;
+    state.token = authToken;
+    state.lastFetch = moment().valueOf();
+    window.localStorage.setItem('tokenInfo', {
+      authToken,
+      refreshToken: null,
+      fetchTime: state.lastFetch,
+    });
+  },
   setToken(state, { authToken, refreshToken }) {
     state.token = authToken;
     state.refreshToken = refreshToken;
