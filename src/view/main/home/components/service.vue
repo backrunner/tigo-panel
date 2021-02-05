@@ -28,6 +28,7 @@ export default {
         name: this.name,
         path: this.path,
       });
+      this.$router.replace(`/app${this.path}`);
     },
   },
 };

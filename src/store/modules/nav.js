@@ -18,15 +18,15 @@ const mutations = {
       name,
       path,
     });
-    this.activatedTab = id;
+    state.activatedTab = id;
     window.localStorage.setItem('nav', {
       uid,
       tabs: state.tabs,
     });
   },
   closeTab(state, { uid, id }) {
-    const idx = state.tabs.findIndex((el) => el.id === id);
-    state.tabs = state.tabs.splice(idx, 1);
+    const idx = state.tabs.findIndex((item) => item.id === id);
+    state.tabs.splice(idx, 1);
     window.localStorage.setItem('nav', {
       uid,
       tabs: state.tabs,
@@ -40,8 +40,15 @@ const mutations = {
   },
 };
 
+const getters = {
+  getTabIdx: (state) => (id) => {
+    return state.tabs.findIndex((item) => item.id === id);
+  },
+};
+
 export default {
   namespaced: true,
   state,
   mutations,
+  getters,
 };

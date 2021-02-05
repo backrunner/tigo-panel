@@ -2,6 +2,7 @@
   <div
     :class="{
       'main-tabs-item': true,
+      'main-tabs-item-default': type === 'default',
       'main-tabs-item__selected': tabSelected,
     }"
     @click="handleTabClick"
@@ -13,7 +14,7 @@
       <span>{{ name }}</span>
     </div>
     <div class="tab-close" v-if="type === 'default'">
-      <i class="el-icon-close" @click="handleCloseClick"></i>
+      <i class="el-icon-close" @click.stop="handleCloseClick"></i>
     </div>
   </div>
 </template>
@@ -46,16 +47,28 @@ export default {
       }
     },
     handleCloseClick() {
+      const idx = this.$store.getters['nav/getTabIdx'](this.tabId);
+      if (this.tabSelected) {
+        const len = this.$store.state.nav.tabs.length;
+        if (len === 1) {
+          this.setActivateTab('home');
+          this.$router.replace('/app');
+        } else {
+          let target;
+          if (idx >= 1 && idx < len) {
+            target = idx - 1;
+          } else if (idx === 0) {
+            target = idx + 1;
+          }
+          const tab = this.$store.state.nav.tabs[target];
+          this.setActivateTab(tab.id);
+          this.$router.replace(`/app${tab.path}`);
+        }
+      }
       this.closeTab({
         uid: this.uid,
         id: this.tabId,
       });
-      const len = this.$store.state.nav.tabs.length;
-      if (len > 0) {
-        this.$router.replace(`/app$${this.$store.state.nav.tabs[len - 1].path}`);
-      } else {
-        this.$router.replace('/app');
-      }
     },
   },
 };
@@ -72,20 +85,41 @@ export default {
   display: flex;
   align-items: center;
   vertical-align: middle;
-  background: #202020;
-  border-left: 1px solid #282828;
+  background-color: #202020;
   border-right: 1px solid #282828;
+  transition: background-color 150ms ease;
+  user-select: none;
   .tab-text {
     font-size: 12px;
     margin-left: 2px;
-    margin-right: 12px;
+    margin-right: 8px;
   }
   .tab-icon {
     font-size: 12px;
   }
+  .tab-close {
+    padding-top: 1px;
+  }
+  .tab-close > i {
+    transition: 150ms ease;
+    padding: 2px;
+    box-sizing: border-box;
+    border-radius: 2px;
+  }
+  .tab-close > i:hover {
+    background: #282828;
+  }
+}
+.main-tabs-item:hover {
+  background-color: #1c1c1c;
+}
+.main-tabs-item-default {
+  padding: 0 12px 0 16px;
 }
 .main-tabs-item__selected {
-  background: #2e2e2e;
-  box-shadow: 2px 0px 2px rgba(255, 255, 255, 0.075);
+  background-color: #2e2e2e !important;
+  .tab-close > i:hover {
+    background: #262626;
+  }
 }
 </style>

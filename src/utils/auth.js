@@ -21,6 +21,9 @@ export const doTokenRefresh = async (token) => {
     authToken,
     refreshToken,
   });
+  setTimeout(() => {
+    doTokenRefresh(store.state.auth.refreshToken);
+  }, 1000 * 60 * 58);
   return true;
 };
 
@@ -41,6 +44,10 @@ export const doLogin = async ({
   } else {
     store.commit('auth/setNoRememberAuth', res.data.data);
   }
+  // refresh every 58 mins
+  setTimeout(() => {
+    doTokenRefresh(store.state.auth.refreshToken);
+  }, 1000 * 60 * 58);
   return true;
 };
 

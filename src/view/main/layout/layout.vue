@@ -2,7 +2,7 @@
   <div class="main">
     <div class="main-nav">
       <div class="nav-tabs nav-tabs-sys">
-        <Tab tabId="home" type="home" path="/app/home" />
+        <Tab tabId="home" type="home" path="" />
       </div>
       <div class="nav-tabs nav-tabs-user">
         <Tab
@@ -53,15 +53,28 @@ export default {
     }
     // init nav
     const storedNav = window.localStorage.getItem('nav');
-    if (storedNav.uid === this.uid) {
-      this.recover(storedNav.tabs);
+    if (storedNav) {
+      if (storedNav.uid === this.uid) {
+        this.recover(storedNav.tabs);
+      } else {
+        window.localStorage.removeItem('nav');
+      }
+    }
+    const path = this.$route.path.replace('/app', '');
+    if (path === '' || path === '/') {
+      this.setActivateTab('home');
     } else {
-      window.localStorage.removeItem('nav');
+      for (let i = 0; i < this.tabs.length; i++) {
+        if (this.tabs[i].path === path) {
+          this.setActivateTab(this.tabs[i].id);
+          break;
+        }
+      }
     }
   },
   methods: {
     ...mapMutations('auth', ['clearAuthInfo']),
-    ...mapMutations('nav', ['recover']),
+    ...mapMutations('nav', ['setActivateTab', 'recover']),
   },
 };
 </script>

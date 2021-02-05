@@ -40,10 +40,24 @@ const routes = [
     component: () => import(/* webpackChunkName: "layout" */ '@/view/main/layout/layout.vue'),
     children: [
       {
-        path: '/',
+        path: '',
         component: () => import(/* webpackChunkName: "app.home" */ '@/view/main/home/home.vue'),
         meta: {
           title: i18n.t('home'),
+        },
+      },
+      {
+        path: 'lambda',
+        component: () => import(/* webpackChunkName: "app.lambda" */ '@/view/main/lambda/lambda.vue'),
+        meta: {
+          title: i18n.t('lambda'),
+        },
+      },
+      {
+        path: 'cfs',
+        component: () => import(/* webpackChunkName: "app.cfs" */ '@/view/main/cfs/cfs.vue'),
+        meta: {
+          title: i18n.t('cfs'),
         },
       },
     ],
