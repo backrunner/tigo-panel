@@ -32,8 +32,11 @@ const mutations = {
       tabs: state.tabs,
     });
   },
-  setActivateTab(id) {
+  setActivateTab(state, id) {
     state.activatedTab = id;
+  },
+  recover(state, tabs) {
+    state.tabs = tabs;
   },
 };
 
