@@ -1,6 +1,9 @@
 {
   "entry.check": "Checking service",
   "entry.check.checking": "Checking if service is avaliable",
+  "entry.notfound": "Page not found",
+  "entry.notfound.message": "Sorry, we couldn't find the page...",
+  "entry.notfound.back": "Back",
   "entry.cantuse": "Service not avaliable",
   "entry.cantuse.message": "Sorry，service is not avaliable now.",
   "entry.cantuse.recheck": "Recheck",
@@ -9,5 +12,7 @@
   "portal.confirmPassword": "Confirm Your Password",
   "portal.remember": "Remember me",
   "portal.login": "Login",
-  "portal.register": "Create Account"
+  "portal.register": "Create Account",
+  "nav.user.logout": "Logout",
+  "home": "Home"
 }

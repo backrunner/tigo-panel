@@ -129,6 +129,10 @@ export default {
       }
     }
   },
+  mounted() {
+    // remove nav info when user come this page
+    window.localStorage.removeItem('nav');
+  },
   methods: {
     // actions
     async login() {

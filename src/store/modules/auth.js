@@ -3,26 +3,18 @@
 /* eslint-disable no-shadow */
 import moment from 'moment';
 
-const stored = window.localStorage.getItem('tokenInfo');
+const tokenInfo = window.localStorage.getItem('tokenInfo');
 
 let authToken;
 let refreshToken;
 
-try {
-  const tokenInfo = stored ? JSON.parse(stored) : null;
-  if (
-    tokenInfo
-    && tokenInfo.fetchTime
-  ) {
-    if (moment().diff(moment(tokenInfo.authToken), 'minute') <= 30) {
-      authToken = tokenInfo.authToken;
-    }
-    if (moment().diff(moment(tokenInfo.fetchTime), 'day') <= 6) {
-      refreshToken = tokenInfo.refreshToken;
-    }
+if (tokenInfo?.fetchTime) {
+  if (moment().diff(moment(tokenInfo.fetchTime), 'minute') < 59) {
+    authToken = tokenInfo.authToken;
   }
-} catch (e) {
-  console.error('Parse token error', e);
+  if (moment().diff(moment(tokenInfo.fetchTime), 'day') <= 6) {
+    refreshToken = tokenInfo.refreshToken;
+  }
 }
 
 const state = {
@@ -74,6 +66,15 @@ const mutations = {
   setUserInfo(state, { uid, username }) {
     state.uid = uid;
     state.username = username;
+  },
+  clearUserInfo(state) {
+    state.uid = null;
+    state.username = null;
+    state.token = null;
+    state.refreshToken = null;
+    state.lastFetch = null;
+    window.localStorage.removeItem('tokenInfo');
+    window.localStorage.removeItem('nav');
   },
 };
 

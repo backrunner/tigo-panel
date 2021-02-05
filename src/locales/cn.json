@@ -1,6 +1,9 @@
 {
   "entry.check": "正在检测服务",
   "entry.check.checking": "正在检测服务是否可用",
+  "entry.notfound": "找不到页面",
+  "entry.notfound.message": "很抱歉，页面失踪了...",
+  "entry.notfound.back": "返回",
   "entry.cantuse": "服务不可用",
   "entry.cantuse.message": "很抱歉，服务暂时不可用...",
   "entry.cantuse.recheck": "重新检查服务可用性",
@@ -9,5 +12,8 @@
   "portal.confirmPassword": "确认密码",
   "portal.remember": "记住我",
   "portal.login": "登录",
-  "portal.register": "创建帐户"
+  "portal.register": "创建帐户",
+  "nav.user.logout": "登出",
+  "home": "控制台",
+  "home.services": "可用服务"
 }

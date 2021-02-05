@@ -37,9 +37,9 @@ export const doLogin = async ({
     return false;
   }
   if (remember) {
-    store.commit('auth/setAuth', res.auth);
+    store.commit('auth/setAuth', res.data.data);
   } else {
-    store.commit('auth/setNoRememberAuth', res.auth);
+    store.commit('auth/setNoRememberAuth', res.data.data);
   }
   return true;
 };

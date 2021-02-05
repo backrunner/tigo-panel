@@ -40,8 +40,8 @@ tApi.interceptors.response.use((res) => {
 nApi.interceptors.response.use((res) => {
   return res;
 }, (err) => {
-  if (err.response.status === 401) {
-    router.replace('/');
+  if (err.response.status === 401 && router.currentRoute.path !== '/portal') {
+    router.replace('/portal');
   }
   return errorHandler(err);
 });

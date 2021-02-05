@@ -4,12 +4,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  css: {
-    extract: process.env.NODE_ENV === 'production',
-  },
-
   productionSourceMap: false,
-
   chainWebpack: (config) => {
     // drop debug lines
     if (process.env.NODE_ENV === 'production') {
@@ -22,7 +17,6 @@ module.exports = {
       });
     }
   },
-
   configureWebpack: () => ({
     resolve: {
       alias: {
@@ -34,7 +28,6 @@ module.exports = {
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/),
     ],
   }),
-
   pluginOptions: {
     i18n: {
       locale: 'cn',

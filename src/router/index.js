@@ -9,7 +9,6 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    name: 'service-check',
     component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/serviceCheck.vue'),
     meta: {
       title: i18n.t('entry.check'),
@@ -17,15 +16,20 @@ const routes = [
   },
   {
     path: '/notAvaliable',
-    name: 'not-avaliable',
     component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/notAvaliable.vue'),
     meta: {
       title: i18n.t('entry.cantuse'),
     },
   },
   {
+    path: '/notFound',
+    component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/notFound.vue'),
+    meta: {
+      title: i18n.t('entry.notfound'),
+    },
+  },
+  {
     path: '/portal',
-    name: 'portal',
     component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/portal.vue'),
     meta: {
       title: i18n.t('portal.login'),
@@ -33,8 +37,20 @@ const routes = [
   },
   {
     path: '/app',
-    name: 'app',
-    component: () => import(/* webpackChunkName: "layout" */ '@/view/main/appLayout.vue'),
+    component: () => import(/* webpackChunkName: "layout" */ '@/view/main/layout/layout.vue'),
+    children: [
+      {
+        path: '/',
+        component: () => import(/* webpackChunkName: "app.home" */ '@/view/main/home/home.vue'),
+        meta: {
+          title: i18n.t('home'),
+        },
+      },
+    ],
+  },
+  {
+    path: '*',
+    redirect: '/notFound',
   },
 ];
 
@@ -44,12 +60,35 @@ const router = new VueRouter({
   routes,
 });
 
+const directGoPath = ['/', '/notAvaliable', '/notFound'];
+
 router.beforeEach((to, from, next) => {
   if (to.meta && to.meta.title) {
     changeTitle(to.meta.title);
   }
-  if (store && (!store.auth || store.auth.token) && to.path.startsWith('/app')) {
-    return next(false);
+  if (!directGoPath.includes(to.path) && !store.state.service.avaliable) {
+    next(false);
+    router.replace({
+      path: '/',
+      query: {
+        to: to.path,
+      },
+    });
+    return;
+  }
+  if (
+    !store.state.auth.token
+    && to.path.startsWith('/app')
+    && to.path !== '/'
+    && to.path !== '/portal'
+  ) {
+    next(false);
+    if (!store.state.service.avaliable) {
+      router.replace('/');
+    } else {
+      router.replace('/portal');
+    }
+    return;
   }
   next();
 });

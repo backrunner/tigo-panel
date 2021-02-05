@@ -1,10 +1,7 @@
 <template>
   <div id="app">
     <transition mode="out-in" name="fade" appear>
-      <keep-alive v-if="$route.meta.keepAlive">
-        <router-view></router-view>
-      </keep-alive>
-      <router-view v-else></router-view>
+      <router-view></router-view>
     </transition>
   </div>
 </template>
@@ -23,7 +20,7 @@ export default {
   opacity: 0;
 }
 
-@entry-padding-left: 50px;
+@entry-padding-left: 64px;
 
 .entry-container {
   height: 100%;

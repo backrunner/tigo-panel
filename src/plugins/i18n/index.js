@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
+import store from '@/store';
 import enLocale from 'element-ui/lib/locale/lang/en';
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN';
 
@@ -21,7 +22,7 @@ function loadLocaleMessages() {
 }
 
 export default new VueI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  locale: store.state.locale.locale,
+  fallbackLocale: 'cn',
   messages: loadLocaleMessages(),
 });

@@ -1,21 +1,40 @@
 <template>
   <div class="entry-container">
-    <div class="entry service-check">
-      <span>{{$t('entry.check.checking')}}</span>
-      <span>{{symbol}}</span>
-      <i class="el-icon-loading"></i>
-    </div>
+    <transition mode="out-in" name="fade" :appear="show">
+      <div class="entry service-check" v-show="show">
+        <span>{{$t('entry.check.checking')}}</span>
+        <span>{{symbol}}</span>
+        <i class="el-icon-loading"></i>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   data() {
     return {
       symbol: '.',
+      show: true,
     };
   },
-  mounted() {
+  created() {
+    if (this.$route.query.to?.includes('/app') || this.$route.query.to?.includes('/portal')) {
+      this.show = false;
+      this.showDelay = setTimeout(() => {
+        this.show = true;
+      }, 500);
+    }
+  },
+  beforeDestroy() {
+    if (this.showDelay) {
+      clearTimeout(this.showDelay);
+      this.showDelay = null;
+    }
+  },
+  async mounted() {
     this.interval = setInterval(() => {
       if (this.symbol.length > 5) {
         this.symbol = '.';
@@ -23,16 +42,31 @@ export default {
         this.symbol += '.';
       }
     }, 500);
-    this.checkAvaliable();
+    await this.checkAvaliable();
+  },
+  destroyed() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
   },
   methods: {
+    ...mapMutations('service', ['setServiceStatus']),
     async checkAvaliable() {
       const res = await this.$tApi.get('/common/ping');
       if (!res) {
         this.$router.push('/notAvaliable');
         return;
       }
-      this.$router.push('/portal');
+      this.setServiceStatus(true);
+      if (this.$route.query.to) {
+        this.$router.replace(this.$route.query.to).catch(() => {
+          // eslint-disable-next-line no-console
+          console.warn(`Cannot get into path ${this.$route.query.to}`);
+        });
+      } else {
+        this.$router.replace('/portal');
+      }
     },
   },
 };
