@@ -69,7 +69,7 @@ export default {
         uid: this.uid,
         id: this.tabId,
       });
-      this.$bus.$emit('tab-closed', this.tabId);
+      this.$bus.$emit('tab-closed', this.path);
     },
   },
 };

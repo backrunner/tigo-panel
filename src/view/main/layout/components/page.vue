@@ -6,16 +6,18 @@
 
 <script>
 export default {
-  mounted() {
-    this.$bus.$on('tab-close', this.tabCloseHandler);
+  created() {
+    this.$bus.$on('tab-closed', this.tabCloseHandler);
   },
   beforeDestroy() {
-    this.$bus.$off('tab-close', this.tabCloseHandler);
+    this.$bus.$off('tab-closed', this.tabCloseHandler);
+  },
+  mounted() {
+    this.path = this.$route.path.replace('/app', '');
   },
   methods: {
-    tabCloseHandler(id) {
-      const path = this.$store.getters['nav/getTabPath'](id);
-      if (path && path === this.$route.path) {
+    tabCloseHandler(path) {
+      if (path && path === this.path) {
         this.$destroy();
       }
     },
