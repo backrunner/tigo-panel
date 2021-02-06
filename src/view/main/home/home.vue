@@ -1,7 +1,12 @@
 <template>
   <div class="page home">
-    <div class="home-welcome">
-      <span>{{ hello }}</span>
+    <div class="home-header">
+      <div class="home-header__welcome">
+        <span>{{ hello }}</span>
+      </div>
+      <div class="home-header__ctrl">
+        <LocaleSelector />
+      </div>
     </div>
     <div class="home-main">
       <Card class="home-services" :title="$t('home.services')">
@@ -24,11 +29,13 @@ import { mapState } from 'vuex';
 import serviceMap from './constants/serviceMap';
 import Card from './components/card';
 import ServiceItem from './components/service';
+import LocaleSelector from './components/i18nSelector';
 
 export default {
   components: {
     Card,
     ServiceItem,
+    LocaleSelector,
   },
   data() {
     return {
@@ -76,12 +83,20 @@ export default {
 <style lang="less">
 .home {
   padding: 32px;
-  &-welcome {
-    font-size: 13px;
-    color: var(--primary);
-    letter-spacing: 0.1em;
+  &-header {
+    display: flex;
+    align-items: center;
     margin-bottom: 28px;
-    user-select: none;
+    &__welcome {
+      flex: 1;
+      font-size: 13px;
+      color: var(--primary);
+      letter-spacing: 0.1em;
+      user-select: none;
+    }
+    &__ctrl {
+      justify-self: flex-end;
+    }
   }
 }
 </style>

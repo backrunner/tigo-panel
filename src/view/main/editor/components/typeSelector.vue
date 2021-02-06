@@ -1,7 +1,7 @@
 <template>
   <span class="monaco-ctrl manaco-type-selector">
-    <el-dropdown>
-      <span class="el-dropdown-link" @command="handleCommand">
+    <el-dropdown @command="handleCommand">
+      <span class="el-dropdown-link">
         {{ displayType }}
         <i class="el-icon-arrow-down el-icon--right"></i>
       </span>
@@ -43,11 +43,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less">
-.manaco-type-selector {
-  span {
-    color: var(--primary);
-  }
-}
-</style>

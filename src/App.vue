@@ -32,4 +32,19 @@ export default {
     transform: translateY(-3.75%);
   }
 }
+
+// element cover
+.el-dropdown {
+  user-select: none;
+  &-link {
+    color: var(--primary);
+  }
+}
+.el-dropdown-menu {
+  padding: 8px 0;
+  &__item {
+    line-height: 32px;
+    padding: 0 18px;
+  }
+}
 </style>
