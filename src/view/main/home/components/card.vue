@@ -23,7 +23,7 @@ export default {
   padding: 8px 16px;
   box-sizing: border-box;
   background: #2a2a2a;
-    box-shadow: 6px 6px 0px rgba(255, 255, 255, 0.075);
+  box-shadow: 6px 6px 0px rgba(255, 255, 255, 0.075);
   &-header {
     font-size: 14px;
     font-weight: 600;

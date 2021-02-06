@@ -48,14 +48,14 @@ const routes = [
       },
       {
         path: 'lambda',
-        component: () => import(/* webpackChunkName: "app.lambda" */ '@/view/main/lambda/lambda.vue'),
+        component: () => import(/* webpackChunkName: "app.editor" */ '@/view/main/lambda/lambda.vue'),
         meta: {
           title: i18n.t('lambda'),
         },
       },
       {
         path: 'cfs',
-        component: () => import(/* webpackChunkName: "app.cfs" */ '@/view/main/cfs/cfs.vue'),
+        component: () => import(/* webpackChunkName: "app.editor" */ '@/view/main/cfs/cfs.vue'),
         meta: {
           title: i18n.t('cfs'),
         },

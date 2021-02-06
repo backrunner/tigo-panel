@@ -17,9 +17,6 @@ const tApi = axios.create(requestConfig);
 // internal api with auth
 const nApi = axios.create({
   ...requestConfig,
-  headers: {
-    Authorization: `Bearer ${store.state.auth.token}`,
-  },
 });
 
 const errorHandler = (err) => {
@@ -35,6 +32,14 @@ tApi.interceptors.response.use((res) => {
   return res;
 }, (err) => {
   return errorHandler(err);
+});
+
+nApi.interceptors.request.use((config) => {
+  // eslint-disable-next-line no-param-reassign
+  config.headers = {
+    Authorization: `Bearer ${store.state.auth.token}`,
+  };
+  return config;
 });
 
 nApi.interceptors.response.use((res) => {

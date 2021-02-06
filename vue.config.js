@@ -2,6 +2,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const webpack = require('webpack');
 const path = require('path');
+const MonacoEditorPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
   productionSourceMap: false,
@@ -16,6 +17,11 @@ module.exports = {
         return args;
       });
     }
+    config.plugin('monaco-editor').use(MonacoEditorPlugin, [
+      {
+        languages: ['json', 'javascript', 'html', 'xml'],
+      },
+    ]);
   },
   configureWebpack: () => ({
     resolve: {

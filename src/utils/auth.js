@@ -22,7 +22,7 @@ export const doTokenRefresh = async (token) => {
     refreshToken,
   });
   setTimeout(() => {
-    doTokenRefresh(store.state.auth.refreshToken);
+    doTokenRefresh(store.state.auth.token);
   }, 1000 * 60 * 58);
   return true;
 };
@@ -46,7 +46,7 @@ export const doLogin = async ({
   }
   // refresh every 58 mins
   setTimeout(() => {
-    doTokenRefresh(store.state.auth.refreshToken);
+    doTokenRefresh(store.state.auth.token);
   }, 1000 * 60 * 58);
   return true;
 };
