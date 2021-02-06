@@ -23,13 +23,7 @@ export default {
   },
   data() {
     return {
-      list: [
-        {
-          id: 1,
-          name: 'test',
-          type: 'json',
-        },
-      ],
+      list: [],
       editItem: null,
     };
   },

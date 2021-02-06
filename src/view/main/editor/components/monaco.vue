@@ -99,6 +99,7 @@ export default {
     &-editor {
       width: 100%;
       height: 100%;
+      box-shadow: 4px 4px 8px rgba(25, 25, 25, 0.25);
     }
   }
 }
