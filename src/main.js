@@ -17,6 +17,8 @@ Vue.config.productionTip = false;
 Vue.prototype.$tApi = tApi;
 Vue.prototype.$nApi = nApi;
 
+Vue.prototype.$bus = new Vue();
+
 new Vue({
   router,
   store,

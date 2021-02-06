@@ -44,6 +44,13 @@ const getters = {
   getTabIdx: (state) => (id) => {
     return state.tabs.findIndex((item) => item.id === id);
   },
+  getTabPath: (state) => (id) => {
+    const idx = state.tabs.findIndex((item) => item.id === id);
+    if (idx < 0) {
+      return null;
+    }
+    return state.tabs[idx].path;
+  },
 };
 
 export default {
