@@ -1,6 +1,6 @@
 <template>
   <span class="i18n-selector">
-    <el-dropdown @command="handleCommand">
+    <el-dropdown @command="handleCommand" trigger="click">
       <span class="el-dropdown-link">
         {{ displaySelected }}
         <i class="el-icon-arrow-down el-icon--right"></i>

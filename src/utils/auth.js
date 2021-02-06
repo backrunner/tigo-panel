@@ -5,7 +5,7 @@ import sha256 from 'crypto-js/sha256';
 
 export const doTokenRefresh = async (token) => {
   const res = await tApi.get('/auth/refresh', {
-    query: {
+    params: {
       token,
     },
   });

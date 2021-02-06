@@ -19,7 +19,7 @@ export default {
   props: {
     type: String,
     item: Object,
-    selected: Number,
+    selected: [String, Number],
     formatter: Function,
   },
   computed: {
@@ -49,6 +49,7 @@ export default {
   font-size: 13px;
   color: var(--primary);
   border-bottom: 1px solid #363636;
+  user-select: none;
 }
 .editor-list-item:hover {
   background: #3a3a3a;

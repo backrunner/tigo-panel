@@ -44,7 +44,10 @@ export default {
       }
     },
     addClicked() {
-
+      this.$emit('new');
+    },
+    setSelected(id) {
+      this.selected = id;
     },
   },
 };

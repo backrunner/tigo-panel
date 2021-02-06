@@ -1,6 +1,6 @@
 <template>
   <span class="monaco-ctrl manaco-type-selector">
-    <el-dropdown @command="handleCommand">
+    <el-dropdown @command="handleCommand" trigger="click">
       <span class="el-dropdown-link">
         {{ displayType }}
         <i class="el-icon-arrow-down el-icon--right"></i>
@@ -21,6 +21,7 @@ export default {
       type: String,
       required: true,
     },
+    isNew: Boolean,
   },
   model: {
     event: 'change',
@@ -36,8 +37,9 @@ export default {
   methods: {
     handleCommand(val) {
       if (this.value !== val) {
-        this.value = val;
-        this.$emit('change', val);
+        if (this.isNew) {
+          this.$emit('change', val);
+        }
       }
     },
   },

@@ -33,12 +33,19 @@ export default {
   }
 }
 
+.clearfix {
+  clear: both;
+}
+
 // element cover
 .el-dropdown {
   user-select: none;
   &-link {
     color: var(--primary);
   }
+}
+.el-dropdown:hover {
+  cursor: pointer;
 }
 .el-dropdown-menu {
   padding: 8px 0;

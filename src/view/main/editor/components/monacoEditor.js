@@ -17,9 +17,14 @@ export default {
     },
   },
   watch: {
+    value(newVal) {
+      if (newVal !== this.editor.getValue()) {
+        this.editor.setValue(newVal);
+      }
+    },
     language(newVal) {
       if (this.editor) {
-        this.editor.setModelLanguage(this.editor.getModel(), newVal);
+        monaco.editor.setModelLanguage(this.editor.getModel(), newVal);
       }
     },
   },
@@ -52,10 +57,10 @@ export default {
           window.addEventListener('resize', this.resizeHandler);
         }
       });
-      this.editor.onDidChangeModelContent((e) => {
+      this.editor.onDidChangeModelContent(() => {
         const value = this.editor.getValue();
         if (this.value !== value) {
-          this.$emit('change', value, e);
+          this.$emit('change', value);
         }
       });
     },
