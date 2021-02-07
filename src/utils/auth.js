@@ -75,6 +75,9 @@ export const checkAuthStatus = async () => {
       uid,
       username,
     });
+    setTimeout(() => {
+      doTokenRefresh(store.state.auth.token);
+    }, 1000 * 60 * 58);
   }
   return !!res;
 };
