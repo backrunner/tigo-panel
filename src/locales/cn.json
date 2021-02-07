@@ -13,7 +13,15 @@
   "portal.remember": "记住我",
   "portal.login": "登录",
   "portal.register": "创建帐户",
+  "nav.tab.close": "关闭",
   "nav.user.logout": "登出",
   "home": "控制台",
-  "home.services": "可用服务"
+  "home.services": "可用服务",
+  "lambda": "函数计算",
+  "cfs": "配置中心",
+  "editor.save": "保存",
+  "edtior.save.success": "保存成功",
+  "editor.list.failed": "获取列表数据失败",
+  "editor.failed.text": "内容加载失败",
+  "editor.failed.retry": "重新加载"
 }
