@@ -10,9 +10,16 @@ import i18n from './plugins/i18n';
 import './plugins/element/theme/index.css';
 import './plugins/element';
 
+import VueContextMenu from 'vue-context-menu';
+
 import App from './App.vue';
 
 Vue.config.productionTip = false;
+
+Vue.use(VueContextMenu, {
+  useItem: true,
+  mobileSupport: false,
+});
 
 Vue.prototype.$tApi = tApi;
 Vue.prototype.$nApi = nApi;

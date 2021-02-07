@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@pwp-app/better-element-ui": "^2.15.0-fix-1",
+    "@pwp-app/vue-context-menu": "^1.2.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "crypto-js": "^4.0.0",

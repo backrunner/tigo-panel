@@ -28,6 +28,7 @@ module.exports = {
       alias: {
         '@': path.resolve(__dirname, './src'),
         'element-ui': '@pwp-app/better-element-ui',
+        'vue-context-menu': '@pwp-app/vue-context-menu',
       },
     },
     plugins: [
