@@ -30,7 +30,7 @@ div:focus, span:focus, a:focus, li:focus {
 // context
 
 .context-menu {
-  background-color: #111;
+  background-color: #121212;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.375);
   transition: background-color 100ms;
   &__item {
@@ -40,7 +40,7 @@ div:focus, span:focus, a:focus, li:focus {
     padding: 0px 12px;
   }
   &__item:hover {
-    background-color: #080808;
+    background-color: #1e1e1e;
   }
 }
 
