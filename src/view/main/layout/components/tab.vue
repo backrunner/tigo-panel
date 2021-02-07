@@ -2,19 +2,38 @@
   <div
     :class="{
       'main-tabs-item': true,
-      'main-tabs-item-default': type === 'default',
+      'main-tabs-item-default': true,
       'main-tabs-item__selected': tabSelected,
     }"
     @click="handleTabClick"
+    v-if="type === 'default'"
+    v-context="'context'"
   >
-    <div class="tab-icon" v-if="type === 'home'">
-      <i class="el-icon-menu"></i>
-    </div>
-    <div class="tab-text" v-else>
+    <div class="tab-text">
       <span>{{ name }}</span>
     </div>
-    <div class="tab-close" v-if="type === 'default'">
+    <div class="tab-close">
       <i class="el-icon-close" @click.stop="handleCloseClick"></i>
+    </div>
+    <ContextMenu
+      width="100"
+      ref="context"
+      @item-clicked="handleContextClick"
+      >
+      <ContextMenuItem name="close">{{$t('nav.tab.close')}}</ContextMenuItem>
+    </ContextMenu>
+  </div>
+  <div
+    :class="{
+      'main-tabs-item': true,
+      'main-tabs-item__selected': tabSelected,
+    }"
+    @click="handleTabClick"
+    @contextmenu.prevent.stop
+    v-else
+    >
+    <div class="tab-icon">
+      <i class="el-icon-menu"></i>
     </div>
   </div>
 </template>
@@ -70,6 +89,11 @@ export default {
         id: this.tabId,
       });
       this.$bus.$emit('tab-closed', this.path);
+    },
+    handleContextClick(name) {
+      if (name === 'close') {
+        this.handleCloseClick();
+      }
     },
   },
 };

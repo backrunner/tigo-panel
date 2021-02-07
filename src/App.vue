@@ -13,11 +13,35 @@ export default {
 </script>
 
 <style lang="less">
+// transition
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity 125ms;
 }
 .fade-enter, .fade-leave {
   opacity: 0;
+}
+
+// basic
+div:focus, span:focus, a:focus, li:focus {
+  outline-width: 0;
+}
+
+// context
+
+.context-menu {
+  background-color: #111;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.375);
+  transition: background-color 100ms;
+  &__item {
+    font-size: 13px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0px 12px;
+  }
+  &__item:hover {
+    background-color: #080808;
+  }
 }
 
 @entry-padding-left: 64px;
