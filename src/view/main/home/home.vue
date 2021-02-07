@@ -26,7 +26,7 @@
 <script>
 import moment from 'moment';
 import { mapState } from 'vuex';
-import serviceMap from './constants/serviceMap';
+import ServiceMap from '@/common/constants/serviceMap';
 import Card from './components/card';
 import ServiceItem from './components/service';
 import LocaleSelector from './components/i18nSelector';
@@ -44,6 +44,14 @@ export default {
   },
   async created() {
     await this.getPluginInfo();
+  },
+  watch: {
+    locale() {
+      this.pluginInfo = this.pluginInfo.map((item) => ({
+        ...item,
+        name: ServiceMap[item.package].name,
+      }));
+    },
   },
   computed: {
     ...mapState({
@@ -74,7 +82,10 @@ export default {
   methods: {
     async getPluginInfo() {
       const res = await this.$nApi.get('/common/listPlugins');
-      this.pluginInfo = res.data.data?.packages.map((item) => serviceMap[item]);
+      this.pluginInfo = res.data.data?.packages.map((item) => ({
+        ...ServiceMap[item],
+        package: item,
+      }));
     },
   },
 };

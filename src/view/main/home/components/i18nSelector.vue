@@ -32,6 +32,7 @@ export default {
     ...mapMutations('locale', ['setLocale']),
     handleCommand(val) {
       this.setLocale(val);
+      this.$i18n.locale = val;
     },
   },
 };

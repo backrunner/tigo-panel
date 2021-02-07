@@ -1,7 +1,7 @@
 <template>
   <el-col :span="6">
     <div class="service-item" @click="handleClick">
-      <span>{{ name }}</span>
+      <span>{{ displayName }}</span>
       <i class="el-icon-arrow-right"></i>
     </div>
   </el-col>
@@ -19,6 +19,9 @@ export default {
     ...mapState({
       uid: (state) => state.auth.uid,
     }),
+    displayName() {
+      return this.$t(this.name);
+    },
   },
   methods: {
     ...mapMutations('nav', ['openTab']),

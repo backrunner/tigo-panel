@@ -10,7 +10,7 @@
     v-context
   >
     <div class="tab-text">
-      <span>{{ name }}</span>
+      <span>{{ displayName }}</span>
     </div>
     <div class="tab-close">
       <i class="el-icon-close" @click.stop="handleCloseClick"></i>
@@ -52,6 +52,9 @@ export default {
       uid: (state) => state.auth.uid,
       activatedTab: (state) => state.nav.activatedTab,
     }),
+    displayName() {
+      return this.$t(this.name);
+    },
     tabSelected() {
       return this.activatedTab === this.tabId;
     },
