@@ -38,6 +38,8 @@ div:focus, span:focus, a:focus, li:focus {
     height: 36px;
     line-height: 36px;
     padding: 0px 12px;
+    color: var(--primary);
+    user-select: none;
   }
   &__item:hover {
     background-color: #1e1e1e;

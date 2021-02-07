@@ -1,12 +1,15 @@
 <template>
   <div class="editor">
-    <div class="editor-list-wrapper">
+    <div class="editor-list-wrapper" v-context="'listContextMenu'">
       <List ref="list" :list="list" :type="type" @new="handleCreateNew" />
     </div>
     <div class="editor-monaco-wrapper">
       <Monaco ref="monaco" :item="editItem" :type="type" />
     </div>
     <div class="clearfix"></div>
+    <ContextMenu ref="listContextMenu" @item-clicked="handleListContextClick">
+      <ContextMenuItem name="refresh">刷新列表</ContextMenuItem>
+    </ContextMenu>
   </div>
 </template>
 
@@ -95,6 +98,27 @@ export default {
         this.editItem = null;
       }
       this.$message.success('删除成功');
+    },
+    handleListContextClick(name) {
+      if (name === 'refresh') {
+        if (this.type === 'cfs') {
+          this.initList();
+          const { selected } = this.$refs.list;
+          let found = false;
+          if (selected) {
+            for (let i = 0; i < this.list.length; i++) {
+              if (this.list[i].id === selected) {
+                found = true;
+                break;
+              }
+            }
+          }
+          if (!found) {
+            this.editItem = null;
+            this.$refs.list.setSelected(null);
+          }
+        }
+      }
     },
   },
 };

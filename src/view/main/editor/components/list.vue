@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-list">
+  <div class="editor-list" @contextmenu.prevent.stop>
     <ListItem
       v-for="listItem in list"
       :key="listItem.id"
@@ -8,7 +8,7 @@
       :selected="selected"
       :formatter="formatter"
       />
-    <ListItem type="add" />
+    <ListItem type="add"/>
   </div>
 </template>
 
