@@ -77,22 +77,24 @@ export default {
       this.list[idx].type = type;
     },
     async deleteItem(item) {
-      if (this.type === 'cfs') {
-        const res = await this.$nApi.post('/config-storage/delete', {
-          id: item.id,
-        });
-        if (!res) {
-          return;
+      if (!`${item.id}`.startsWith('new')) {
+        if (this.type === 'cfs') {
+          const res = await this.$nApi.post('/config-storage/delete', {
+            id: item.id,
+          });
+          if (!res) {
+            return;
+          }
         }
-        const idx = this.list.findIndex((t) => t.id === item.id);
-        if (idx >= 0) {
-          this.list.splice(idx, 1);
-        }
-        if (this.editItem.id === item.id) {
-          this.editItem = null;
-        }
-        this.$message.success('删除成功');
       }
+      const idx = this.list.findIndex((t) => t.id === item.id);
+      if (idx >= 0) {
+        this.list.splice(idx, 1);
+      }
+      if (this.editItem.id === item.id) {
+        this.editItem = null;
+      }
+      this.$message.success('删除成功');
     },
   },
 };
