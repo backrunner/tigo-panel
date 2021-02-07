@@ -39,6 +39,12 @@ export default {
       if (this.value !== val) {
         if (this.isNew) {
           this.$emit('change', val);
+        } else {
+          this.$confirm(`${this.$t('editor.confirm.changeType')} [${val}] ${this.$t('editor.confirm.changeType.end')}`)
+            .then(() => {
+              this.$emit('change', val);
+            })
+            .catch(() => {});
         }
       }
     },

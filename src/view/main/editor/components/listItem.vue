@@ -6,8 +6,15 @@
     }"
     v-if="type !== 'add'"
     @click="handleItemClick"
+    v-context
   >
     <span>{{ displayName }}</span>
+    <ContextMenu
+      width="100"
+      @item-clicked="handleContextClick"
+      >
+      <ContextMenuItem name="delete">{{$t('editor.list.delete')}}</ContextMenuItem>
+    </ContextMenu>
   </div>
   <div class="editor-list-item editor-list-add" @click="handleAddClick" v-else>
     <i class="el-icon-plus"></i>
@@ -36,6 +43,15 @@ export default {
     },
     handleAddClick() {
       this.$parent.addClicked();
+    },
+    async handleContextClick(name) {
+      if (name === 'delete') {
+        this.$confirm(`${this.$t('editor.confirm.delete')} [${this.displayName}] ${this.$t('editor.confirm.delete.end')}`)
+          .then(() => {
+            this.$parent.deleteClicked(this.item);
+          })
+          .catch(() => {});
+      }
     },
   },
 };

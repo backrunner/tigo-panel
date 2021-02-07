@@ -18,7 +18,7 @@ export default {
   methods: {
     tabCloseHandler(path) {
       if (path && path === this.path) {
-        this.$destroy();
+        this.$parent.$destroy();
       }
     },
   },

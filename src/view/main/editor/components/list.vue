@@ -46,6 +46,9 @@ export default {
     addClicked() {
       this.$emit('new');
     },
+    deleteClicked(item) {
+      this.$parent.deleteItem(item);
+    },
     setSelected(id) {
       this.selected = id;
     },

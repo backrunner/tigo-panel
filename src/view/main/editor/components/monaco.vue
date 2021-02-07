@@ -72,11 +72,13 @@ export default {
     item: {
       deep: true,
       handler(newItem) {
-        this.fileType = newItem.type;
-        this.content = '';
-        if (!`${newItem.id}`.startsWith('new')) {
-          this.getContent(newItem.id);
+        if (newItem) {
+          this.fileType = newItem.type;
+          if (!`${newItem.id}`.startsWith('new')) {
+            this.getContent(newItem.id);
+          }
         }
+        this.content = '';
       },
     },
   },
@@ -115,6 +117,10 @@ export default {
   },
   methods: {
     async save() {
+      if (!this.content) {
+        this.$message.error('请先输入内容再保存');
+        return;
+      }
       this.$set(this.saving, this.item.id, true);
       if (`${this.item.id}`.startsWith('new')) {
         // add

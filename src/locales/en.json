@@ -21,7 +21,12 @@
   "cfs": "CFS",
   "editor.save": "Save",
   "edtior.save.success": "Successfully saved",
+  "editor.list.delete": "Delete",
   "editor.list.failed": "Failed to get list data",
   "editor.failed.text": "Failed to load content",
-  "editor.failed.retry": "Retry"
+  "editor.failed.retry": "Retry",
+  "editor.confirm.delete": "Do you really want to delete",
+  "editor.confirm.delete.end": "?",
+  "editor.confirm.changeType": "Are you sure to change type to",
+  "editor.confirm.changeType.end": "?"
 }

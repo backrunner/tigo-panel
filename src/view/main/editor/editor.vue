@@ -4,7 +4,7 @@
       <List ref="list" :list="list" :type="type" @new="handleCreateNew" />
     </div>
     <div class="editor-monaco-wrapper">
-      <Monaco :item="editItem" :type="type" />
+      <Monaco ref="monaco" :item="editItem" :type="type" />
     </div>
     <div class="clearfix"></div>
   </div>
@@ -64,6 +64,10 @@ export default {
         return;
       }
       this.list[idx].id = newId;
+      // sync modification
+      if (this.$refs.list.selected === oldId) {
+        this.$refs.list.setSelected(newId);
+      }
     },
     modifyItemType(id, type) {
       const idx = this.list.findIndex((item) => item.id === id);
@@ -71,6 +75,24 @@ export default {
         return;
       }
       this.list[idx].type = type;
+    },
+    async deleteItem(item) {
+      if (this.type === 'cfs') {
+        const res = await this.$nApi.post('/config-storage/delete', {
+          id: item.id,
+        });
+        if (!res) {
+          return;
+        }
+        const idx = this.list.findIndex((t) => t.id === item.id);
+        if (idx >= 0) {
+          this.list.splice(idx, 1);
+        }
+        if (this.editItem.id === item.id) {
+          this.editItem = null;
+        }
+        this.$message.success('删除成功');
+      }
     },
   },
 };

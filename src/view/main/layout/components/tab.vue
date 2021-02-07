@@ -7,7 +7,7 @@
     }"
     @click="handleTabClick"
     v-if="type === 'default'"
-    v-context="'context'"
+    v-context
   >
     <div class="tab-text">
       <span>{{ name }}</span>
@@ -17,7 +17,6 @@
     </div>
     <ContextMenu
       width="100"
-      ref="context"
       @item-clicked="handleContextClick"
       >
       <ContextMenuItem name="close">{{$t('nav.tab.close')}}</ContextMenuItem>
