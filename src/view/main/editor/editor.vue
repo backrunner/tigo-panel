@@ -36,7 +36,7 @@ export default {
       if (this.type === 'cfs') {
         const res = await this.$nApi.get('/config-storage/list');
         if (!res) {
-          this.$message.error('获取列表数据失败');
+          this.$message.error(this.$t('editor.list.failed'));
           return;
         }
         this.list = res.data.data;

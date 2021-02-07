@@ -19,7 +19,7 @@
             @loading="saveButtonLoading"
             @click="save"
             >
-            保存
+            {{t('editor.save')}}
           </el-button>
         </span>
       </div>
@@ -36,10 +36,10 @@
           <i class="el-icon-close"></i>
         </div>
         <div class="monaco-body-failed__text">
-          <span>内容加载失败</span>
+          <span>{{t('editor.failed.text')}}</span>
         </div>
         <div class="monaco-body-failed__btn">
-          <el-button type="primary" @click="reload">重新加载</el-button>
+          <el-button type="primary" @click="reload">{{t('editor.failed.retry')}}</el-button>
         </div>
       </div>
     </div>
@@ -131,7 +131,7 @@ export default {
           }
           const { id } = res.data.data;
           this.$parent.modifyItemId(this.item.id, id);
-          this.$message.success('保存成功');
+          this.$message.success(this.$t('edtior.save.success'));
           this.$set(this.saving, this.item.id, false);
         }
       } else {
@@ -149,7 +149,7 @@ export default {
             this.$set(this.saving, this.item.id, false);
             return;
           }
-          this.$message.success('保存成功');
+          this.$message.success(this.$t('edtior.save.success'));
           this.$set(this.saving, this.item.id, false);
         }
       }

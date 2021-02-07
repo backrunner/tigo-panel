@@ -13,6 +13,15 @@
   "portal.remember": "Remember me",
   "portal.login": "Login",
   "portal.register": "Create Account",
+  "nav.tab.close": "Close",
   "nav.user.logout": "Logout",
-  "home": "Home"
+  "home": "Home",
+  "home.services": "Services",
+  "lambda": "Lambda",
+  "cfs": "CFS",
+  "editor.save": "Save",
+  "edtior.save.success": "Successfully saved",
+  "editor.list.failed": "Failed to get list data",
+  "editor.failed.text": "Failed to load content",
+  "editor.failed.retry": "Retry"
 }

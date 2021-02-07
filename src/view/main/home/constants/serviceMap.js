@@ -1,10 +1,12 @@
+import i18n from '@/plugins/i18n';
+
 export default {
   '@tigo/faas': {
-    name: '函数计算',
+    name: i18n.t('lambda'),
     path: '/lambda',
   },
   '@tigo/config-storage': {
-    name: '配置中心',
+    name: i18n.t('cfs'),
     path: '/cfs',
   },
 };
