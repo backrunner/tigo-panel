@@ -1,7 +1,7 @@
 <template>
-  <el-dropdown class="nav-user" @command="handleCommand">
+  <el-dropdown class="nav-user" @command="handleCommand" trigger="click">
     <span>{{ username }}</span>
-    <el-dropdown-menu slot="dropdown" trigger="click">
+    <el-dropdown-menu slot="dropdown">
       <el-dropdown-item command="logout">{{ $t('nav.user.logout') }}</el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
