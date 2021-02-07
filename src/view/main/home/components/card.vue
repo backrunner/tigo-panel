@@ -1,7 +1,7 @@
 <template>
   <div class="home-card">
     <div class="home-card-header">
-      <span>{{$title}}</span>
+      <span>{{title}}</span>
     </div>
     <div class="home-card-body">
       <slot></slot>
