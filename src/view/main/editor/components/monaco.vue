@@ -19,7 +19,7 @@
             @loading="saveButtonLoading"
             @click="save"
             >
-            {{t('editor.save')}}
+            {{$t('editor.save')}}
           </el-button>
         </span>
       </div>
@@ -36,10 +36,10 @@
           <i class="el-icon-close"></i>
         </div>
         <div class="monaco-body-failed__text">
-          <span>{{t('editor.failed.text')}}</span>
+          <span>{{$t('editor.failed.text')}}</span>
         </div>
         <div class="monaco-body-failed__btn">
-          <el-button type="primary" @click="reload">{{t('editor.failed.retry')}}</el-button>
+          <el-button type="primary" @click="reload">{{$t('editor.failed.retry')}}</el-button>
         </div>
       </div>
     </div>
