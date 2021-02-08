@@ -29,5 +29,6 @@
   "editor.confirm.delete": "确定要删除",
   "editor.confirm.delete.end": "吗？",
   "editor.confirm.changeType": "确定要修改类型为",
-  "editor.confirm.changeType.end": "吗？"
+  "editor.confirm.changeType.end": "吗？",
+  "draft.save.at": "保存于"
 }

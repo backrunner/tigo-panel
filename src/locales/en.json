@@ -29,5 +29,6 @@
   "editor.confirm.delete": "Do you really want to delete",
   "editor.confirm.delete.end": "?",
   "editor.confirm.changeType": "Are you sure to change type to",
-  "editor.confirm.changeType.end": "?"
+  "editor.confirm.changeType.end": "?",
+  "draft.save.at": "Save at"
 }

@@ -5,6 +5,7 @@
         <span>{{ displayName }}</span>
       </div>
       <div class="monaco-header__ctrl">
+        <DraftTip :time="displayDraftSaveTime" v-if="!!displayDraftSaveTime" />
         <TypeSelector
           v-model="fileType"
           v-if="type === 'cfs'"
@@ -30,6 +31,7 @@
         v-model="content"
         :language="editorLanguage"
         v-loading="editorLoading"
+        @change="handleEditorChange"
         />
       <div class="monaco-body-failed" v-if="showFailed">
         <div class="monaco-body-failed__icon">
@@ -55,14 +57,19 @@
 import tigoGear from '@/common/icon/tigoGear';
 import MonacoEditor from './monacoEditor';
 import TypeSelector from './typeSelector';
+import DraftTip from './draftTip';
 import Utf8 from 'crypto-js/enc-utf8';
 import Base64 from 'crypto-js/enc-base64';
+import moment from 'moment';
+
+const draftEnabledType = ['cfs', 'lambda'];
 
 export default {
   components: {
     tigoGear,
     MonacoEditor,
     TypeSelector,
+    DraftTip,
   },
   props: {
     item: Object,
@@ -72,13 +79,21 @@ export default {
     item: {
       deep: true,
       handler(newItem) {
-        if (newItem) {
-          this.fileType = newItem.type;
-          if (!`${newItem.id}`.startsWith('new')) {
-            this.getContent(newItem.id);
-          }
+        if (!newItem) {
+          this.content = '';
+          return;
         }
-        this.content = '';
+        this.fileType = newItem.type;
+        if (this.drafts[newItem.id]) {
+          this.content = this.drafts[newItem.id];
+          return;
+        }
+        if (!`${newItem.id}`.startsWith('new')) {
+          this.getContent(newItem.id);
+          this.content = '';
+        } else {
+          this.content = '';
+        }
       },
     },
   },
@@ -91,6 +106,12 @@ export default {
         return `${this.item.name}.${this.item.type}`;
       }
       return this.item.name;
+    },
+    displayDraftSaveTime() {
+      return this.draftSaveTime[this.item.id] || null;
+    },
+    draftEnabled() {
+      return draftEnabledType.includes(this.type);
     },
     saveButtonLoading() {
       return !!this.saving[this.item.id];
@@ -121,6 +142,9 @@ export default {
       saveDisabled: {},
       contentLoading: {},
       contentLoadFailed: {},
+      drafts: {},
+      draftSaveTime: {},
+      draftSaveTimeout: {},
     };
   },
   methods: {
@@ -165,7 +189,15 @@ export default {
           }
           this.$message.success(this.$t('edtior.save.success'));
           this.$set(this.saving, this.item.id, false);
+        } else if (this.type === 'lambda') {
+          const res = await this.$nApi.post('/faas/save', {
+            action: 'edit',
+          });
         }
+      }
+      if (this.drafts[this.item.id]) {
+        this.drafts[this.item.id] = null;
+        this.$set(this.draftSaveTime, this.item.id, null);
       }
     },
     reload() {
@@ -192,6 +224,19 @@ export default {
     },
     handleTypeChanged(type) {
       this.$parent.modifyItemType(this.item.id, type);
+    },
+    handleEditorChange(value) {
+      if (this.draftEnabled) {
+        if (this.draftSaveTimeout[this.item.id]) {
+          clearTimeout(this.draftSaveTimeout[this.item.id]);
+        }
+        this.draftSaveTimeout[this.item.id] = setTimeout(() => {
+          if (!this.drafts[this.item.id] || this.drafts[this.item.id] !== value) {
+            this.drafts[this.item.id] = value;
+          }
+          this.$set(this.draftSaveTime, this.item.id, moment().format('HH:mm:ss'));
+        }, 1000);
+      }
     },
   },
 };
