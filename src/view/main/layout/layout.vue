@@ -15,6 +15,7 @@
         />
       </div>
       <NavUser />
+      <ServerStatus />
     </div>
     <div class="main-container">
       <keep-alive>
@@ -27,6 +28,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 import Tab from './components/tab';
+import ServerStatus from './components/serverStatus';
 import NavUser from './components/userInfo';
 import { checkAuthStatus } from '@/utils/auth';
 
@@ -34,6 +36,7 @@ export default {
   components: {
     Tab,
     NavUser,
+    ServerStatus,
   },
   computed: {
     ...mapState({
@@ -72,7 +75,20 @@ export default {
       }
     }
   },
+  mounted() {
+    if (!this.heartbeatInterval) {
+      this.heartbeatInterval = setInterval(async () => {
+        const res = await this.$tApi.get('/common/heartbeat');
+        if (!res) {
+          this.setHeartbeat(false);
+        } else {
+          this.setHeartbeat(true);
+        }
+      }, 60 * 1000);
+    }
+  },
   methods: {
+    ...mapMutations('service', ['setHeartbeat']),
     ...mapMutations('auth', ['clearAuthInfo']),
     ...mapMutations('nav', ['setActivateTab', 'recover']),
   },

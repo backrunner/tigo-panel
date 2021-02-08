@@ -42,7 +42,7 @@ export default {
         this.symbol += '.';
       }
     }, 500);
-    await this.checkAvaliable();
+    await this.checkAvailable();
   },
   destroyed() {
     if (this.interval) {
@@ -52,10 +52,10 @@ export default {
   },
   methods: {
     ...mapMutations('service', ['setServiceStatus']),
-    async checkAvaliable() {
-      const res = await this.$tApi.get('/common/ping');
+    async checkAvailable() {
+      const res = await this.$tApi.get('/common/checkAvailable');
       if (!res) {
-        this.$router.push('/notAvaliable');
+        this.$router.push('/notAvailable');
         return;
       }
       this.setServiceStatus(true);

@@ -15,8 +15,8 @@ const routes = [
     },
   },
   {
-    path: '/notAvaliable',
-    component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/notAvaliable.vue'),
+    path: '/notAvailable',
+    component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/notAvailable.vue'),
     meta: {
       title: i18n.t('entry.cantuse'),
     },
@@ -74,13 +74,13 @@ const router = new VueRouter({
   routes,
 });
 
-const directGoPath = ['/', '/notAvaliable', '/notFound'];
+const directGoPath = ['/', '/notAvailable', '/notFound'];
 
 router.beforeEach((to, from, next) => {
   if (to.meta && to.meta.title) {
     changeTitle(to.meta.title);
   }
-  if (!directGoPath.includes(to.path) && !store.state.service.avaliable) {
+  if (!directGoPath.includes(to.path) && !store.state.service.available) {
     next(false);
     router.replace({
       path: '/',
@@ -97,7 +97,7 @@ router.beforeEach((to, from, next) => {
     && to.path !== '/portal'
   ) {
     next(false);
-    if (!store.state.service.avaliable) {
+    if (!store.state.service.available) {
       router.replace('/');
     } else {
       router.replace('/portal');
