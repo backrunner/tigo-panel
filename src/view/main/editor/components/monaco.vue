@@ -28,7 +28,7 @@
       <MonacoEditor
         class="monaco-body-editor"
         v-model="content"
-        :language="item.type"
+        :language="editorLanguage"
         v-loading="editorLoading"
         />
       <div class="monaco-body-failed" v-if="showFailed">
@@ -97,6 +97,14 @@ export default {
     },
     saveButtonStatus() {
       return !!this.saveDisabled[this.item.id];
+    },
+    editorLanguage() {
+      if (this.type === 'cfs') {
+        return this.item.type;
+      } else if (this.type === 'lambda') {
+        return 'javascript';
+      }
+      return 'javascript';
     },
     editorLoading() {
       return !!this.contentLoading[this.item.id];

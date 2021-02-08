@@ -17,6 +17,11 @@
 import List from './components/list';
 import Monaco from './components/monaco';
 
+const apiBaseMap = {
+  cfs: 'config-storage',
+  lambda: 'faas',
+};
+
 export default {
   props: {
     type: String,
@@ -36,30 +41,36 @@ export default {
   },
   methods: {
     async initList() {
-      if (this.type === 'cfs') {
-        const res = await this.$nApi.get('/config-storage/list');
-        if (!res) {
-          this.$message.error(this.$t('editor.list.failed'));
-          return;
-        }
-        this.list = res.data.data;
+      const res = await this.$nApi.get(`/${apiBaseMap[this.type]}/list`);
+      if (!res) {
+        this.$message.error(this.$t('editor.list.failed'));
+        return;
       }
+      this.list = res.data.data || [];
     },
     setEditItem(item) {
       this.editItem = item;
     },
     handleCreateNew() {
+      const timestamp = new Date().valueOf();
+      let item = {
+        id: `new-${timestamp}`,
+      };
       if (this.type === 'cfs') {
-        const timestamp = new Date().valueOf();
-        const item = {
-          id: `new-${timestamp}`,
+        item = {
+          ...item,
           name: `new_config_${timestamp}`,
           type: 'json',
         };
-        this.list.push(item);
-        this.editItem = item;
-        this.$refs.list.setSelected(item.id);
+      } else if (this.type === 'lambda') {
+        item = {
+          ...item,
+          name: `new_lambda_${timestamp}`,
+        };
       }
+      this.list.push(item);
+      this.editItem = item;
+      this.$refs.list.setSelected(item.id);
     },
     modifyItemId(oldId, newId) {
       const idx = this.list.findIndex((item) => item.id === oldId);
@@ -99,24 +110,23 @@ export default {
       }
       this.$message.success('删除成功');
     },
-    handleListContextClick(name) {
+    async handleListContextClick(name) {
       if (name === 'refresh') {
-        if (this.type === 'cfs') {
-          this.initList();
-          const { selected } = this.$refs.list;
-          let found = false;
-          if (selected) {
-            for (let i = 0; i < this.list.length; i++) {
-              if (this.list[i].id === selected) {
-                found = true;
-                break;
-              }
+        await this.initList();
+        this.$message.success('刷新成功');
+        const { selected } = this.$refs.list;
+        let found = false;
+        if (selected) {
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].id === selected) {
+              found = true;
+              break;
             }
           }
-          if (!found) {
-            this.editItem = null;
-            this.$refs.list.setSelected(null);
-          }
+        }
+        if (!found) {
+          this.editItem = null;
+          this.$refs.list.setSelected(null);
         }
       }
     },
