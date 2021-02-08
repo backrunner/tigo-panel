@@ -80,4 +80,8 @@ div:focus, span:focus, a:focus, li:focus {
     padding: 0 18px;
   }
 }
+
+.el-message {
+  user-select: none;
+}
 </style>
