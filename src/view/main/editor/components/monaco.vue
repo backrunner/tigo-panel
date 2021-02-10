@@ -94,8 +94,8 @@ export default {
         if (!`${newItem.id}`.startsWith('new')) {
           if (!this.content) {
             this.getContent(newItem.id);
+            this.content = '';
           }
-          this.content = '';
         } else {
           this.content = '';
         }
@@ -194,6 +194,7 @@ export default {
           return;
         }
         const { id } = res.data.data;
+        this.clearDraftTimeout(this.item.id);
         this.$parent.modifyItemId(this.item.id, id);
         this.$message.success(this.$t('edtior.save.success'));
         this.$set(this.saving, this.item.id, false);
@@ -221,6 +222,7 @@ export default {
           this.$set(this.saving, this.item.id, false);
           return;
         }
+        this.clearDraftTimeout(this.item.id);
         this.$message.success(this.$t('edtior.save.success'));
       }
       if (this.drafts[this.item.id]) {
@@ -290,6 +292,10 @@ export default {
       this.$parent.modifyItemName(this.item.id, newName);
       this.$message.success(this.$t('editor.name.edit.success'));
       this.$refs.headerName.setEditable(false);
+    },
+    clearDraftTimeout(id) {
+      clearTimeout(this.draftSaveTimeout[id]);
+      this.draftSaveTimeout[id] = null;
     },
   },
 };
