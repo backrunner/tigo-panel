@@ -3,6 +3,7 @@
 const state = {
   available: false,
   heartbeat: false,
+  pluginInfo: null,
 };
 
 const mutations = {
@@ -14,6 +15,9 @@ const mutations = {
   },
   setHeartbeat(state, status) {
     state.heartbeat = status;
+  },
+  setPluginInfo(state, info) {
+    state.pluginInfo = info;
   },
 };
 
