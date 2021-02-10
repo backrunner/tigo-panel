@@ -24,3 +24,10 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+.page {
+  padding: 18px;
+  position: relative;
+}
+</style>

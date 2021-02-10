@@ -16,9 +16,3 @@ export default {
 };
 </script>
 
-<style lang="less">
-.cfs {
-  padding: 18px;
-  position: relative;
-}
-</style>

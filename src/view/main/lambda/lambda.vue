@@ -15,10 +15,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less">
-.lambda {
-  padding: 18px;
-  position: relative;
-}
-</style>
