@@ -42,14 +42,6 @@ export default {
     LocaleSelector,
     CardTextItem,
   },
-  data() {
-    return {
-      pluginInfo: [],
-    };
-  },
-  async created() {
-    await this.getPluginInfo();
-  },
   watch: {
     locale() {
       this.pluginInfo = this.pluginInfo.map((item) => ({
@@ -63,6 +55,7 @@ export default {
       username: (state) => state.auth.username,
       scopeId: (state) => state.auth.scopeId,
       locale: (state) => state.locale.locale,
+      pluginInfo: (state) => state.service.pluginInfo,
     }),
     hello() {
       const h = moment().hour;
@@ -83,15 +76,6 @@ export default {
       } else {
         return `Welcome, ${this.username}.`;
       }
-    },
-  },
-  methods: {
-    async getPluginInfo() {
-      const res = await this.$nApi.get('/common/listPlugins');
-      this.pluginInfo = res.data.data?.packages.map((item) => ({
-        ...ServiceMap[item],
-        package: item,
-      }));
     },
   },
 };

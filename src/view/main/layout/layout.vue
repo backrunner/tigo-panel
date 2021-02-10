@@ -31,6 +31,7 @@ import Tab from './components/tab';
 import ServerStatus from './components/serverStatus';
 import NavUser from './components/userInfo';
 import { checkAuthStatus } from '@/utils/auth';
+import ServiceMap from '@/common/constants/serviceMap';
 
 export default {
   components: {
@@ -74,6 +75,8 @@ export default {
         }
       }
     }
+    // init pluginInfo
+    this.getPluginInfo();
   },
   mounted() {
     if (!this.heartbeatInterval) {
@@ -88,9 +91,21 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('service', ['setHeartbeat']),
+    ...mapMutations('service', ['setHeartbeat', 'setPluginInfo']),
     ...mapMutations('auth', ['clearAuthInfo']),
     ...mapMutations('nav', ['setActivateTab', 'recover']),
+    async getPluginInfo() {
+      const res = await this.$nApi.get('/common/listPlugins');
+      let pluginInfo = res.data.data?.packages;
+      if (!pluginInfo) {
+        this.$message.error('获取系统插件信息失败');
+      }
+      pluginInfo = pluginInfo.map((item) => ({
+        ...ServiceMap[item],
+        package: item,
+      }));
+      this.setPluginInfo(pluginInfo);
+    },
   },
 };
 </script>
