@@ -17,6 +17,7 @@ pnpm-debug.log*
 .idea
 .vscode
 .history
+src/config.js
 *.suo
 *.ntvs*
 *.njsproj

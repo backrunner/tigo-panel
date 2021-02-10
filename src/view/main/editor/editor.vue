@@ -16,11 +16,7 @@
 <script>
 import List from './components/list';
 import Monaco from './components/monaco';
-
-const apiBaseMap = {
-  cfs: 'config-storage',
-  lambda: 'faas',
-};
+import apiBaseMap from './constants/ApiBaseMap.js';
 
 export default {
   props: {
@@ -92,13 +88,11 @@ export default {
     },
     async deleteItem(item) {
       if (!`${item.id}`.startsWith('new')) {
-        if (this.type === 'cfs') {
-          const res = await this.$nApi.post('/config-storage/delete', {
-            id: item.id,
-          });
-          if (!res) {
-            return;
-          }
+        const res = await this.$nApi.post(`/${apiBaseMap[this.type]}/delete`, {
+          id: item.id,
+        });
+        if (!res) {
+          return;
         }
       }
       const idx = this.list.findIndex((t) => t.id === item.id);

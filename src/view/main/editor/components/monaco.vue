@@ -61,6 +61,8 @@ import DraftTip from './draftTip';
 import Utf8 from 'crypto-js/enc-utf8';
 import Base64 from 'crypto-js/enc-base64';
 import moment from 'moment';
+import apiBaseMap from '../constants/ApiBaseMap';
+import { lambdaTester } from '../constants/TestPattern';
 
 const draftEnabledType = ['cfs', 'lambda'];
 
@@ -148,51 +150,73 @@ export default {
     };
   },
   methods: {
+    validateContent() {
+      if (this.type === 'lambda') {
+        const testRes = lambdaTester.test(this.content);
+        if (!testRes) {
+          this.$message.error('未检测到必需的 handleRequest 方法');
+        }
+        return testRes;
+      }
+      return true;
+    },
     async save() {
       if (!this.content) {
         this.$message.error('请先输入内容再保存');
         return;
       }
       this.$set(this.saving, this.item.id, true);
+      if (!this.validateContent()) {
+        return;
+      }
       if (`${this.item.id}`.startsWith('new')) {
+        let res;
         // add
         if (this.type === 'cfs') {
-          const res = await this.$nApi.post('/config-storage/save', {
+          res = await this.$nApi.post('/config-storage/save', {
             action: 'add',
             content: Base64.stringify(Utf8.parse(this.content)),
             name: this.item.name,
             type: this.item.type,
           });
-          if (!res) {
-            this.$set(this.saving, this.item.id, false);
-            return;
-          }
-          const { id } = res.data.data;
-          this.$parent.modifyItemId(this.item.id, id);
-          this.$message.success(this.$t('edtior.save.success'));
-          this.$set(this.saving, this.item.id, false);
+        } else if (this.type === 'lambda') {
+          res = await this.$nApi.post('/faas/save', {
+            action: 'add',
+            content: Base64.stringify(Utf8.parse(this.content)),
+            name: this.item.name,
+          });
         }
+        if (!res) {
+          this.$set(this.saving, this.item.id, false);
+          return;
+        }
+        const { id } = res.data.data;
+        this.$parent.modifyItemId(this.item.id, id);
+        this.$message.success(this.$t('edtior.save.success'));
+        this.$set(this.saving, this.item.id, false);
       } else {
         // edit
         // eslint-disable-next-line no-lonely-if
+        let res;
         if (this.type === 'cfs') {
-          const res = await this.$nApi.post('/config-storage/save', {
+          res = await this.$nApi.post('/config-storage/save', {
             action: 'edit',
             id: this.item.id,
             content: Base64.stringify(Utf8.parse(this.content)),
             name: this.item.name,
             type: this.item.type,
           });
-          if (!res) {
-            this.$set(this.saving, this.item.id, false);
-            return;
-          }
-          this.$message.success(this.$t('edtior.save.success'));
-          this.$set(this.saving, this.item.id, false);
         } else if (this.type === 'lambda') {
-          const res = await this.$nApi.post('/faas/save', {
+          res = await this.$nApi.post('/faas/save', {
             action: 'edit',
+            id: this.item.id,
+            content: Base64.stringify(Utf8.parse(this.content)),
+            name: this.item.name,
           });
+        }
+        if (!res) {
+          this.$set(this.saving, this.item.id, false);
+          return;
         }
       }
       if (this.drafts[this.item.id]) {
@@ -206,7 +230,7 @@ export default {
     async getContent(id) {
       this.$set(this.contentLoading, id, true);
       this.$set(this.saveDisabled, id, true);
-      const res = await this.$nApi.get('/config-storage/getContent', {
+      const res = await this.$nApi.get(`/${apiBaseMap[this.type]}/getContent`, {
         params: {
           id,
         },
