@@ -31,5 +31,8 @@
   "editor.confirm.delete.end": "吗？",
   "editor.confirm.changeType": "确定要修改类型为",
   "editor.confirm.changeType.end": "吗？",
+  "editor.confirm.editName": "确定要修改名称吗？这将导致调用地址发生改变",
+  "editor.name.edit.emptyError": "名称不能为空",
+  "editor.name.edit.success": "名称修改成功",
   "draft.save.at": "保存于"
 }

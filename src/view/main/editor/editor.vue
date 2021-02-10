@@ -73,7 +73,7 @@ export default {
       if (idx < 0) {
         return;
       }
-      this.list[idx].id = newId;
+      this.$set(this.list[idx], 'id', newId);
       // sync modification
       if (this.$refs.list.selected === oldId) {
         this.$refs.list.setSelected(newId);
@@ -84,7 +84,14 @@ export default {
       if (idx < 0) {
         return;
       }
-      this.list[idx].type = type;
+      this.$set(this.list[idx], 'type', type);
+    },
+    modifyItemName(id, newName) {
+      const idx = this.list.findIndex((item) => item.id === id);
+      if (idx < 0) {
+        return;
+      }
+      this.$set(this.list[idx], 'name', newName);
     },
     async deleteItem(item) {
       if (!`${item.id}`.startsWith('new')) {

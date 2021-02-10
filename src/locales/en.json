@@ -31,5 +31,8 @@
   "editor.confirm.delete.end": "?",
   "editor.confirm.changeType": "Are you sure to change type to",
   "editor.confirm.changeType.end": "?",
+  "editor.confirm.changeName": "Are you sure you want to change the name? This will cause call URL to change",
+  "editor.name.edit.success": "Name modified successfully",
+  "editor.name.edit.emptyError": "Name can't be empty",
   "draft.save.at": "Save at"
 }

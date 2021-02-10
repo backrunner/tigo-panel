@@ -1,9 +1,7 @@
 <template>
   <div class="monaco" v-if="item">
     <div class="monaco-header">
-      <div class="monaco-header__name">
-        <span>{{ displayName }}</span>
-      </div>
+      <HeaderName ref="headerName" :name="displayName" @edit="handleNameEdit" />
       <div class="monaco-header__ctrl">
         <DraftTip :time="displayDraftSaveTime" v-if="!!displayDraftSaveTime" />
         <TypeSelector
@@ -12,15 +10,15 @@
           @change="handleTypeChanged"
           :id="item.id"
           :isNew="isNew"
-          />
+        />
         <span class="monaco-ctrl monaco-ctrl__btn">
           <el-button
             type="primary"
             :disabled="saveButtonStatus"
             @loading="saveButtonLoading"
             @click="save"
-            >
-            {{$t('editor.save')}}
+          >
+            {{ $t('editor.save') }}
           </el-button>
         </span>
       </div>
@@ -32,16 +30,16 @@
         :language="editorLanguage"
         v-loading="editorLoading"
         @change="handleEditorChange"
-        />
+      />
       <div class="monaco-body-failed" v-if="showFailed">
         <div class="monaco-body-failed__icon">
           <i class="el-icon-close"></i>
         </div>
         <div class="monaco-body-failed__text">
-          <span>{{$t('editor.failed.text')}}</span>
+          <span>{{ $t('editor.failed.text') }}</span>
         </div>
         <div class="monaco-body-failed__btn">
-          <el-button type="primary" @click="reload">{{$t('editor.failed.retry')}}</el-button>
+          <el-button type="primary" @click="reload">{{ $t('editor.failed.retry') }}</el-button>
         </div>
       </div>
     </div>
@@ -57,6 +55,7 @@
 import tigoGear from '@/common/icon/tigoGear';
 import MonacoEditor from './monacoEditor';
 import TypeSelector from './typeSelector';
+import HeaderName from './headerName';
 import DraftTip from './draftTip';
 import Utf8 from 'crypto-js/enc-utf8';
 import Base64 from 'crypto-js/enc-base64';
@@ -72,6 +71,7 @@ export default {
     MonacoEditor,
     TypeSelector,
     DraftTip,
+    HeaderName,
   },
   props: {
     item: Object,
@@ -80,6 +80,7 @@ export default {
   watch: {
     item: {
       deep: true,
+      immediate: true,
       handler(newItem) {
         if (!newItem) {
           this.content = '';
@@ -91,7 +92,9 @@ export default {
           return;
         }
         if (!`${newItem.id}`.startsWith('new')) {
-          this.getContent(newItem.id);
+          if (!this.content) {
+            this.getContent(newItem.id);
+          }
           this.content = '';
         } else {
           this.content = '';
@@ -218,6 +221,7 @@ export default {
           this.$set(this.saving, this.item.id, false);
           return;
         }
+        this.$message.success(this.$t('edtior.save.success'));
       }
       if (this.drafts[this.item.id]) {
         this.drafts[this.item.id] = null;
@@ -262,6 +266,31 @@ export default {
         }, 1000);
       }
     },
+    async handleNameEdit(newName) {
+      if (`${this.item.id}`.startsWith('new')) {
+        // new item, modify directly
+        this.$parent.modifyItemName(this.item.id, newName);
+        this.$refs.headerName.setEditable(false);
+        return;
+      }
+      try {
+        await this.$confirm(`${this.$t('editor.confirm.editName')}`);
+      } catch {
+        return;
+      }
+      const res = await this.$nApi.post(`${apiBaseMap[this.type]}/rename`, {
+        id: this.item.id,
+        newName,
+      });
+      if (!res) {
+        this.$refs.headerName.setToOriginal();
+        this.$refs.headerName.setEditable(false);
+        return;
+      }
+      this.$parent.modifyItemName(this.item.id, newName);
+      this.$message.success(this.$t('editor.name.edit.success'));
+      this.$refs.headerName.setEditable(false);
+    },
   },
 };
 </script>
@@ -284,6 +313,26 @@ export default {
       color: var(--primary);
       font-size: 15px;
       justify-self: flex-start;
+      span {
+        margin-right: 8px;
+        br {
+          display: none;
+        }
+      }
+      i {
+        cursor: pointer;
+        margin-right: 8px;
+      }
+      i:last-child {
+        margin-right: 0;
+      }
+      i:hover {
+        color: var(--regular-text);
+      }
+    }
+    &__name_editing {
+      background-color: #1e1e1e;
+      padding: 8px 12px;
     }
     &__ctrl {
       .monaco-ctrl {
