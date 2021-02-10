@@ -20,6 +20,7 @@ if (tokenInfo?.fetchTime) {
 const state = {
   uid: null,
   username: null,
+  scopeId: null,
   token: authToken || null,
   refreshToken: refreshToken || null,
   lastFetch: null,
@@ -27,10 +28,11 @@ const state = {
 
 const mutations = {
   setAuth(state, auth) {
-    const { uid, username, token } = auth;
+    const { uid, username, scopeId, token } = auth;
     const { refreshToken, authToken } = token;
     state.uid = uid;
     state.username = username;
+    state.scopeId = scopeId;
     state.token = authToken;
     state.refreshToken = refreshToken;
     state.lastFetch = moment().valueOf();
@@ -41,10 +43,11 @@ const mutations = {
     });
   },
   setNoRememberAuth(state, auth) {
-    const { uid, username, token } = auth;
+    const { uid, username, scopeId, token } = auth;
     const { authToken } = token;
     state.uid = uid;
     state.username = username;
+    state.scopeId = scopeId;
     state.token = authToken;
     state.lastFetch = moment().valueOf();
     window.localStorage.setItem('tokenInfo', {
@@ -63,13 +66,15 @@ const mutations = {
       fetchTime: state.lastFetch,
     });
   },
-  setUserInfo(state, { uid, username }) {
+  setUserInfo(state, { uid, username, scopeId }) {
     state.uid = uid;
     state.username = username;
+    state.scopeId = scopeId;
   },
   clearUserInfo(state) {
     state.uid = null;
     state.username = null;
+    state.scopeId = null;
     state.token = null;
     state.refreshToken = null;
     state.lastFetch = null;

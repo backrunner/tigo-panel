@@ -18,6 +18,7 @@
   "server.offline": "连接中断",
   "home": "控制台",
   "home.services": "可用服务",
+  "home.user": "用户 API 信息",
   "lambda": "函数计算",
   "cfs": "配置中心",
   "editor.save": "保存",

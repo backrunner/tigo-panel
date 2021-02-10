@@ -12,10 +12,11 @@ export const doTokenRefresh = async (token) => {
   if (!res) {
     return false;
   }
-  const { uid, username, authToken, refreshToken } = res.data.data;
+  const { uid, username, scopeId, authToken, refreshToken } = res.data.data;
   store.commit('auth/setUserInfo', {
     uid,
     username,
+    scopeId,
   });
   store.commit('auth/setToken', {
     authToken,
@@ -70,10 +71,11 @@ export const checkAuthStatus = async () => {
   }
   const res = await nApi.get('/auth/checkStatus');
   if (res) {
-    const { uid, username } = res.data.data;
+    const { uid, username, scopeId } = res.data.data;
     store.commit('auth/setUserInfo', {
       uid,
       username,
+      scopeId,
     });
     setTimeout(() => {
       doTokenRefresh(store.state.auth.token);

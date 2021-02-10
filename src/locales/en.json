@@ -18,6 +18,7 @@
   "server.offline": "Connection lost",
   "home": "Home",
   "home.services": "Services",
+  "home.user": "API",
   "lambda": "Lambda",
   "cfs": "CFS",
   "editor.save": "Save",

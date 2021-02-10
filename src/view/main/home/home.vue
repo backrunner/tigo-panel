@@ -19,6 +19,9 @@
             />
         </el-row>
       </Card>
+      <Card class="home-user" :title="$t('home.user')">
+        <CardTextItem label="Scope ID" :text="scopeId" :selectable="true" />
+      </Card>
     </div>
   </div>
 </template>
@@ -30,12 +33,14 @@ import ServiceMap from '@/common/constants/serviceMap';
 import Card from './components/card';
 import ServiceItem from './components/service';
 import LocaleSelector from './components/i18nSelector';
+import CardTextItem from './components/textItem';
 
 export default {
   components: {
     Card,
     ServiceItem,
     LocaleSelector,
+    CardTextItem,
   },
   data() {
     return {
@@ -56,6 +61,7 @@ export default {
   computed: {
     ...mapState({
       username: (state) => state.auth.username,
+      scopeId: (state) => state.auth.scopeId,
       locale: (state) => state.locale.locale,
     }),
     hello() {
