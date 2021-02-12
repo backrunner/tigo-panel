@@ -3,6 +3,7 @@
 const state = {
   tabs: [],
   activatedTab: null,
+  cannotClose: {},
 };
 
 const mutations = {
@@ -26,6 +27,10 @@ const mutations = {
   },
   closeTab(state, { uid, id }) {
     const idx = state.tabs.findIndex((item) => item.id === id);
+    if (idx < 0) {
+      return;
+    }
+    state.cannotClose[state.tabs[idx].id] = null;
     state.tabs.splice(idx, 1);
     window.localStorage.setItem('nav', {
       uid,
@@ -34,6 +39,13 @@ const mutations = {
   },
   setActivateTab(state, id) {
     state.activatedTab = id;
+  },
+  setCannotClose(state, { path, status }) {
+    const idx = state.tabs.findIndex((item) => item.path === path);
+    if (idx < 0) {
+      return;
+    }
+    state.cannotClose[state.tabs[idx].id] = status;
   },
   recover(state, tabs) {
     state.tabs = tabs;

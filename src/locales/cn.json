@@ -34,5 +34,6 @@
   "editor.confirm.editName": "确定要修改名称吗？这将导致调用地址发生改变",
   "editor.name.edit.emptyError": "名称不能为空",
   "editor.name.edit.success": "名称修改成功",
+  "editor.closeTip.haveDraft": "当前页面还有未保存的内容，确定要关闭吗？",
   "draft.save.at": "保存于"
 }

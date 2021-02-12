@@ -34,5 +34,6 @@
   "editor.confirm.changeName": "Are you sure you want to change the name? This will cause call URL to change",
   "editor.name.edit.success": "Name modified successfully",
   "editor.name.edit.emptyError": "Name can't be empty",
+  "editor.closeTip.haveDraft": "There are still unsaved contents in the current page. Are you sure to close this tab?",
   "draft.save.at": "Save at"
 }

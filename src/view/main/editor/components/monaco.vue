@@ -61,9 +61,12 @@ import Utf8 from 'crypto-js/enc-utf8';
 import Base64 from 'crypto-js/enc-base64';
 import moment from 'moment';
 import apiBaseMap from '../constants/ApiBaseMap';
+import { getTabPath } from '@/utils/path';
+import { mapMutations } from 'vuex';
 import { lambdaTester } from '../constants/TestPattern';
 
-const draftEnabledType = ['cfs', 'lambda'];
+const DRAFT_SAVE_TIMEOUT = 500;
+const DRAFT_ENABLED_TYPE = ['cfs', 'lambda'];
 
 export default {
   components: {
@@ -116,7 +119,7 @@ export default {
       return this.draftSaveTime[this.item.id] || null;
     },
     draftEnabled() {
-      return draftEnabledType.includes(this.type);
+      return DRAFT_ENABLED_TYPE.includes(this.type);
     },
     saveButtonLoading() {
       return !!this.saving[this.item.id];
@@ -153,6 +156,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations('nav', ['setCannotClose']),
     validateContent() {
       if (this.type === 'lambda') {
         const testRes = lambdaTester.test(this.content);
@@ -226,7 +230,13 @@ export default {
         this.$message.success(this.$t('edtior.save.success'));
       }
       if (this.drafts[this.item.id]) {
-        this.drafts[this.item.id] = null;
+        delete this.drafts[this.item.id];
+        if (!Object.keys(this.drafts).length) {
+          this.setCannotClose({
+            path: getTabPath(this.$route.path),
+            status: null,
+          });
+        }
         this.$set(this.draftSaveTime, this.item.id, null);
       }
     },
@@ -262,10 +272,14 @@ export default {
         }
         this.draftSaveTimeout[this.item.id] = setTimeout(() => {
           if (!this.drafts[this.item.id] || this.drafts[this.item.id] !== value) {
+            this.setCannotClose({
+              path: getTabPath(this.$route.path),
+              status: { msg: this.$t('editor.closeTip.haveDraft') },
+            });
             this.drafts[this.item.id] = value;
           }
           this.$set(this.draftSaveTime, this.item.id, moment().format('HH:mm:ss'));
-        }, 1000);
+        }, DRAFT_SAVE_TIMEOUT);
       }
     },
     async handleNameEdit(newName) {

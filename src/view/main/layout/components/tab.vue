@@ -51,6 +51,7 @@ export default {
     ...mapState({
       uid: (state) => state.auth.uid,
       activatedTab: (state) => state.nav.activatedTab,
+      cannotClose: (state) => state.nav.cannotClose,
     }),
     displayName() {
       return this.$t(this.name);
@@ -67,7 +68,14 @@ export default {
         this.$router.replace(`/app${this.path}`);
       }
     },
-    handleCloseClick() {
+    async handleCloseClick() {
+      if (this.cannotClose[this.tabId]) {
+        try {
+          await this.$confirm(this.cannotClose[this.tabId].msg);
+        } catch {
+          return;
+        }
+      }
       const idx = this.$store.getters['nav/getTabIdx'](this.tabId);
       if (this.tabSelected) {
         const len = this.$store.state.nav.tabs.length;
