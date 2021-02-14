@@ -15,12 +15,14 @@
   "portal.register": "Create Account",
   "nav.tab.close": "Close",
   "nav.user.logout": "Logout",
+  "nav.user.keymanage": "Manage keys",
   "server.offline": "Connection lost",
   "home": "Home",
   "home.services": "Services",
   "home.user": "API",
   "lambda": "Lambda",
   "cfs": "CFS",
+  "editor.cancel": "Cancel",
   "editor.save": "Save",
   "edtior.save.success": "Successfully saved",
   "editor.list.delete": "Delete",
@@ -32,8 +34,10 @@
   "editor.confirm.changeType": "Are you sure to change type to",
   "editor.confirm.changeType.end": "?",
   "editor.confirm.changeName": "Are you sure you want to change the name? This will cause call URL to change",
+  "editor.name.edit": "Edit name",
   "editor.name.edit.success": "Name modified successfully",
   "editor.name.edit.emptyError": "Name can't be empty",
   "editor.closeTip.haveDraft": "There are still unsaved contents in the current page. Are you sure to close this tab?",
-  "draft.save.at": "Save at"
+  "draft.save.at": "Save at",
+  "keymanage": "Key Management"
 }
