@@ -73,6 +73,7 @@ div:focus, span:focus, a:focus, li:focus {
   box-shadow: 4px 4px 0px #323232;
 }
 .el-dropdown {
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
   user-select: none;
   &-link {
     color: var(--primary);
@@ -82,11 +83,22 @@ div:focus, span:focus, a:focus, li:focus {
   cursor: pointer;
 }
 .el-dropdown-menu {
+  border-radius: 0;
   padding: 8px 0;
   &__item {
     line-height: 32px;
     padding: 0 18px;
   }
+}
+.el-input__inner {
+  border-radius: 0;
+  transition: box-shadow 200ms ease;
+}
+.el-input__inner:focus {
+  box-shadow: 4px 4px 0px #333;
+}
+.el-checkbox__inner {
+  border-radius: 0;
 }
 .el-message {
   user-select: none;
@@ -96,7 +108,7 @@ div:focus, span:focus, a:focus, li:focus {
   color: var(--primary);
   padding: 8px 12px 9px 12px;
   user-select: none;
-  box-shadow: 2px 2px 6px rgba(23, 23, 23, 0.125);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 0;
  .popper__arrow {
     border-bottom-color: #666 !important;
