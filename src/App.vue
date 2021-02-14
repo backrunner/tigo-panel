@@ -64,6 +64,14 @@ div:focus, span:focus, a:focus, li:focus {
 }
 
 // element cover
+.el-button {
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 4px rgba(25, 25, 25, 0.175);
+  transition: box-shadow 100ms;
+}
+.el-button:hover {
+  box-shadow: 4px 4px 0px #323232;
+}
 .el-dropdown {
   user-select: none;
   &-link {
@@ -80,8 +88,18 @@ div:focus, span:focus, a:focus, li:focus {
     padding: 0 18px;
   }
 }
-
 .el-message {
   user-select: none;
+}
+.el-tooltip__popper {
+  border-color: #666 !important;
+  color: var(--primary);
+  padding: 8px 12px 9px 12px;
+  user-select: none;
+  box-shadow: 2px 2px 6px rgba(23, 23, 23, 0.125);
+  border-radius: 0;
+ .popper__arrow {
+    border-bottom-color: #666 !important;
+  }
 }
 </style>
