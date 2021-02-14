@@ -22,7 +22,7 @@ export default {
       if (command === 'logout') {
         this.clearUserInfo();
         this.$router.replace('/portal');
-        this.$message.success('登出成功');
+        this.$message.success(this.$t('nav.logout.success'));
       }
     },
   },

@@ -42,10 +42,15 @@ import { mapMutations, mapState } from 'vuex';
 
 export default {
   props: {
-    tabId: String,
-    name: String,
-    path: String,
-    type: String,
+    tab: {
+      type: Object,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+      defaultValue: 'default',
+    },
   },
   computed: {
     ...mapState({
@@ -54,29 +59,32 @@ export default {
       cannotClose: (state) => state.nav.cannotClose,
     }),
     displayName() {
-      return this.$t(this.name);
+      return this.$t(this.tab.name);
     },
     tabSelected() {
-      return this.activatedTab === this.tabId;
+      return this.activatedTab === this.tab.id;
     },
   },
   methods: {
     ...mapMutations('nav', ['closeTab', 'setActivateTab']),
     handleTabClick() {
-      if (this.activatedTab !== this.tabId) {
-        this.setActivateTab(this.tabId);
-        this.$router.replace(`/app${this.path}`);
+      if (this.activatedTab !== this.tab.id) {
+        this.setActivateTab(this.tab.id);
+        this.$router.replace({
+          path: `/app${this.tab.path}`,
+          query: this.tab.query,
+        });
       }
     },
     async handleCloseClick() {
-      if (this.cannotClose[this.tabId]) {
+      if (this.cannotClose[this.tab.id]) {
         try {
-          await this.$confirm(this.cannotClose[this.tabId].msg);
+          await this.$confirm(this.cannotClose[this.tab.id].msg);
         } catch {
           return;
         }
       }
-      const idx = this.$store.getters['nav/getTabIdx'](this.tabId);
+      const idx = this.$store.getters['nav/getTabIdx'](this.tab.id);
       if (this.tabSelected) {
         const len = this.$store.state.nav.tabs.length;
         if (len === 1) {
@@ -96,9 +104,9 @@ export default {
       }
       this.closeTab({
         uid: this.uid,
-        id: this.tabId,
+        id: this.tab.id,
       });
-      this.$bus.$emit('tab-closed', this.path);
+      this.$bus.$emit('tab-closed', this.tab.path);
     },
     handleContextClick(name) {
       if (name === 'close') {

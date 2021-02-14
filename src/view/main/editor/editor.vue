@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import List from './components/list';
 import Monaco from './components/monaco';
 import apiBaseMap from './constants/ApiBaseMap.js';
@@ -32,10 +33,24 @@ export default {
       editItem: null,
     };
   },
-  async created() {
+  async mounted() {
     await this.initList();
+    // init selected item
+    if (this.$route.query.id) {
+      const { id } = this.$route.query;
+      const idx = this.list.findIndex((item) => `${item.id}` === id);
+      if (idx >= 0) {
+        this.editItem = this.list[idx];
+        this.$refs.list.setSelected(parseInt(id, 10));
+        this.setTabQuery({
+          path: this.$route.path,
+          query: this.$route.query,
+        });
+      }
+    }
   },
   methods: {
+    ...mapMutations('nav', ['setTabQuery']),
     async initList() {
       const res = await this.$nApi.get(`/${apiBaseMap[this.type]}/list`);
       if (!res) {
@@ -108,6 +123,15 @@ export default {
       }
       if (this.editItem.id === item.id) {
         this.editItem = null;
+      }
+      if (!this.list.length) {
+        this.router.replace({
+          query: null,
+        });
+        this.setTabQuery({
+          path: this.$route.path,
+          query: null,
+        });
       }
       this.$message.success('删除成功');
     },

@@ -2,15 +2,13 @@
   <div class="main">
     <div class="main-nav">
       <div class="nav-tabs nav-tabs-sys">
-        <Tab tabId="home" type="home" path="" />
+        <Tab :tab="homeTab" type="home" />
       </div>
       <div class="nav-tabs nav-tabs-user">
         <Tab
           v-for="tab in tabs"
           :key="tab.id"
-          :tabId="tab.id"
-          :name="tab.name"
-          :path="tab.path"
+          :tab="tab"
           type="default"
         />
       </div>
@@ -38,6 +36,14 @@ export default {
     Tab,
     NavUser,
     ServerStatus,
+  },
+  data() {
+    return {
+      homeTab: {
+        id: 'home',
+        path: '',
+      },
+    };
   },
   computed: {
     ...mapState({
@@ -98,7 +104,7 @@ export default {
       const res = await this.$nApi.get('/common/listPlugins');
       let pluginInfo = res.data.data?.packages;
       if (!pluginInfo) {
-        this.$message.error('获取系统插件信息失败');
+        this.$message.error(this.$t('home.pluginInfo.error'));
       }
       pluginInfo = pluginInfo.map((item) => ({
         ...ServiceMap[item],

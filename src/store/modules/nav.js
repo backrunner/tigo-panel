@@ -47,6 +47,14 @@ const mutations = {
     }
     state.cannotClose[state.tabs[idx].id] = status;
   },
+  setTabQuery(state, { path, query }) {
+    const childPath = path.replace('/app', '');
+    const idx = state.tabs.findIndex((item) => item.path === childPath);
+    if (idx < 0) {
+      return;
+    }
+    state.tabs[idx].query = query;
+  },
   recover(state, tabs) {
     state.tabs = tabs;
   },

@@ -67,7 +67,7 @@ div:focus, span:focus, a:focus, li:focus {
 .el-button {
   border-radius: 0 !important;
   box-shadow: 2px 2px 4px rgba(25, 25, 25, 0.175);
-  transition: box-shadow 100ms;
+  transition: box-shadow 200ms ease;
 }
 .el-button:hover {
   box-shadow: 4px 4px 0px #323232;

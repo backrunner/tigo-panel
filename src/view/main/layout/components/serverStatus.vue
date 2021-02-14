@@ -16,13 +16,13 @@ export default {
   watch: {
     heartbeat(newVal) {
       if (!newVal) {
-        this.$message.error('与服务器失去连接，请注意保存数据');
+        this.$message.error(this.$t('server.offline.tip'));
         this.alreadyLost = true;
       } else {
         // eslint-disable-next-line no-lonely-if
         if (this.alreadyLost) {
           this.alreadyLost = false;
-          this.$message.success('与服务器的连接已恢复');
+          this.$message.success(this.$t('server.reconnect.tip'));
         }
       }
     },

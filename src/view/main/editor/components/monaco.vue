@@ -102,6 +102,17 @@ export default {
         } else {
           this.content = '';
         }
+        if (this.$route.query?.id !== `${newItem.id}`) {
+          this.$router.replace({
+            query: {
+              id: newItem.id,
+            },
+          });
+          this.setTabQuery({
+            path: this.$route.path,
+            query: this.$route.query,
+          });
+        }
       },
     },
   },
@@ -156,7 +167,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations('nav', ['setCannotClose']),
+    ...mapMutations('nav', ['setCannotClose', 'setTabQuery']),
     validateContent() {
       if (this.type === 'lambda') {
         const testRes = lambdaTester.test(this.content);

@@ -85,7 +85,8 @@ router.beforeEach((to, from, next) => {
     router.replace({
       path: '/',
       query: {
-        to: to.path,
+        path: to.path,
+        q: JSON.stringify(to.query),
       },
     });
     return;

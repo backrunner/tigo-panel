@@ -21,7 +21,7 @@ export default {
     };
   },
   created() {
-    if (this.$route.query.to?.includes('/app') || this.$route.query.to?.includes('/portal')) {
+    if (this.$route.query.path?.includes('/app') || this.$route.query.path?.includes('/portal')) {
       this.show = false;
       this.showDelay = setTimeout(() => {
         this.show = true;
@@ -59,10 +59,17 @@ export default {
         return;
       }
       this.setServiceStatus(true);
-      if (this.$route.query.to) {
-        this.$router.replace(this.$route.query.to).catch(() => {
+      if (this.$route.query.path) {
+        let query = null;
+        if (this.$route.query.q) {
+          query = JSON.parse(this.$route.query.q);
+        }
+        this.$router.replace({
+          path: this.$route.query.path,
+          query,
+        }).catch(() => {
           // eslint-disable-next-line no-console
-          console.warn(`Cannot get into path ${this.$route.query.to}`);
+          console.warn(`Cannot get into path ${this.$route.query.path}`);
         });
       } else {
         this.$router.replace('/portal');
