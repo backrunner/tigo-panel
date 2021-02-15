@@ -106,7 +106,7 @@ export default {
         uid: this.uid,
         id: this.tab.id,
       });
-      this.$bus.$emit('tab-closed', this.tab.path);
+      this.$bus.$emit('nav.tab.closed', this.tab.path);
     },
     handleContextClick(name) {
       if (name === 'close') {

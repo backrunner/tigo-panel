@@ -15,8 +15,16 @@
       :content="$t('editor.name.edit')"
       placement="bottom"
     >
-      <i class="el-icon-edit-outline" @click="handleEditClick" v-show="!editable"></i>
+      <i class="el-icon-edit" @click="handleEditClick" v-show="showDefaultIcons"></i>
     </el-tooltip>
+    <el-dropdown @command="handleMenuCommand" size="small" placement="bottom" trigger="click">
+      <i class="el-icon-more el-dropdown-link" v-show="showDefaultIcons && showMore"></i>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="env" v-if="editorType === 'lambda'">{{
+          $t('editor.env.title')
+        }}</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
     <el-tooltip
       class="item"
       effect="light"
@@ -46,12 +54,21 @@ export default {
       required: true,
       default: '',
     },
+    editorType: String,
   },
   data() {
     return {
       editable: false,
       originName: false,
     };
+  },
+  computed: {
+    showDefaultIcons() {
+      return !this.editable;
+    },
+    showMore() {
+      return this.editorType === 'lambda';
+    },
   },
   methods: {
     handleEditClick() {
@@ -72,6 +89,11 @@ export default {
     handleCancelClick() {
       this.$refs.name.innerText = this.name;
       this.editable = false;
+    },
+    handleMenuCommand(cmd) {
+      if (cmd === 'env') {
+        this.$parent.$parent.openScriptEnv();
+      }
     },
     setEditable(status) {
       this.editable = status;

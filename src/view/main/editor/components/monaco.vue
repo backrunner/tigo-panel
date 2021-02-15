@@ -1,7 +1,7 @@
 <template>
   <div class="monaco" v-if="item">
     <div class="monaco-header">
-      <HeaderName ref="headerName" :name="displayName" @edit="handleNameEdit" />
+      <HeaderName ref="headerName" :editorType="type" :name="displayName" @edit="handleNameEdit" />
       <div class="monaco-header__ctrl">
         <DraftTip :time="displayDraftSaveTime" v-if="!!displayDraftSaveTime" />
         <TypeSelector
@@ -349,6 +349,12 @@ export default {
         br {
           display: none;
         }
+      }
+      .el-dropdown {
+        color: var(--primary);
+      }
+      .el-dropdown:hover {
+        color: var(--regular-text);
       }
       i {
         cursor: pointer;

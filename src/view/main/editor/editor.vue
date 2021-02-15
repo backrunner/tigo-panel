@@ -7,6 +7,7 @@
       <Monaco ref="monaco" :item="editItem" :type="type" />
     </div>
     <div class="clearfix"></div>
+    <ScriptEnv ref="scriptEnv" :scriptId="scriptEnvItemId" v-if="renderScriptEnv" />
     <ContextMenu ref="listContextMenu" @item-clicked="handleListContextClick">
       <ContextMenuItem name="refresh">刷新列表</ContextMenuItem>
     </ContextMenu>
@@ -17,6 +18,7 @@
 import { mapMutations } from 'vuex';
 import List from './components/list';
 import Monaco from './components/monaco';
+import ScriptEnv from './components/scriptEnv';
 import apiBaseMap from './constants/ApiBaseMap.js';
 
 export default {
@@ -26,6 +28,15 @@ export default {
   components: {
     List,
     Monaco,
+    ScriptEnv,
+  },
+  computed: {
+    renderScriptEnv() {
+      return this.type === 'lambda';
+    },
+    scriptEnvItemId() {
+      return this.editItem?.id;
+    },
   },
   data() {
     return {
@@ -154,6 +165,10 @@ export default {
           this.$refs.list.setSelected(null);
         }
       }
+    },
+    // script env
+    openScriptEnv() {
+      this.$refs.scriptEnv.open();
     },
   },
 };

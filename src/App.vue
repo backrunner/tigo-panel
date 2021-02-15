@@ -72,6 +72,12 @@ div:focus, span:focus, a:focus, li:focus {
 .el-button:hover {
   box-shadow: 4px 4px 0px #323232;
 }
+.el-button--text {
+  box-shadow: none;
+}
+.el-button--text:hover {
+  box-shadow: none;
+}
 .el-dropdown {
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
   user-select: none;
@@ -90,6 +96,9 @@ div:focus, span:focus, a:focus, li:focus {
     padding: 0 18px;
   }
 }
+.el-dropdown-menu--small {
+  padding: 4px 0;
+}
 .el-input__inner {
   border-radius: 0;
   transition: box-shadow 200ms ease;
@@ -103,6 +112,10 @@ div:focus, span:focus, a:focus, li:focus {
 .el-message {
   user-select: none;
 }
+.el-popper {
+  border-radius: 0;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
 .el-tooltip__popper {
   border-color: #666 !important;
   color: var(--primary);
@@ -112,6 +125,32 @@ div:focus, span:focus, a:focus, li:focus {
   border-radius: 0;
  .popper__arrow {
     border-bottom-color: #666 !important;
+  }
+}
+.el-drawer__wrapper {
+  position: absolute;
+  .el-drawer__container {
+    background: rgba(28, 28, 28, 0.75);
+  }
+  .el-drawer {
+    &__header {
+      padding: 18px 24px;
+      margin-bottom: 0;
+      .el-drawer__close-btn {
+        transform: translateX(10px);
+      }
+    }
+    &__body {
+      padding: 8px 24px;
+    }
+  }
+}
+.el-form--inline {
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+  .el-form-item:last-child {
+    margin-right: 0;
   }
 }
 </style>

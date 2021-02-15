@@ -7,10 +7,10 @@
 <script>
 export default {
   created() {
-    this.$bus.$on('tab-closed', this.tabCloseHandler);
+    this.$bus.$on('nav.tab.closed', this.tabCloseHandler);
   },
   beforeDestroy() {
-    this.$bus.$off('tab-closed', this.tabCloseHandler);
+    this.$bus.$off('nav.tab.closed', this.tabCloseHandler);
   },
   mounted() {
     this.path = this.$route.path.replace('/app', '');
