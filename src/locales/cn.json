@@ -20,6 +20,7 @@
   "server.offline": "连接中断",
   "server.offline.tip": "与服务器失去连接，请注意保存数据",
   "server.reconnect.tip": "与服务器的连接已恢复",
+  "server.connectionLost": "与服务器的连接中断，无法提供服务",
   "home": "控制台",
   "home.services": "可用服务",
   "home.user": "用户 API 信息",

@@ -18,6 +18,7 @@ export default {
   computed: {
     ...mapState({
       uid: (state) => state.auth.uid,
+      heartbeatStatus: (state) => state.service.heartbeat,
     }),
     displayName() {
       return this.$t(this.name);
@@ -26,6 +27,10 @@ export default {
   methods: {
     ...mapMutations('nav', ['openTab']),
     handleClick() {
+      if (!this.heartbeatStatus) {
+        this.$message.error(this.$t('server.connectionLost'));
+        return;
+      }
       this.openTab({
         uid: this.uid,
         name: this.name,
