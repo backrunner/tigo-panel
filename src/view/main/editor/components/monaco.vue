@@ -1,7 +1,13 @@
 <template>
   <div class="monaco" v-if="item">
     <div class="monaco-header">
-      <HeaderName ref="headerName" :editorType="type" :name="displayName" @edit="handleNameEdit" />
+      <HeaderName
+        ref="headerName"
+        :scriptId="item.id"
+        :editorType="type"
+        :name="displayName"
+        @edit="handleNameEdit"
+      />
       <div class="monaco-header__ctrl">
         <DraftTip :time="displayDraftSaveTime" v-if="!!displayDraftSaveTime" />
         <TypeSelector
@@ -62,7 +68,7 @@ import Base64 from 'crypto-js/enc-base64';
 import moment from 'moment';
 import apiBaseMap from '../constants/ApiBaseMap';
 import { getTabPath } from '@/utils/path';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import { lambdaTester } from '../constants/TestPattern';
 
 const DRAFT_SAVE_TIMEOUT = 500;
@@ -117,6 +123,9 @@ export default {
     },
   },
   computed: {
+    ...mapState({
+      userScopeId: (state) => state.auth.scopeId,
+    }),
     isNew() {
       return `${this.item.id}`.startsWith('new');
     },
@@ -322,6 +331,25 @@ export default {
       clearTimeout(this.draftSaveTimeout[id]);
       this.draftSaveTimeout[id] = null;
     },
+    copyUrl() {
+      const basePath = `http${this.$siteConfig.https ? 's' : ''}://${this.$siteConfig.host}`;
+      try {
+        const path = `${basePath}/${this.type}/${this.userScopeId}/${this.item.name}`;
+        window.navigator.clipboard.writeText(path);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to copy url', err);
+        this.$message.error(this.$t('editor.name.copy.failed'));
+        return;
+      }
+      this.$message.success(this.$t('editor.name.copy.success'));
+    },
+    openConfig() {
+      const basePath = `http${this.$siteConfig.https ? 's' : ''}://${this.$siteConfig.host}`;
+      const path = `${basePath}/config/${this.userScopeId}/${this.item.name}`;
+      window.open(path, '_blank');
+    },
+    openDebug() {},
   },
 };
 </script>

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 
 import './utils/extend';
+import config from './config';
 import { tApi, nApi } from './utils/request';
 
 import store from './store';
@@ -20,6 +21,8 @@ Vue.use(VueContextMenu, {
   useItem: true,
   mobileSupport: false,
 });
+
+Vue.prototype.$siteConfig = config;
 
 Vue.prototype.$tApi = tApi;
 Vue.prototype.$nApi = nApi;
