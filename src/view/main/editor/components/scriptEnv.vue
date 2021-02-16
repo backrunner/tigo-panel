@@ -23,7 +23,7 @@
       <el-table class="senv-body__table" :data="data">
         <el-table-column prop="key" label="Key"> </el-table-column>
         <el-table-column prop="value" label="Value"> </el-table-column>
-        <el-table-column fixed="right" prop="address" :label="$t('editor.env.op')">
+        <el-table-column :label="$t('editor.env.op')" width="120">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="handleEditClick(scope.row)">{{
               $t('editor.env.edit')
