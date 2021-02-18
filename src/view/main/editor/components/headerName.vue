@@ -121,7 +121,7 @@ export default {
       }
     },
     handleDebugClick() {
-      this.$parent.copyDebug();
+      this.$parent.openDebug();
     },
     handleConfirmClick() {
       const newName = this.$refs.name.innerText.trim();

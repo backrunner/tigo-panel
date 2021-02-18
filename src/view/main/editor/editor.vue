@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div class="page-main editor">
     <div class="editor-list-wrapper" v-context="'listContextMenu'">
       <List ref="list" :list="list" :type="type" @new="handleCreateNew" />
     </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import List from './components/list';
 import Monaco from './components/monaco';
 import ScriptEnv from './components/scriptEnv';
@@ -31,6 +31,9 @@ export default {
     ScriptEnv,
   },
   computed: {
+    ...mapState({
+      userId: (state) => state.auth.uid,
+    }),
     renderScriptEnv() {
       return this.type === 'lambda';
     },
@@ -61,7 +64,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('nav', ['setTabQuery']),
+    ...mapMutations('nav', ['openTab', 'setTabQuery']),
     async initList() {
       const res = await this.$nApi.get(`/${apiBaseMap[this.type]}/list`);
       if (!res) {
@@ -170,17 +173,25 @@ export default {
     openScriptEnv() {
       this.$refs.scriptEnv.open();
     },
+    openDebug() {
+      this.openTab({
+        uid: this.userId,
+        name: this.$t('debugger'),
+        path: '/lambda-debugger',
+      });
+      this.$router.replace({
+        path: '/app/lambda-debugger',
+        query: {
+          scriptName: this.editItem.name,
+        },
+      });
+    },
   },
 };
 </script>
 
 <style lang="less">
 .editor {
-  width: 100%;
-  height: 100%;
-  background: #282828;
-  box-shadow: 8px 8px 0px rgba(255, 255, 255, 0.025);
-  position: relative;
   &-list-wrapper {
     position: relative;
     width: 260px;

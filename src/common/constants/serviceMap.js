@@ -1,9 +1,9 @@
 export default {
-  '@tigo/faas': {
+  '@tigojs/faas': {
     name: 'lambda',
     path: '/lambda',
   },
-  '@tigo/config-storage': {
+  '@tigojs/cfs': {
     name: 'cfs',
     path: '/cfs',
   },

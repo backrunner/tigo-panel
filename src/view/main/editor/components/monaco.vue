@@ -200,7 +200,7 @@ export default {
         let res;
         // add
         if (this.type === 'cfs') {
-          res = await this.$nApi.post('/config-storage/save', {
+          res = await this.$nApi.post('/cfs/save', {
             action: 'add',
             content: Base64.stringify(Utf8.parse(this.content)),
             name: this.item.name,
@@ -227,7 +227,7 @@ export default {
         // eslint-disable-next-line no-lonely-if
         let res;
         if (this.type === 'cfs') {
-          res = await this.$nApi.post('/config-storage/save', {
+          res = await this.$nApi.post('/cfs/save', {
             action: 'edit',
             id: this.item.id,
             content: Base64.stringify(Utf8.parse(this.content)),

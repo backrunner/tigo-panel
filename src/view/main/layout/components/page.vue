@@ -29,5 +29,12 @@ export default {
 .page {
   padding: 18px;
   position: relative;
+  &-main {
+    width: 100%;
+    height: 100%;
+    background: #282828;
+    box-shadow: 8px 8px 0px rgba(255, 255, 255, 0.025);
+    position: relative;
+  }
 }
 </style>

@@ -1,4 +1,4 @@
 export default {
-  cfs: 'config-storage',
+  cfs: 'cfs',
   lambda: 'faas',
 };
