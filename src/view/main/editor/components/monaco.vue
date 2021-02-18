@@ -124,6 +124,7 @@ export default {
   },
   computed: {
     ...mapState({
+      userId: (state) => state.auth.uid,
       userScopeId: (state) => state.auth.scopeId,
     }),
     isNew() {
@@ -176,7 +177,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations('nav', ['setCannotClose', 'setTabQuery']),
+    ...mapMutations('nav', ['openTab', 'setCannotClose', 'setTabQuery']),
     validateContent() {
       if (this.type === 'lambda') {
         const testRes = lambdaTester.test(this.content);
@@ -349,7 +350,19 @@ export default {
       const path = `${basePath}/config/${this.userScopeId}/${this.item.name}`;
       window.open(path, '_blank');
     },
-    openDebug() {},
+    openDebug() {
+      this.openTab({
+        uid: this.userId,
+        name: this.$t('debugger'),
+        path: '/lambda-debugger',
+      });
+      this.$router.replace({
+        path: '/app/lambda-debugger',
+        query: {
+          scriptName: this.item.name,
+        },
+      });
+    },
   },
 };
 </script>
@@ -422,9 +435,6 @@ export default {
       width: 100%;
       height: 100%;
       box-shadow: 4px 4px 8px rgba(25, 25, 25, 0.25);
-    }
-    .el-loading-mask {
-      background-color: rgba(25, 25, 25, 0.9);
     }
     &-failed {
       position: absolute;

@@ -1,6 +1,6 @@
 <template>
   <span class="draft-tip">
-    {{`${$t('draft.save.at')} ${time}`}}
+    {{`${$t('editor.draft.save.at')} ${time}`}}
   </span>
 </template>
 

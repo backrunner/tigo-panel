@@ -35,6 +35,7 @@ export default {
     background: #282828;
     box-shadow: 8px 8px 0px rgba(255, 255, 255, 0.025);
     position: relative;
+    box-sizing: border-box;
   }
 }
 </style>

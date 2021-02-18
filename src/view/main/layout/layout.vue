@@ -123,6 +123,7 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
   &-nav {
     width: 100%;
     height: 40px;
@@ -144,6 +145,8 @@ export default {
   }
   &-container {
     width: 100%;
+    height: calc(100% - 43px);
+    max-height: calc(100% - 43px);
     position: relative;
     flex: 1;
     .page {

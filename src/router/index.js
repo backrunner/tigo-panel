@@ -55,7 +55,7 @@ const routes = [
       },
       {
         path: 'lambda-debugger',
-        component: () => import(/* webpackChunkName: "app.lambda.debugger") */ '@/view/main/lambda/debugger.vue'),
+        component: () => import(/* webpackChunkName: "app.lambda.debugger" */ '@/view/main/lambda/debugger.vue'),
         meta: {
           title: i18n.t('debugger'),
         },

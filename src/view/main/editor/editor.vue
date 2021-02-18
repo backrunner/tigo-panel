@@ -1,5 +1,5 @@
 <template>
-  <div class="page-main editor">
+  <div class="page-main editor" v-loading="dataLoading">
     <div class="editor-list-wrapper" v-context="'listContextMenu'">
       <List ref="list" :list="list" :type="type" @new="handleCreateNew" />
     </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations } from 'vuex';
 import List from './components/list';
 import Monaco from './components/monaco';
 import ScriptEnv from './components/scriptEnv';
@@ -31,9 +31,6 @@ export default {
     ScriptEnv,
   },
   computed: {
-    ...mapState({
-      userId: (state) => state.auth.uid,
-    }),
     renderScriptEnv() {
       return this.type === 'lambda';
     },
@@ -45,6 +42,7 @@ export default {
     return {
       list: [],
       editItem: null,
+      dataLoading: false,
     };
   },
   async mounted() {
@@ -64,14 +62,17 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('nav', ['openTab', 'setTabQuery']),
+    ...mapMutations('nav', ['setTabQuery']),
     async initList() {
+      this.dataLoading = true;
       const res = await this.$nApi.get(`/${apiBaseMap[this.type]}/list`);
       if (!res) {
         this.$message.error(this.$t('editor.list.failed'));
+        this.dataLoading = false;
         return;
       }
       this.list = res.data.data || [];
+      this.dataLoading = false;
     },
     setEditItem(item) {
       this.editItem = item;
@@ -172,19 +173,6 @@ export default {
     // script env
     openScriptEnv() {
       this.$refs.scriptEnv.open();
-    },
-    openDebug() {
-      this.openTab({
-        uid: this.userId,
-        name: this.$t('debugger'),
-        path: '/lambda-debugger',
-      });
-      this.$router.replace({
-        path: '/app/lambda-debugger',
-        query: {
-          scriptName: this.editItem.name,
-        },
-      });
     },
   },
 };

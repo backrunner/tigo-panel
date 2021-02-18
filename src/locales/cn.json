@@ -58,6 +58,10 @@
   "editor.env.fetchFailed": "环境变量数据获取失败",
   "editor.env.duplicated": "请勿添加重复的Key",
   "editor.env.addSuccess": "添加成功",
-  "draft.save.at": "保存于",
+  "editor.draft.save.at": "保存于",
+  "debugger": "函数调试器",
+  "debugger.history.title": "历史记录",
+  "debugger.history.empty": "暂无历史记录",
+  "debugger.sender.add": "添加",
   "keymanage": "密钥管理"
 }

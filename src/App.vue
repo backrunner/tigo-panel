@@ -99,12 +99,27 @@ div:focus, span:focus, a:focus, li:focus {
 .el-dropdown-menu--small {
   padding: 4px 0;
 }
+.el-input-group__prepend {
+  border-radius: 0;
+  padding: 0 14px;
+}
 .el-input__inner {
   border-radius: 0;
   transition: box-shadow 200ms ease;
 }
 .el-input__inner:focus {
   box-shadow: 4px 4px 0px #333;
+}
+.el-input--small {
+  .el-input__inner {
+    padding-left: 12px;
+    line-height: 28px;
+  }
+}
+.el-input--mini {
+  .el-input__inner {
+    padding: 0 10px;
+  }
 }
 .el-checkbox__inner {
   border-radius: 0;
@@ -152,5 +167,8 @@ div:focus, span:focus, a:focus, li:focus {
   .el-form-item:last-child {
     margin-right: 0;
   }
+}
+.el-loading-mask {
+  background-color: rgba(25, 25, 25, 0.75) !important;
 }
 </style>
