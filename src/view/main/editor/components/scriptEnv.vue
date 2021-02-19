@@ -20,7 +20,7 @@
       </el-form-item>
     </el-form>
     <div class="senv-body">
-      <el-table class="senv-body__table" :data="data">
+      <el-table class="senv-body__table" :data="data" height="100%">
         <el-table-column prop="key" label="Key"> </el-table-column>
         <el-table-column prop="value" label="Value"> </el-table-column>
         <el-table-column :label="$t('editor.env.op')" width="120">
@@ -141,6 +141,11 @@ export default {
 </script>
 
 <style lang="less">
+.senv {
+  .el-drawer__body {
+    max-height: calc(100% - 61px);
+  }
+}
 .senv-header {
   display: flex;
   .el-form-item {
@@ -156,7 +161,10 @@ export default {
   }
 }
 .senv-body {
-  .el-table {
+  height: calc(100% - 56px);
+  max-height: calc(100% - 56px);
+  position: relative;
+  .senv-body__table {
     .cell {
       .el-button {
         margin-right: 8px;
@@ -164,6 +172,12 @@ export default {
       .el-button:last-child {
         margin-right: 0;
       }
+    }
+    .el-table__body-wrapper::-webkit-scrollbar-track {
+      background-color: #2e2e2e;
+    }
+    .el-table__body-wrapper::-webkit-scrollbar-corner {
+      background-color: #2e2e2e;
     }
   }
 }

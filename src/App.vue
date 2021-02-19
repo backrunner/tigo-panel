@@ -77,6 +77,24 @@ li:focus {
   background-color: #282828;
 }
 
+.el-table__body-wrapper::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.el-table__body-wrapper::-webkit-scrollbar-thumb {
+  width: 4px;
+  background-color: var(--primary);
+}
+.el-table__body-wrapper::-webkit-scrollbar-button {
+  display: none;
+}
+.el-table__body-wrapper::-webkit-scrollbar-track {
+  margin-left: 4px;
+  background-color: #282828;
+}
+.el-table__body-wrapper::-webkit-scrollbar-corner {
+  background-color: #282828;
+}
 // context
 
 .context-menu {
@@ -207,6 +225,8 @@ li:focus {
     }
     &__body {
       padding: 8px 24px;
+      box-sizing: border-box;
+      position: relative;
     }
   }
 }
