@@ -2,7 +2,8 @@ import Vue from 'vue';
 
 import './utils/extend';
 import config from './config';
-import { tApi, nApi } from './utils/request';
+import { tApi, nApi, pApi } from './utils/request';
+import idb from './utils/db';
 
 import store from './store';
 import router from './router';
@@ -24,8 +25,11 @@ Vue.use(VueContextMenu, {
 
 Vue.prototype.$siteConfig = config;
 
+Vue.prototype.$idb = idb;
+
 Vue.prototype.$tApi = tApi;
 Vue.prototype.$nApi = nApi;
+Vue.prototype.$pApi = pApi;
 
 Vue.prototype.$bus = new Vue();
 

@@ -15,9 +15,9 @@ const requestConfig = {
 // internal api without auth
 const tApi = axios.create(requestConfig);
 // internal api with auth
-const nApi = axios.create({
-  ...requestConfig,
-});
+const nApi = axios.create(requestConfig);
+// internal api without res interceptor
+const pApi = axios.create(requestConfig);
 
 const errorHandler = (err) => {
   const message = err?.response?.data?.message;
@@ -28,19 +28,21 @@ const errorHandler = (err) => {
   return Promise.resolve(null);
 };
 
+const authInteceptor = (config) => {
+  // eslint-disable-next-line no-param-reassign
+  config.headers = {
+    Authorization: `Bearer ${store.state.auth.token}`,
+  };
+  return config;
+};
+
 tApi.interceptors.response.use((res) => {
   return res;
 }, (err) => {
   return errorHandler(err);
 });
 
-nApi.interceptors.request.use((config) => {
-  // eslint-disable-next-line no-param-reassign
-  config.headers = {
-    Authorization: `Bearer ${store.state.auth.token}`,
-  };
-  return config;
-});
+nApi.interceptors.request.use(authInteceptor);
 
 nApi.interceptors.response.use((res) => {
   return res;
@@ -51,7 +53,10 @@ nApi.interceptors.response.use((res) => {
   return errorHandler(err);
 });
 
+pApi.interceptors.request.use(authInteceptor);
+
 export {
   tApi,
   nApi,
+  pApi,
 };

@@ -15,16 +15,63 @@ export default {
 <style lang="less">
 // transition
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 125ms;
 }
-.fade-enter, .fade-leave {
+.fade-enter,
+.fade-leave {
   opacity: 0;
 }
 
 // basic
-div:focus, span:focus, a:focus, li:focus {
+div:focus,
+span:focus,
+a:focus,
+li:focus {
   outline-width: 0;
+}
+
+.c-scroll::-webkit-scrollbar {
+  width: 16px;
+  left: -100px;
+}
+.c-scroll::-webkit-scrollbar-thumb {
+  width: 4px;
+  border-right: 4px var(--primary) solid;
+}
+.c-scroll::-webkit-scrollbar-button {
+  display: none;
+}
+.c-scroll::-webkit-scrollbar-track {
+  margin-left: 4px;
+  background-color: #282828;
+}
+.c-scroll::-webkit-scrollbar-corner {
+  background-color: #282828;
+}
+
+.c-scroll__small::-webkit-scrollbar {
+  width: 10px;
+}
+
+.n-scroll::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.n-scroll::-webkit-scrollbar-thumb {
+  width: 4px;
+  background-color: var(--primary);
+}
+.n-scroll::-webkit-scrollbar-button {
+  display: none;
+}
+.n-scroll::-webkit-scrollbar-track {
+  margin-left: 4px;
+  background-color: #282828;
+}
+.n-scroll::-webkit-scrollbar-corner {
+  background-color: #282828;
 }
 
 // context
@@ -138,7 +185,7 @@ div:focus, span:focus, a:focus, li:focus {
   user-select: none;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 0;
- .popper__arrow {
+  .popper__arrow {
     border-bottom-color: #666 !important;
   }
 }
