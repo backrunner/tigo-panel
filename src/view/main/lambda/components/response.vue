@@ -56,7 +56,7 @@ export default {
       return this.status !== 200 && (`${this.status}`.startsWith('20') || `${this.status}`.startsWith('30'));
     },
     resError() {
-      return !`${status}`.startsWith('20');
+      return !`${this.status}`.startsWith('20');
     },
   },
   methods: {
