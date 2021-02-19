@@ -3,11 +3,17 @@
     <div class="debugger-history__header">
       <span>{{ $t('debugger.history.title') }}</span>
     </div>
-    <div class="debugger-history__body">
-      <div class="history-list">
-        <HistoryItem v-for="item in history" :key="item.id" :item="item" />
+    <div class="c-scroll debugger-history__body">
+      <div class="history-list" v-if="!showEmpty">
+        <HistoryItem
+          v-for="item in history"
+          :key="item.rt"
+          :item="item"
+          :selected="selected"
+          @click="itemClicked"
+        />
       </div>
-      <div class="history-empty">
+      <div class="history-empty" v-if="showEmpty">
         <span>{{ $t('debugger.history.empty') }}</span>
       </div>
     </div>
@@ -27,6 +33,25 @@ export default {
   components: {
     HistoryItem,
   },
+  data() {
+    return {
+      selected: null,
+    };
+  },
+  computed: {
+    showEmpty() {
+      return !this.history || !this.history.length;
+    },
+  },
+  methods: {
+    setSelected(rt) {
+      this.selected = rt;
+    },
+    itemClicked(item) {
+      this.selected = item.rt;
+      this.$emit('select', item);
+    },
+  },
 };
 </script>
 
@@ -37,10 +62,14 @@ export default {
     color: var(--primary);
     font-size: 14px;
     user-select: none;
+    border-bottom: 1px solid #363636;
   }
   &__body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: calc(100% - 48px);
     .history-empty {
-      margin-top: 4px;
+      margin-top: 16px;
       font-size: 12px;
       text-align: center;
       color: var(--primary);
