@@ -114,7 +114,7 @@ export default {
   methods: {
     ...mapMutations('service', ['setHeartbeat', 'setPluginInfo']),
     ...mapMutations('auth', ['clearAuthInfo']),
-    ...mapMutations('nav', ['setActivateTab', 'recover']),
+    ...mapMutations('nav', ['openTab', 'setActivateTab', 'recover']),
     async getPluginInfo() {
       const res = await this.$nApi.get('/common/listPlugins');
       let pluginInfo = res.data.data?.packages;
