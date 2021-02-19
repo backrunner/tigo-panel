@@ -16,7 +16,7 @@
             :key="service.name"
             :name="service.name"
             :path="service.path"
-            />
+          />
         </el-row>
       </Card>
       <Card class="home-user" :title="$t('home.user')">
@@ -28,7 +28,7 @@
 
 <script>
 import moment from 'moment';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import ServiceMap from '@/common/constants/serviceMap';
 import Card from './components/card';
 import ServiceItem from './components/service';
@@ -44,10 +44,10 @@ export default {
   },
   watch: {
     locale() {
-      this.pluginInfo = this.pluginInfo.map((item) => ({
+      this.setPluginInfo(this.pluginInfo.map((item) => ({
         ...item,
         name: ServiceMap[item.package].name,
-      }));
+      })));
     },
   },
   computed: {
@@ -77,6 +77,9 @@ export default {
         return `Welcome, ${this.username}.`;
       }
     },
+  },
+  methods: {
+    ...mapMutations('service', ['setPluginInfo']),
   },
 };
 </script>

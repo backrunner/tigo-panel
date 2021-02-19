@@ -1,6 +1,12 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-shadow */
+const storeKey = 'selected-locale';
+
 const initLocale = () => {
+  const stored = window.localStorage.getItem(storeKey);
+  if (stored) {
+    return stored;
+  }
   if (navigator.language === 'zh-CN') {
     return 'cn';
   } else {
@@ -21,6 +27,7 @@ const mutations = {
     } else {
       state.locale = locale;
     }
+    window.localStorage.setItem(storeKey, locale);
   },
 };
 

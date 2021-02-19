@@ -353,7 +353,7 @@ export default {
     openDebug() {
       this.openTab({
         uid: this.userId,
-        name: this.$t('debugger'),
+        name: 'debugger',
         path: '/lambda-debugger',
       });
       this.$router.replace({

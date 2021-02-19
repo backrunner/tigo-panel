@@ -67,6 +67,13 @@ const routes = [
           title: i18n.t('cfs'),
         },
       },
+      {
+        path: 'keymanage',
+        component: () => import(/* webpackChunkName: "app.keymanage" */ '@/view/keymanage/keymanage.vue'),
+        meta: {
+          title: i18n.t('keymanage'),
+        },
+      },
     ],
   },
   {
