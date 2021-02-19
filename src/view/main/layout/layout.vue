@@ -30,6 +30,7 @@ import ServerStatus from './components/serverStatus';
 import NavUser from './components/userInfo';
 import { checkAuthStatus } from '@/utils/auth';
 import ServiceMap from '@/common/constants/serviceMap';
+import PathNameMap from '@/common/constants/pathNameMap';
 
 export default {
   components: {
@@ -65,6 +66,20 @@ export default {
     const storedNav = window.localStorage.getItem('nav');
     if (storedNav) {
       if (storedNav.uid === this.uid) {
+        const path = this.$route.path.replace('/app', '');
+        let found = false;
+        storedNav.tabs.forEach((tab) => {
+          if (tab.path === path) {
+            found = true;
+          }
+        });
+        if (!found) {
+          this.openTab({
+            uid: this.uid,
+            path,
+            name: PathNameMap[path],
+          });
+        }
         this.recover(storedNav.tabs);
       } else {
         window.localStorage.removeItem('nav');
