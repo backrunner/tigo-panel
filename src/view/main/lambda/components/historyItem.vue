@@ -10,8 +10,9 @@
       <span
         :class="{
           'history-status': true,
-          'history-status__success': reqSuccess,
-          'history-status__error': !reqSuccess,
+          'history-status--success': reqSuccess,
+          'history-status--warn': reqWarn,
+          'history-status--error': reqError,
         }"
         >{{ status }}</span
       >
@@ -44,6 +45,20 @@ export default {
     reqSuccess() {
       return this.item?.res?.status === 200;
     },
+    reqWarn() {
+      const status = this.item?.res?.status;
+      if (!status) {
+        return false;
+      }
+      return status !== 200 && (`${status}`.startsWith('20') || `${status}`.startsWith('30'));
+    },
+    reqError() {
+      const status = this.item?.res?.status;
+      if (!status) {
+        return false;
+      }
+      return !`${status}`.startsWith('20');
+    },
   },
   methods: {
     handleClick() {
@@ -70,10 +85,13 @@ export default {
       color: #2e2e2e;
       margin-right: 6px;
     }
-    .history-status__success {
+    .history-status--success {
       background-color: #6fbb49;
     }
-    .history-status__error {
+    .history-status--warn {
+      background-color: #F1AA3E;
+    }
+    .history-status--error {
       background-color: #eb5f5f;
     }
   }

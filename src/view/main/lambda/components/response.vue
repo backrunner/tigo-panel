@@ -5,8 +5,9 @@
       <span
         :class="{
           'response-status': true,
-          'response-status__success': status === 200,
-          'response-status__error': status !== 200,
+          'response-status--success': resSuccess,
+          'response-status--warn': resWarn,
+          'response-status--error': resError,
         }"
         v-if="response"
         >{{ status }}</span
@@ -48,6 +49,15 @@ export default {
       }
       return this.response.status;
     },
+    resSuccess() {
+      return this.status === 200;
+    },
+    resWarn() {
+      return this.status !== 200 && (`${this.status}`.startsWith('20') || `${this.status}`.startsWith('30'));
+    },
+    resError() {
+      return !`${status}`.startsWith('20');
+    },
   },
   methods: {
     setResponse(res) {
@@ -68,11 +78,14 @@ export default {
       color: #282828;
       margin-left: 12px;
     }
-    .response-status__success {
-      background-color: #6FBB49;
+    .response-status--success {
+      background-color: #6fbb49;
     }
-    .response-status__error {
-      background-color: #EB5F5F;
+    .response-status--warn {
+      background-color: #F1AA3E;
+    }
+    .response-status--error {
+      background-color: #eb5f5f;
     }
   }
   &__body {
