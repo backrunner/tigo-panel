@@ -241,4 +241,12 @@ li:focus {
 .el-loading-mask {
   background-color: rgba(25, 25, 25, 0.75) !important;
 }
+.el-message-box {
+  border-radius: 0;
+  border: 1px solid #282828;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.v-modal {
+  background: #080808 !important;
+}
 </style>

@@ -2,6 +2,10 @@
   <div class="debugger-history">
     <div class="debugger-history__header">
       <span>{{ $t('debugger.history.title') }}</span>
+      <i
+        class="el-icon-delete-solid"
+        @click="clearHistory"
+      ></i>
     </div>
     <div class="n-scroll debugger-history__body">
       <div class="history-list" v-if="!showEmpty">
@@ -21,6 +25,7 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
 import HistoryItem from './historyItem';
 
 export default {
@@ -39,17 +44,29 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      uid: (state) => state.auth.uid,
+    }),
     showEmpty() {
       return !this.history || !this.history.length;
     },
   },
   methods: {
+    ...mapMutations('debug', ['setHistory']),
     setSelected(rt) {
       this.selected = rt;
     },
     itemClicked(item) {
       this.selected = item.rt;
       this.$emit('select', item);
+    },
+    clearHistory() {
+      this.$confirm(this.$t('debugger.history.clear.confirm'))
+        .then(async () => {
+          this.setHistory([]);
+          await this.$idb.del(`debug-history-${this.uid}`);
+        })
+        .catch(() => {});
     },
   },
 };
@@ -63,6 +80,19 @@ export default {
     font-size: 14px;
     user-select: none;
     border-bottom: 1px solid #363636;
+    display: flex;
+    align-items: center;
+    span {
+      flex: 1;
+    }
+    i {
+      transition: color 100ms ease;
+      justify-self: flex-end;
+    }
+    i:hover {
+      cursor: pointer;
+      color: var(--regular-text);
+    }
   }
   &__body {
     overflow-x: hidden;
