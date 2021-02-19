@@ -260,6 +260,9 @@ li:focus {
     }
   }
 }
+.el-table__empty-block {
+  user-select: none;
+}
 .v-modal {
   background: #080808 !important;
 }
