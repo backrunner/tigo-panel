@@ -61,7 +61,7 @@ export default {
       this.$emit('select', item);
     },
     clearHistory() {
-      this.$confirm(this.$t('debugger.history.clear.confirm'))
+      this.$confirm(this.$t('debugger.history.clear.confirm'), this.$t('confirm'))
         .then(async () => {
           this.setHistory([]);
           await this.$idb.del(`debug-history-${this.uid}`);

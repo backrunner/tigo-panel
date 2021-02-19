@@ -66,5 +66,6 @@
   "debugger.sender.add": "Add",
   "debugger.sender.pathInvalid": "Please fill in the path",
   "debugger.history.clear.confirm": "Are you sure to clear history?",
-  "keymanage": "Key Management"
+  "keymanage": "Key Management",
+  "confirm": "Confirm"
 }

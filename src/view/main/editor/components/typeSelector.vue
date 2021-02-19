@@ -40,11 +40,12 @@ export default {
         if (this.isNew) {
           this.$emit('change', val);
         } else {
-          this.$confirm(`${this.$t('editor.confirm.changeType')} [${val}] ${this.$t('editor.confirm.changeType.end')}`)
-            .then(() => {
-              this.$emit('change', val);
-            })
-            .catch(() => {});
+          this.$confirm(
+            `${this.$t('editor.confirm.changeType')} [${val}] ${this.$t('editor.confirm.changeType.end')}`,
+            this.$t('confirm'),
+          ).then(() => {
+            this.$emit('change', val);
+          }).catch(() => {});
         }
       }
     },

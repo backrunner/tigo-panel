@@ -245,6 +245,20 @@ li:focus {
   border-radius: 0;
   border: 1px solid #282828;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  .el-message-box__header {
+    padding-bottom: 8px;
+    .el-message-box__title {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #aeaeae;
+    }
+    .el-message-box__headerbtn {
+      transform: translateX(4px);
+      color: #aeaeae;
+    }
+  }
 }
 .v-modal {
   background: #080808 !important;

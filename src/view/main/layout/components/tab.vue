@@ -79,7 +79,7 @@ export default {
     async handleCloseClick() {
       if (this.cannotClose[this.tab.id]) {
         try {
-          await this.$confirm(this.cannotClose[this.tab.id].msg);
+          await this.$confirm(this.cannotClose[this.tab.id].msg, this.$t('confirm'));
         } catch {
           return;
         }

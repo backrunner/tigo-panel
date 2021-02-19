@@ -311,7 +311,7 @@ export default {
         return;
       }
       try {
-        await this.$confirm(`${this.$t('editor.confirm.editName')}`);
+        await this.$confirm(`${this.$t('editor.confirm.editName')}`, this.$t('confirm'));
       } catch {
         return;
       }

@@ -66,5 +66,6 @@
   "debugger.sender.add": "添加",
   "debugger.sender.pathInvalid": "请填写路径",
   "debugger.history.clear.confirm": "确定要清除历史记录吗？",
-  "keymanage": "密钥管理"
+  "keymanage": "密钥管理",
+  "confirm": "确认"
 }
