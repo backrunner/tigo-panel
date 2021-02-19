@@ -31,9 +31,29 @@ module.exports = {
         'vue-context-menu': '@pwp-app/vue-context-menu',
       },
     },
-    plugins: [
-      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/),
-    ],
+    plugins: [new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/)],
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          element: {
+            name: 'element',
+            test: /[\\/]node_modules[\\/]@pwp-app[\\/]better-element-ui[\\/]/,
+            priority: -10,
+          },
+          monaco: {
+            name: 'monaco',
+            test: /[\\/]node_modules[\\/]monaco-editor[\\/]/,
+            priority: -10,
+          },
+          vendors: {
+            name: 'vendors',
+            test: /[\\/]node_modules[\\/]/,
+            priority: -20,
+          },
+        },
+      },
+    },
   }),
   pluginOptions: {
     i18n: {
