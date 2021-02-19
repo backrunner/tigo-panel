@@ -114,7 +114,7 @@ export default {
   created() {
     const { scriptName } = this.$route.query;
     if (scriptName) {
-      this.path = `${scriptName}/`;
+      this.path = scriptName;
     }
   },
   methods: {
