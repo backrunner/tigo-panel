@@ -7,7 +7,7 @@
   >
     <span>{{ username }}</span>
     <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item command="keymanage">{{ $t('nav.user.keymanage') }}</el-dropdown-item>
+      <el-dropdown-item command="keymanage">{{ $t('keymanage') }}</el-dropdown-item>
       <el-dropdown-item command="logout">{{ $t('nav.user.logout') }}</el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>

@@ -24,7 +24,7 @@
             @loading="saveButtonLoading"
             @click="save"
           >
-            {{ $t('editor.save') }}
+            {{ $t('save') }}
           </el-button>
         </span>
       </div>

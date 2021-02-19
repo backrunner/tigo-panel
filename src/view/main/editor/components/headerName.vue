@@ -58,7 +58,7 @@
       class="item"
       effect="light"
       :open-delay="1000"
-      :content="$t('editor.cancel')"
+      :content="$t('cancel')"
       placement="bottom"
     >
       <i class="el-icon-close" v-show="editable" @click="handleCancelClick"></i>
@@ -67,7 +67,7 @@
       class="item"
       effect="light"
       :open-delay="1000"
-      :content="$t('editor.save')"
+      :content="$t('save')"
       placement="bottom"
     >
       <i class="el-icon-check" v-show="editable" @click="handleConfirmClick"></i>

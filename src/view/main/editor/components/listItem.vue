@@ -13,7 +13,7 @@
       width="100"
       @item-clicked="handleContextClick"
       >
-      <ContextMenuItem name="delete">{{$t('editor.list.delete')}}</ContextMenuItem>
+      <ContextMenuItem name="delete">{{$t('delete')}}</ContextMenuItem>
     </ContextMenu>
   </div>
   <div class="editor-list-item editor-list-add" @click="handleAddClick" v-else>

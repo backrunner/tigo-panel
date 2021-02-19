@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="handleAddClick" :disabled="addBtnDisabled">{{
-          $t('editor.env.add')
+          $t('add')
         }}</el-button>
       </el-form-item>
     </el-form>
@@ -23,19 +23,19 @@
       <el-table class="senv-body__table" :data="data" height="100%">
         <el-table-column prop="key" label="Key"></el-table-column>
         <el-table-column prop="value" label="Value"></el-table-column>
-        <el-table-column :label="$t('editor.env.op')" width="120">
+        <el-table-column :label="$t('op')" width="120">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="handleEditClick(scope.row)">{{
-              $t('editor.env.edit')
+              $t('edit')
             }}</el-button>
             <el-popconfirm
-              :confirm-button-text="$t('editor.confirm')"
-              :cancel-button-text="$t('editor.cancel')"
-              :title="$t('editor.env.confirmDelete')"
+              :confirm-button-text="$t('confirm')"
+              :cancel-button-text="$t('cancel')"
+              :title="$t('editor.env.delete.confirm')"
               @confirm="handleDeleteConfirm(scope.row)"
             >
               <el-button slot="reference" type="text" size="small">
-                {{ $t('editor.env.delete') }}
+                {{ $t('delete') }}
               </el-button>
             </el-popconfirm>
           </template>
@@ -113,7 +113,7 @@ export default {
         }
         this.fetchData();
       }
-      this.$message.success(this.$t('editor.env.addSuccess'));
+      this.$message.success(this.$t('addSuccess'));
       this.addBtnDisabled = false;
     },
     handleEditClick() {},
@@ -125,7 +125,7 @@ export default {
       if (!res) {
         return null;
       }
-      this.$message.success(this.$t('editor.env.deleteSuccess'));
+      this.$message.success(this.$t('deleteSuccess'));
       this.fetchData();
     },
     open() {

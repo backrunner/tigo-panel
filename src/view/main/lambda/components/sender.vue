@@ -17,7 +17,7 @@
         <div class="sender-form__header">
           <span>Headers</span>
           <el-button size="mini" type="primary" @click="addHeader">{{
-            $t('debugger.sender.add')
+            $t('add')
           }}</el-button>
         </div>
         <div class="c-scroll sender-form__body">
@@ -46,7 +46,7 @@
         <div class="sender-form__header">
           <span>{{ valuesHeader }}</span>
           <el-button size="mini" type="primary" @click="addValue">{{
-            $t('debugger.sender.add')
+            $t('add')
           }}</el-button>
         </div>
         <div class="c-scroll sender-form__body">
