@@ -25,12 +25,15 @@ export default {
 }
 
 // basic
+
 div:focus,
 span:focus,
 a:focus,
 li:focus {
   outline-width: 0;
 }
+
+// scroll
 
 .c-scroll::-webkit-scrollbar {
   width: 16px;

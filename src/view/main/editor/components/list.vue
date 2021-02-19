@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-list" @contextmenu.prevent.stop>
+  <div class="n-scroll editor-list" @contextmenu.prevent.stop>
     <ListItem
       v-for="listItem in list"
       :key="listItem.id"
@@ -59,5 +59,8 @@ export default {
 <style lang="less">
 .editor-list {
   width: 100%;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>

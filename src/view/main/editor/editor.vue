@@ -189,6 +189,12 @@ export default {
     background: #2e2e2e;
     box-shadow: 2px 0px 0px #252525;
     float: left;
+    .n-scroll::-webkit-scrollbar-track {
+      background-color: #2e2e2e;
+    }
+    .n-scroll::-webkit-scrollbar-corner {
+      background-color: #2e2e2e;
+    }
   }
   &-monaco-wrapper {
     width: calc(100% - 260px);

@@ -3,7 +3,7 @@
     <div class="debugger-history__header">
       <span>{{ $t('debugger.history.title') }}</span>
     </div>
-    <div class="c-scroll debugger-history__body">
+    <div class="n-scroll debugger-history__body">
       <div class="history-list" v-if="!showEmpty">
         <HistoryItem
           v-for="item in history"
