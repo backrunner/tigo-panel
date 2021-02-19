@@ -55,7 +55,7 @@ const mutations = {
     }
     state.tabs[idx].query = query;
   },
-  recover(state, tabs) {
+  setTabs(state, tabs) {
     state.tabs = tabs;
   },
 };

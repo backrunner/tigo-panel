@@ -4,14 +4,9 @@
       <div class="nav-tabs nav-tabs-sys">
         <Tab :tab="homeTab" type="home" />
       </div>
-      <div class="nav-tabs nav-tabs-user">
-        <Tab
-          v-for="tab in tabs"
-          :key="tab.id"
-          :tab="tab"
-          type="default"
-        />
-      </div>
+      <draggable class="nav-tabs nav-tabs-user" v-model="sortableTabs">
+        <Tab v-for="tab in sortableTabs" :key="tab.id" :tab="tab" type="default" />
+      </draggable>
       <NavUser />
       <ServerStatus />
     </div>
@@ -25,6 +20,7 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import draggable from 'vuedraggable';
 import Tab from './components/tab';
 import ServerStatus from './components/serverStatus';
 import NavUser from './components/userInfo';
@@ -37,6 +33,7 @@ export default {
     Tab,
     NavUser,
     ServerStatus,
+    draggable,
   },
   data() {
     return {
@@ -52,6 +49,14 @@ export default {
       uid: (state) => state.auth.uid,
       username: (state) => state.auth.username,
     }),
+    sortableTabs: {
+      get() {
+        return this.tabs;
+      },
+      set(value) {
+        this.setTabs(value);
+      },
+    },
   },
   async created() {
     // user info not exists
@@ -80,7 +85,7 @@ export default {
             name: PathNameMap[path],
           });
         }
-        this.recover(storedNav.tabs);
+        this.setTabs(storedNav.tabs);
       } else {
         window.localStorage.removeItem('nav');
       }
@@ -114,7 +119,7 @@ export default {
   methods: {
     ...mapMutations('service', ['setHeartbeat', 'setPluginInfo']),
     ...mapMutations('auth', ['clearAuthInfo']),
-    ...mapMutations('nav', ['openTab', 'setActivateTab', 'recover']),
+    ...mapMutations('nav', ['openTab', 'setActivateTab', 'setTabs']),
     async getPluginInfo() {
       const res = await this.$nApi.get('/common/listPlugins');
       let pluginInfo = res.data.data?.packages;
