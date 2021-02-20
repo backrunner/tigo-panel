@@ -333,7 +333,7 @@ export default {
       this.draftSaveTimeout[id] = null;
     },
     copyUrl() {
-      const basePath = `http${this.$siteConfig.https ? 's' : ''}://${this.$siteConfig.host}`;
+      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.host}`;
       try {
         const path = `${basePath}/${this.type}/${this.userScopeId}/${this.item.name}`;
         window.navigator.clipboard.writeText(path);
@@ -346,7 +346,7 @@ export default {
       this.$message.success(this.$t('editor.name.copy.success'));
     },
     openConfig() {
-      const basePath = `http${this.$siteConfig.https ? 's' : ''}://${this.$siteConfig.host}`;
+      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.host}`;
       const path = `${basePath}/config/${this.userScopeId}/${this.item.name}`;
       window.open(path, '_blank');
     },

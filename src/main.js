@@ -23,7 +23,7 @@ Vue.use(VueContextMenu, {
   mobileSupport: false,
 });
 
-Vue.prototype.$siteConfig = config;
+Vue.prototype.$apiConfig = config;
 
 Vue.prototype.$idb = idb;
 
