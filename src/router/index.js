@@ -11,28 +11,28 @@ const routes = [
     path: '/',
     component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/serviceCheck.vue'),
     meta: {
-      title: i18n.t('entry.check'),
+      title: 'entry.check',
     },
   },
   {
     path: '/notAvailable',
     component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/notAvailable.vue'),
     meta: {
-      title: i18n.t('entry.cantuse'),
+      title: 'entry.cantuse',
     },
   },
   {
     path: '/notFound',
     component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/notFound.vue'),
     meta: {
-      title: i18n.t('entry.notfound'),
+      title: 'entry.notfound',
     },
   },
   {
     path: '/portal',
     component: () => import(/* webpackChunkName: "entry" */ '@/view/entry/portal.vue'),
     meta: {
-      title: i18n.t('portal.login'),
+      title: 'portal.login',
     },
   },
   {
@@ -43,35 +43,42 @@ const routes = [
         path: '',
         component: () => import(/* webpackChunkName: "app.home" */ '@/view/main/home/home.vue'),
         meta: {
-          title: i18n.t('home'),
+          title: 'home',
         },
       },
       {
         path: 'lambda',
         component: () => import(/* webpackChunkName: "app.editor" */ '@/view/main/lambda/lambda.vue'),
         meta: {
-          title: i18n.t('lambda'),
+          title: 'lambda',
         },
       },
       {
         path: 'lambda-debugger',
         component: () => import(/* webpackChunkName: "app.lambda.debugger" */ '@/view/main/lambda/debugger.vue'),
         meta: {
-          title: i18n.t('debugger'),
+          title: 'debugger',
+        },
+      },
+      {
+        path: 'hostbinder',
+        component: () => import(/* webpackChunkName: "app.hostbinder" */ '@/view/main/hostbinder/hostbinder.vue'),
+        meta: {
+          title: 'hostbinder',
         },
       },
       {
         path: 'cfs',
         component: () => import(/* webpackChunkName: "app.editor" */ '@/view/main/cfs/cfs.vue'),
         meta: {
-          title: i18n.t('cfs'),
+          title: 'cfs',
         },
       },
       {
         path: 'keymanage',
         component: () => import(/* webpackChunkName: "app.keymanage" */ '@/view/main/keymanage/keymanage.vue'),
         meta: {
-          title: i18n.t('keymanage'),
+          title: 'keymanage',
         },
       },
     ],
@@ -92,7 +99,7 @@ const directGoPath = ['/', '/notAvailable', '/notFound'];
 
 router.beforeEach((to, from, next) => {
   if (to.meta && to.meta.title) {
-    changeTitle(to.meta.title);
+    changeTitle(i18n.t(to.meta.title));
   }
   if (!directGoPath.includes(to.path) && !store.state.service.available) {
     next(false);
