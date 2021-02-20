@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Page from '../main/layout/components/page';
+import Page from '../layout/components/page';
 
 export default {
   components: {

@@ -69,7 +69,7 @@ const routes = [
       },
       {
         path: 'keymanage',
-        component: () => import(/* webpackChunkName: "app.keymanage" */ '@/view/keymanage/keymanage.vue'),
+        component: () => import(/* webpackChunkName: "app.keymanage" */ '@/view/main/keymanage/keymanage.vue'),
         meta: {
           title: i18n.t('keymanage'),
         },
