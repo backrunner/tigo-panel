@@ -7,4 +7,8 @@ export default {
     name: 'cfs',
     path: '/cfs',
   },
+  '@tigojs/hostbinder': {
+    name: 'hostbinder',
+    path: '/hostbinder',
+  },
 };

@@ -77,6 +77,15 @@ li:focus {
   background-color: #282828;
 }
 
+.el-table-dark {
+  background-color: #282828;
+  border-top: 1px solid #5a5a5a;
+  th,
+  tr {
+    background-color: #282828;
+  }
+}
+
 .el-table__body-wrapper::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -95,6 +104,7 @@ li:focus {
 .el-table__body-wrapper::-webkit-scrollbar-corner {
   background-color: #282828;
 }
+
 // context
 
 .context-menu {

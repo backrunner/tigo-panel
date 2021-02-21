@@ -10,7 +10,7 @@
           <el-button type="primary" size="medium" @click="handleAdd">{{ $t('add') }}</el-button>
         </div>
         <div class="keymanage-body-table">
-          <el-table :data="data" height="100%">
+          <el-table class="el-table-dark" :data="data" height="100%">
             <el-table-column prop="ak" label="Access Key" width="360px"></el-table-column>
             <el-table-column prop="sk" label="Secret Key" width="360px"></el-table-column>
             <el-table-column :label="$t('op')">
@@ -114,14 +114,6 @@ export default {
     }
     &-table {
       height: 100%;
-      .el-table {
-        background-color: #282828;
-        border-top: 1px solid #5a5a5a;
-        th,
-        tr {
-          background-color: #282828;
-        }
-      }
     }
   }
 }
