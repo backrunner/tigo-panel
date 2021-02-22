@@ -5,10 +5,16 @@
         <span>{{ $t('hostbinder') }}</span>
       </div>
       <div class="hostbinder-body">
-        <el-form class="hostbinder-body-form" :inline="true">
+        <el-form class="hostbinder-body-form" ref="addForm" :inline="true" :model="addForm">
           <el-input v-model="addForm.domain" :placeholder="$t('hostbinder.domain')"></el-input>
-          <el-input v-model="addForm.targer" :placeholder="$t('hostbinder.target')"> </el-input>
-          <el-button type="primary">{{ $t('add') }}</el-button>
+          <el-input
+            v-model="addForm.target"
+            :placeholder="`${$t('hostbinder.target')} (/SERVICE/YOUR_SCOPE_ID/...)`"
+          >
+          </el-input>
+          <el-button type="primary" @click="handleAdd" :disabled="addButtonDisbled">{{
+            $t('add')
+          }}</el-button>
         </el-form>
         <div class="hostbinder-body-table">
           <div class="hostbinder-table__title">
@@ -21,10 +27,7 @@
                 width="320"
                 :label="$t('hostbinder.domain')"
               ></el-table-column>
-              <el-table-column
-                prop="target"
-                :label="$t('hostbinder.target')"
-              ></el-table-column>
+              <el-table-column prop="target" :label="$t('hostbinder.target')"></el-table-column>
               <el-table-column :label="$t('op')" width="240">
                 <template slot-scope="scope">
                   <el-popconfirm
@@ -61,7 +64,63 @@ export default {
         domain: '',
         target: '',
       },
+      addButtonDisbled: false,
     };
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      const res = await this.$nApi.get('/hostbinder/list');
+      if (!res) {
+        return;
+      }
+      this.tableData = res.data.data;
+    },
+    async handleAdd() {
+      const { domain, target } = this.addForm;
+      if (!domain) {
+        this.$message.error(this.$t('hostbinder.domain.empty'));
+        return;
+      }
+      if (!target) {
+        this.$message.error(this.$t('hostbinder.target.empty'));
+        return;
+      }
+      const domainVerify = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
+      const targetVerify = new RegExp(`^/(lambda)|(config)/${this.scopeId}.*$`);
+      if (!domainVerify.test(domain)) {
+        this.$message.error(this.$t('hostbinder.domain.invalid'));
+        return;
+      }
+      if (!targetVerify.test(target)) {
+        this.$message.error(this.$t('hostbinder.target.invalid'));
+      }
+      this.addButtonDisbled = true;
+      const res = await this.$nApi.post('/hostbinder/add', {
+        domain,
+        target,
+      });
+      if (!res) {
+        this.addButtonDisbled = false;
+        return;
+      }
+      this.addButtonDisbled = false;
+      this.$message.success('addSuccess');
+      this.$refs.addForm.resetFields();
+      this.fetchData();
+    },
+    async handleDelete(row) {
+      const res = await this.$nApi.post('/hostbinder/delete', {
+        id: row.id,
+      });
+      if (!res) {
+        return;
+      }
+      this.$message.success(this.$t('deleteSuccess'));
+      this.fetchData();
+    },
   },
 };
 </script>
