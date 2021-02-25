@@ -27,9 +27,13 @@ export default {
         monaco.editor.setModelLanguage(this.editor.getModel(), newVal);
       }
     },
+    '$route.path': 'routeChanged',
   },
   model: {
     event: 'change',
+  },
+  created() {
+    this.pagePath = this.$route.path;
   },
   mounted() {
     this.initEditor();
@@ -64,8 +68,15 @@ export default {
         }
       });
     },
+    routeChanged() {
+      if (this.$route.path === this.pagePath && this.autoResize) {
+        this.editor.layout();
+      }
+    },
     resizeHandler() {
-      this.editor.layout();
+      if (this.$route.path === this.pagePath) {
+        this.editor.layout();
+      }
     },
   },
   render(h) {
