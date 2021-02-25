@@ -75,14 +75,14 @@ export default {
 </script>
 
 <style lang="less">
+@debugger-history-width: 280px;
+
 .debugger-wrapper {
   .debugger {
     .debugger-history {
       float: left;
-      width: 300px;
+      width: @debugger-history-width;
       height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
       background: #2e2e2e;
       box-shadow: 2px 0px 0px #252525;
       position: relative;
@@ -94,7 +94,7 @@ export default {
       }
     }
     .debugger-main {
-      width: calc(100% - 300px);
+      width: calc(100% - @debugger-history-width);
       height: 100%;
       max-height: 100%;
       float: right;
