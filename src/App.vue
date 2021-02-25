@@ -273,6 +273,116 @@ li:focus {
 .el-table__empty-block {
   user-select: none;
 }
+.el-dialog__wrapper {
+  .el-dialog {
+    position: relative;
+    .el-button:hover {
+      box-shadow: 3px 3px 0px #3a3a3a;
+    }
+    &__header {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px 8px 20px;
+      .el-dialog__title {
+        flex: 1;
+        font-size: 15px;
+        color: var(--primary);
+      }
+      .el-dialog__headerbtn {
+        position: initial;
+        display: flex;
+        align-items: center;
+        justify-self: flex-end;
+        transform: translateX(2px);
+      }
+    }
+    &__body {
+      padding: 8px 20px 10px 20px;
+    }
+    &__footer {
+      padding: 8px 20px 20px 20px;
+    }
+  }
+  .el-dialog::after {
+    width: 100%;
+    height: 100%;
+    top: 8px;
+    left: 8px;
+    position: absolute;
+    background: #202020;
+    content: '';
+    z-index: -2;
+  }
+}
+
+.dialog-fade-enter-active {
+  animation: dialog-fade-in .3s;
+  .el-dialog::after {
+    animation: dialog-after-fade-in .3s;
+  }
+}
+
+.dialog-fade-leave-active {
+  animation: dialog-fade-out .3s;
+  .el-dialog::after {
+    animation: dialog-after-fade-out .3s;
+  }
+}
+
+@keyframes dialog-fade-in {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-fade-out {
+  0% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-after-fade-in {
+  0% {
+    top: 0px;
+    left: 0px;
+  }
+  60% {
+    top: 0px;
+    left: 0px;
+  }
+  100% {
+    top: 8px;
+    left: 8px;
+  }
+}
+
+@keyframes dialog-after-fade-out {
+  0% {
+    top: 8px;
+    left: 8px;
+  }
+  40% {
+    top: 0px;
+    left: 0px;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+  }
+}
+
 .v-modal {
   background: #080808 !important;
 }
