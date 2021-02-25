@@ -101,10 +101,8 @@ export default {
           return;
         }
         if (!`${newItem.id}`.startsWith('new')) {
-          if (!this.content) {
-            this.getContent(newItem.id);
-            this.content = '';
-          }
+          this.getContent(newItem.id);
+          this.content = '';
         } else {
           this.content = '';
         }
