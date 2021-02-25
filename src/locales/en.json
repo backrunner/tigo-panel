@@ -67,6 +67,7 @@
   "hostbinder.domain.invalid": "Domain is invalid",
   "hostbinder.target.invalid": "Target path is invalid",
   "hostbinder.delete.confirm": "Are you sure to delete this record?",
+  "oss": "Object Storage",
   "confirm": "Confirm",
   "cancel": "Cancel",
   "save": "Save",

@@ -81,6 +81,13 @@ const routes = [
           title: 'keymanage',
         },
       },
+      {
+        path: 'oss',
+        component: () => import(/* webpackChunkName: "app.oss" */ '@/view/main/oss/oss.vue'),
+        meta: {
+          title: 'oss',
+        },
+      },
     ],
   },
   {

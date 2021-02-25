@@ -11,4 +11,8 @@ export default {
     name: 'hostbinder',
     path: '/hostbinder',
   },
+  '@tigojs/oss': {
+    name: 'oss',
+    path: '/oss',
+  },
 };
