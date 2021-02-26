@@ -60,7 +60,5 @@ export default {
 .editor-list {
   width: 100%;
   max-height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 </style>

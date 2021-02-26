@@ -58,6 +58,10 @@ li:focus {
   width: 10px;
 }
 
+.n-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .n-scroll::-webkit-scrollbar {
   width: 4px;
   height: 4px;

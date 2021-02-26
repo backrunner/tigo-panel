@@ -4,7 +4,7 @@
       <span>Bucket</span>
       <i class="el-icon-plus" @click="openAddDialog"></i>
     </div>
-    <div class="oss-list__body" v-if="!showEmpty">
+    <div class="oss-list__body n-scroll" v-if="!showEmpty">
       <BucketItem v-for="bucket in listData" :key="bucket" :selected="selected" :name="bucket" />
     </div>
     <div class="oss-list__empty" v-else>
@@ -84,6 +84,9 @@ export default {
       cursor: pointer;
       color: var(--regular-text);
     }
+  }
+  &__body {
+    max-height: calc(100% - 48px);
   }
   &__empty {
     margin-top: 16px;

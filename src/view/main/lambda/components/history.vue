@@ -7,7 +7,7 @@
         @click="clearHistory"
       ></i>
     </div>
-    <div class="n-scroll debugger-history__body">
+    <div class="debugger-history__body n-scroll">
       <div class="history-list" v-if="!showEmpty">
         <HistoryItem
           v-for="item in history"
@@ -95,8 +95,6 @@ export default {
     }
   }
   &__body {
-    overflow-x: hidden;
-    overflow-y: auto;
     max-height: calc(100% - 48px);
     .history-empty {
       margin-top: 16px;

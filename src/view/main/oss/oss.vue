@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       selected: null,
-      buckets: ['aaaa', 'bbbb', 'cccc'],
+      buckets: null,
     };
   },
   computed: {
