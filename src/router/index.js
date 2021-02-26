@@ -127,9 +127,13 @@ router.beforeEach((to, from, next) => {
   ) {
     next(false);
     if (!store.state.service.available) {
-      router.replace('/');
+      router.replace('/', {
+        path: to.path,
+      });
     } else {
-      router.replace('/portal');
+      router.replace('/portal', {
+        path: to.path,
+      });
     }
     return;
   }
