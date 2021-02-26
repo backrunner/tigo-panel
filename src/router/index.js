@@ -127,12 +127,18 @@ router.beforeEach((to, from, next) => {
   ) {
     next(false);
     if (!store.state.service.available) {
-      router.replace('/', {
-        path: to.path,
+      router.replace({
+        path: '/',
+        query: {
+          path: to.path,
+        },
       });
     } else {
-      router.replace('/portal', {
-        path: to.path,
+      router.replace({
+        path: '/portal',
+        query: {
+          path: to.path,
+        },
       });
     }
     return;
