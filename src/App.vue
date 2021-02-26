@@ -231,7 +231,7 @@ li:focus {
   }
   .el-drawer {
     &__header {
-      padding: 18px 24px;
+      padding: 18px 24px 12px 24px;
       margin-bottom: 0;
       .el-drawer__close-btn {
         transform: translateX(10px);

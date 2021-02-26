@@ -143,7 +143,7 @@ export default {
 <style lang="less">
 .senv {
   .el-drawer__body {
-    max-height: calc(100% - 61px);
+    max-height: calc(100% - 55px);
   }
 }
 .senv-header {
@@ -161,8 +161,8 @@ export default {
   }
 }
 .senv-body {
-  height: calc(100% - 56px);
-  max-height: calc(100% - 56px);
+  height: calc(100% - 68px);
+  max-height: calc(100% - 68px);
   position: relative;
   .senv-body__table {
     .cell {
