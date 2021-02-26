@@ -119,13 +119,13 @@ export default {
     if (token) {
       const res = await checkAuthStatus();
       if (res) {
-        this.$router.push(this.router.query?.path || '/app');
+        this.$router.push(this.$route.query?.path || '/app');
       }
     }
     if (!token && refreshToken) {
       const res = await doTokenRefresh(refreshToken);
       if (res) {
-        this.$router.push(this.router.query?.path || '/app');
+        this.$router.push(this.$route.query?.path || '/app');
       }
     }
   },
@@ -140,7 +140,7 @@ export default {
       const res = await doLogin(this.loginForm);
       if (res) {
         this.$message.success('登录成功');
-        this.$router.push(this.router.query?.path || '/app');
+        this.$router.push(this.$route.query?.path || '/app');
       }
       this.loginLoading = false;
     },
