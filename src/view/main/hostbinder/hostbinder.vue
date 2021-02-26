@@ -3,18 +3,21 @@
     <div class="page-main hostbinder">
       <div class="hostbinder-header">
         <span>{{ $t('hostbinder') }}</span>
+        <span class="hostbinder-header__unlocked" v-if="unlocked">Unlocked</span>
       </div>
       <div class="hostbinder-body">
         <el-form class="hostbinder-body-form" ref="addForm" :inline="true" :model="addForm">
-          <el-input v-model="addForm.domain" :placeholder="$t('hostbinder.domain')"></el-input>
-          <el-input
-            v-model="addForm.target"
-            :placeholder="`${$t('hostbinder.target')} (/SERVICE/YOUR_SCOPE_ID/...)`"
-          >
-          </el-input>
-          <el-button type="primary" @click="handleAdd" :disabled="addButtonDisbled">{{
-            $t('add')
-          }}</el-button>
+          <el-form-item prop="domain" class="hostbinder-body-form__input">
+            <el-input v-model="addForm.domain" :placeholder="$t('hostbinder.domain')"></el-input>
+          </el-form-item>
+          <el-form-item prop="target" class="hostbinder-body-form__input">
+            <el-input v-model="addForm.target" :placeholder="targetPlaceholder"> </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="handleAdd" :disabled="addButtonDisbled">{{
+              $t('add')
+            }}</el-button>
+          </el-form-item>
         </el-form>
         <div class="hostbinder-body-table">
           <div class="hostbinder-table__title">
@@ -65,12 +68,32 @@ export default {
         target: '',
       },
       addButtonDisbled: false,
+      unlocked: false,
+      domainVerify: /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/,
     };
   },
   created() {
+    this.checkUnlocked();
     this.fetchData();
   },
+  computed: {
+    targetPlaceholder() {
+      return `${this.$t('hostbinder.target')} ${
+        this.unlocked ? '' : '(/SERVICE/YOUR_SCOPE_ID/...)'
+      }`;
+    },
+    targetVerify() {
+      return this.unlocked ? /^\/.*/ : new RegExp(`^/(lambda)|(config)|(oss)/${this.scopeId}.*$`);
+    },
+  },
   methods: {
+    async checkUnlocked() {
+      const res = await this.$nApi.get('/hostbinder/checkUnlocked');
+      if (!res) {
+        return;
+      }
+      this.unlocked = !!res.data.data.unlocked;
+    },
     async fetchData() {
       const res = await this.$nApi.get('/hostbinder/list');
       if (!res) {
@@ -88,13 +111,11 @@ export default {
         this.$message.error(this.$t('hostbinder.target.empty'));
         return;
       }
-      const domainVerify = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
-      const targetVerify = new RegExp(`^/(lambda)|(config)/${this.scopeId}.*$`);
-      if (!domainVerify.test(domain)) {
+      if (!this.domainVerify.test(domain)) {
         this.$message.error(this.$t('hostbinder.domain.invalid'));
         return;
       }
-      if (!targetVerify.test(target)) {
+      if (!this.targetVerify.test(target)) {
         this.$message.error(this.$t('hostbinder.target.invalid'));
       }
       this.addButtonDisbled = true;
@@ -107,8 +128,8 @@ export default {
         return;
       }
       this.addButtonDisbled = false;
-      this.$message.success('addSuccess');
-      this.$refs.addForm.resetFields();
+      this.$message.success(this.$t('addSuccess'));
+      this.resetAddForm();
       this.fetchData();
     },
     async handleDelete(row) {
@@ -129,9 +150,15 @@ export default {
 .hostbinder {
   padding: 16px 18px;
   &-header {
+    user-select: none;
     font-size: 15px;
     color: var(--primary);
     margin-bottom: 16px;
+    &__unlocked {
+      font-size: 12px;
+      margin-left: 12px;
+      color: #4e4e4e;
+    }
   }
   &-body {
     width: 100%;
@@ -140,24 +167,28 @@ export default {
     position: relative;
     &-form {
       width: 100%;
-      margin-bottom: 16px;
+      margin-bottom: 4px;
       display: flex;
-      .el-input {
+      &__input {
         margin-right: 8px;
         flex: 1;
+        .el-form-item__content {
+          width: 100%;
+        }
       }
       .el-button {
         width: 72px;
       }
     }
     &-table {
-      height: calc(100% - 56px);
-      max-height: calc(100% - 56px);
+      height: calc(100% - 62px);
+      max-height: calc(100% - 62px);
       position: relative;
       .hostbinder-table__title {
         font-size: 14px;
         color: var(--primary);
         margin-bottom: 16px;
+        user-select: none;
       }
       .hostbinder-table__main {
         height: calc(100% - 35px);
