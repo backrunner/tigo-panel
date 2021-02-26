@@ -6,6 +6,7 @@ import locale from './modules/locale';
 import auth from './modules/auth';
 import nav from './modules/nav';
 import debug from './modules/debug';
+import oss from './modules/oss';
 
 Vue.use(Vuex);
 
@@ -16,5 +17,6 @@ export default new Vuex.Store({
     auth,
     nav,
     debug,
+    oss,
   },
 });

@@ -4,6 +4,7 @@
       'oss-list-item': true,
       'oss-list-item__selected': selected === name,
     }"
+    :data-name="name"
   >
     <span>{{ name }}</span>
   </div>

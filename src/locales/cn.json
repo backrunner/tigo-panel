@@ -71,6 +71,13 @@
   "oss.bucket.empty": "您还没有创建任何 Bucket",
   "oss.bucket.add": "添加 Bucket",
   "oss.bucket.add.placeholder": "Bucket 名称",
+  "oss.fmanager.empty": "当前文件夹内没有文件",
+  "oss.uploader.prefix": "路径前缀",
+  "oss.uploader.empty": "当前没有正在上传的文件",
+  "oss.uploader.force": "覆盖已有文件",
+  "oss.fmanager.name": "文件名",
+  "oss.fmanager.lastModified": "最后修改时间",
+  "oss.fmanager.size": "文件大小",
   "confirm": "确认",
   "cancel": "取消",
   "save": "保存",
@@ -78,6 +85,8 @@
   "edit": "编辑",
   "delete": "删除",
   "op": "操作",
+  "upload": "上传文件",
+  "selectFile": "选择文件",
   "addSuccess": "添加成功",
   "deleteSuccess": "删除成功"
 }

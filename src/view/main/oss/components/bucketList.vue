@@ -4,7 +4,7 @@
       <span>Bucket</span>
       <i class="el-icon-plus" @click="openAddDialog"></i>
     </div>
-    <div class="oss-list__body n-scroll" v-if="!showEmpty">
+    <div class="oss-list__body n-scroll" v-if="!showEmpty" @click="handleItemClick">
       <BucketItem v-for="bucket in listData" :key="bucket" :selected="selected" :name="bucket" />
     </div>
     <div class="oss-list__empty" v-else>
@@ -18,7 +18,7 @@
       ></el-input>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleAddClick">确定</el-button>
+        <el-button type="primary" @click="handleAddClick" :disabled="addDisabled">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -31,7 +31,6 @@ export default {
   props: {
     listData: {
       type: Array,
-      required: true,
     },
     selected: {
       type: String,
@@ -44,6 +43,7 @@ export default {
     return {
       addDialogVisible: false,
       newBucketName: '',
+      addDisabled: false,
     };
   },
   computed: {
@@ -56,8 +56,21 @@ export default {
       this.newBucketName = '';
       this.addDialogVisible = true;
     },
-    handleAddClick() {
-
+    async handleAddClick() {
+      const res = await this.$nApi.post('/oss/makeBucket', {
+        bucketName: this.newBucketName,
+      });
+      if (!res) {
+        return;
+      }
+      this.addDialogVisible = false;
+      this.$message.success(this.$t('addSuccess'));
+      this.$emit('added', this.newBucketName);
+    },
+    async handleItemClick(e) {
+      if (e.target.classList.contains('oss-list-item')) {
+        this.$emit('item-click', e.target.dataset.name);
+      }
     },
   },
 };
