@@ -113,7 +113,7 @@ li:focus {
 
 .context-menu {
   background-color: #121212;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.375);
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
   transition: background-color 100ms;
   &__item {
     font-size: 13px;
@@ -283,6 +283,9 @@ li:focus {
     .el-button:hover {
       box-shadow: 3px 3px 0px #3a3a3a;
     }
+    .el-input__inner:focus {
+      box-shadow: 4px 4px 0px #3a3a3a;
+    }
     &__header {
       display: flex;
       align-items: center;
@@ -319,17 +322,54 @@ li:focus {
   }
 }
 
+.el-message-box__wrapper {
+  .el-message-box {
+    position: relative;
+    overflow: none;
+  }
+  .el-button:hover {
+    box-shadow: 3px 3px 0px #3a3a3a;
+  }
+  .el-input__inner:focus {
+    box-shadow: 4px 4px 0px #3a3a3a;
+  }
+  .el-message-box::after {
+    width: 100%;
+    height: 100%;
+    top: 8px;
+    left: 8px;
+    position: absolute;
+    background: #202020;
+    content: '';
+    z-index: -2;
+  }
+}
+
 .dialog-fade-enter-active {
-  animation: dialog-fade-in .3s;
+  animation: dialog-fade-in 0.25s;
   .el-dialog::after {
-    animation: dialog-after-fade-in .3s;
+    animation: dialog-after-fade-in 0.25s;
   }
 }
 
 .dialog-fade-leave-active {
-  animation: dialog-fade-out .3s;
+  animation: dialog-fade-out 0.25s;
   .el-dialog::after {
-    animation: dialog-after-fade-out .3s;
+    animation: dialog-after-fade-out 0.25s;
+  }
+}
+
+.msgbox-fade-enter-active {
+  animation: dialog-fade-in 0.25s;
+  .el-message-box::after {
+    animation: dialog-after-fade-out 0.25s;
+  }
+}
+
+.msgbox-fade-leave-active {
+  animation: dialog-fade-out 0.25s;
+  .el-message-box::after {
+    animation: dialog-after-fade-out 0.25s;
   }
 }
 
