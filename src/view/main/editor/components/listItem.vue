@@ -47,7 +47,7 @@ export default {
     async handleContextClick(name) {
       if (name === 'delete') {
         this.$confirm(
-          `${this.$t('editor.confirm.delete')} [${this.displayName}] ${this.$t('editor.confirm.delete.end')}`,
+          `${this.$t('editor.confirm.delete')} ${this.displayName} ${this.$t('editor.confirm.delete.end')}`,
           this.$t('confirm'),
         ).then(() => {
           this.$parent.deleteClicked(this.item);
