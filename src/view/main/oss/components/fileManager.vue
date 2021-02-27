@@ -116,9 +116,13 @@ export default {
       this.currentDirectoryFiles.push(...res.data.data);
     },
     handleListDblClick(e) {
-      if (e.target.classList.contains('fmanager-file')) {
-        if (e.target.dataset.directory === 'true') {
-          this.currentRoutes.push(e.target.dataset.name);
+      for (let i = 0; i < e.path.length; i++) {
+        const el = e.path[i];
+        if (el.classList.contains('fmanager-file')) {
+          if (el.dataset.directory === 'true') {
+            this.currentRoutes.push(el.dataset.name);
+          }
+          break;
         }
       }
     },
