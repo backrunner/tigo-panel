@@ -2,14 +2,21 @@
   <div class="fmanager">
     <div class="fmanager-header">
       <div class="fmanager-nav">
-        <div class="fmanager-nav__item" v-for="(route, index) in currentRoutes" :key="route">
+        <div
+          :class="{
+            'fmanager-nav__item': true,
+            'fmanager-nav__item--current': currentRoute === route,
+          }"
+          v-for="(route, index) in currentRoutes"
+          :key="route"
+        >
           <span>{{ route }}</span>
           <NavRightArrow v-if="index !== currentRoutes.length - 1" />
         </div>
       </div>
       <i class="el-icon-refresh-right"></i>
     </div>
-    <div class="fmanager-list n-scroll" v-if="!folderEmpty">
+    <div class="fmanager-list n-scroll" v-if="!folderEmpty" @dblclick="handleListDblClick">
       <div class="fmanager-file fmanager-file--head">
         <span class="file-item__name">{{ $t('oss.fmanager.name') }}</span>
         <span class="file-item__lm">{{ $t('oss.fmanager.lastModified') }}</span>
@@ -48,8 +55,14 @@ export default {
           this.$set(this.files, newVal, {});
         }
         this.currentRoutes = this.routes[newVal];
-        this.currentRoute = this.currentRoutes[this.currentRoutes.length - 1];
         this.currentFiles = this.files[newVal];
+      },
+    },
+    currentRoutes: {
+      immediate: true,
+      deep: true,
+      handler() {
+        this.currentRoute = this.currentRoutes[this.currentRoutes.length - 1];
       },
     },
     currentRoute: {
@@ -102,6 +115,13 @@ export default {
       }
       this.currentDirectoryFiles.push(...res.data.data);
     },
+    handleListDblClick(e) {
+      if (e.target.classList.contains('fmanager-file')) {
+        if (e.target.dataset.directory === 'true') {
+          this.currentRoutes.push(e.target.dataset.name);
+        }
+      }
+    },
   },
 };
 </script>
@@ -124,19 +144,31 @@ export default {
     user-select: none;
     padding: 10px 20px;
     .fmanager-nav {
-      color: var(--primary);
-      font-size: 15px;
+      color: #999;
+      font-size: 13px;
       line-height: 24px;
       flex: 1;
+      display: flex;
+      align-items: center;
       &__item {
-        margin-right: 10px;
+        margin-right: 7px;
         display: flex;
         align-items: center;
+        span:hover {
+          cursor: pointer;
+          color: var(--primary);
+        }
         svg {
-          width: 22px;
-          height: 22px;
-          margin-left: 10px;
-          transform: translateY(2px);
+          width: 18px;
+          height: 18px;
+          margin-left: 7px;
+          transform: translateY(1px);
+        }
+      }
+      &__item--current {
+        color: var(--primary);
+        span:hover {
+          cursor: default;
         }
       }
     }
