@@ -111,6 +111,12 @@ export default {
   width: 100%;
   height: 100%;
   background: #232323;
+  .n-scroll::-webkit-scrollbar-track {
+    background-color: #232323;
+  }
+  .n-scroll::-webkit-scrollbar-corner {
+    background-color: #232323;
+  }
   &-header {
     display: flex;
     align-items: center;

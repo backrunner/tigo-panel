@@ -1,5 +1,5 @@
 <template>
-  <div class="fmanager-file">
+  <div class="fmanager-file" :data-name="file.name" :data-directory="file.isDirectory">
     <span class="file-item__name">
       <i class="el-icon-folder" v-if="showDirIcon"></i>
       {{ displayName }}
@@ -19,10 +19,10 @@ export default {
   },
   computed: {
     showDirIcon() {
-      return !!this.file?.isDirectory;
+      return !!this.file.isDirectory;
     },
     displayName() {
-      return this.file?.name || '';
+      return this.file.name || '';
     },
     displayLastModified() {
       if (this.file?.lastModified) {
@@ -31,10 +31,10 @@ export default {
       return '-';
     },
     displaySize() {
-      if (this.file?.isDirectory) {
+      if (this.file.isDirectory) {
         return '-';
-      } else if (this.file?.size) {
-        return filesize(this.file?.size).human('si');
+      } else if (this.file.size) {
+        return filesize(this.file.size).human('si');
       } else {
         return '-';
       }
@@ -52,6 +52,7 @@ export default {
   color: var(--primary);
   border-bottom: 1px solid #323232;
   user-select: none;
+  position: relative;
   .file-item__name {
     flex: 1;
     i {
@@ -70,6 +71,10 @@ export default {
 }
 .fmanager-file--head {
   padding: 10px 16px;
+  position: sticky;
+  top: 0;
+  background: #232323;
+  z-index: 10;
 }
 .fmanager-file--head:hover {
   background: #232323;
