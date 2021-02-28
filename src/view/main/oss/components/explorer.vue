@@ -1,7 +1,10 @@
 <template>
   <div class="explorer">
     <div class="explorer-header">
-      <span class="explorer-header__title">{{ bucket }}</span>
+      <div class="explorer-header__title">
+        <span>{{ bucket }}</span>
+        <i class="el-icon-setting" @click="openSettings"></i>
+      </div>
       <el-button
         class="explorer-header__btn"
         type="primary"
@@ -33,6 +36,9 @@ export default {
         prefix: `${this.$refs.fmanager.currentRoutes.join('/').substr(1) }/`,
       });
     },
+    openSettings() {
+      this.$emit('open-settings');
+    },
   },
 };
 </script>
@@ -54,6 +60,16 @@ export default {
       flex: 1;
       color: var(--primary);
       font-size: 15px;
+      display: flex;
+      align-items: center;
+      i {
+        margin-left: 8px;
+        transform: translateY(1px);
+      }
+      i:hover {
+        cursor: pointer;
+        color: var(--regular-text);
+      }
     }
     &__btn {
       justify-self: flex-end;

@@ -2,6 +2,7 @@
 /* eslint-disable no-shadow */
 const state = {
   uploading: [],
+  policy: {},
 };
 
 const mutations = {
@@ -30,6 +31,9 @@ const mutations = {
       state.uploading[idx].progress = 0;
     }
     state.uploading[idx].status = status;
+  },
+  setPolicy(state, { bucket, policy }) {
+    state.policy[bucket] = policy || {};
   },
 };
 

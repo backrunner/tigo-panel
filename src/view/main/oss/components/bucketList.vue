@@ -1,7 +1,7 @@
 <template>
   <div class="oss-list">
     <div class="oss-list__header">
-      <span>Bucket</span>
+      <span>{{ $t('oss.bucket') }}</span>
       <i class="el-icon-plus" @click="openAddDialog"></i>
     </div>
     <div class="oss-list__body n-scroll" v-if="!showEmpty" @click="handleItemClick">

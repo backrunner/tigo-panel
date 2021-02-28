@@ -8,7 +8,7 @@
         @item-click="handleListItemClick"
       />
       <div class="oss-main" v-if="!showEmpty">
-        <Explorer :bucket="selected" @upload="openUpload" />
+        <Explorer :bucket="selected" @upload="openUpload" @open-settings="openSettings" />
       </div>
       <div class="oss-main oss-empty" v-else>
         <div class="oss-empty__icon">
@@ -17,6 +17,7 @@
       </div>
       <div class="clearfix"></div>
       <Uploader ref="uploader" @upload="doUpload" :list="uploading" />
+      <BucketSettings ref="settings" />
     </div>
   </Page>
 </template>
@@ -26,6 +27,7 @@ import Page from '../layout/components/page';
 import BucketList from './components/bucketList';
 import Explorer from './components/explorer';
 import Uploader from './components/uploader';
+import BucketSettings from './components/bucketSettings';
 import tigoGear from '@/common/icon/tigoGear';
 import { mapMutations, mapState } from 'vuex';
 
@@ -35,6 +37,7 @@ export default {
     BucketList,
     Explorer,
     Uploader,
+    BucketSettings,
     tigoGear,
   },
   data() {
@@ -44,7 +47,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('oss', ['uploading']),
+    ...mapState('oss', ['uploading', 'policy']),
     showEmpty() {
       return !this.selected;
     },
@@ -53,11 +56,11 @@ export default {
     this.fetchBuckets();
     const queryBucket = this.$route.query?.bucket;
     if (queryBucket) {
-      this.selected = queryBucket;
+      this.setSelected(queryBucket);
     }
   },
   methods: {
-    ...mapMutations('oss', ['addUploading', 'updateUploadProgress']),
+    ...mapMutations('oss', ['addUploading', 'updateUploadProgress', 'setPolicy']),
     async fetchBuckets() {
       const res = await this.$nApi.get('/oss/listBuckets');
       if (!res) {
@@ -75,6 +78,22 @@ export default {
           bucket: bucketName,
         },
       });
+      this.fetchPolicy(bucketName);
+    },
+    async fetchPolicy(bucket) {
+      let res;
+      try {
+        res = await this.$pApi.get('/oss/getBucketPolicy', {
+          params: {
+            bucketName: bucket,
+          },
+        });
+      } catch {
+        return;
+      }
+      if (res && res.data.data) {
+        this.setPolicy({ bucket, policy: res.data.data });
+      }
     },
     handleListItemClick(bucketName) {
       this.setSelected(bucketName);
@@ -127,6 +146,9 @@ export default {
     onUploadProgress(e, bucket, key) {
       const progress = (e.loaded / e.total) * 100;
       this.updateUploadProgress({ bucket, key, progress });
+    },
+    openSettings() {
+      this.$refs.settings.open(this.policy[this.selected]);
     },
   },
 };

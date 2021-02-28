@@ -1,23 +1,35 @@
 <template>
-  <div class="fmanager-file" :data-name="file.name" :data-directory="file.isDirectory">
+  <div class="fmanager-file" :data-name="file.name" :data-directory="file.isDirectory" v-context>
     <span class="file-item__name">
       <i class="el-icon-folder" v-if="showDirIcon"></i>
       {{ displayName }}
     </span>
     <span class="file-item__lm">{{ displayLastModified }}</span>
     <span class="file-item__size">{{ displaySize }}</span>
+    <ContextMenu @item-clicked="handleContextClick">
+      <ContextMenuItem name="download" v-if="currentPolicy.public">
+        {{ $t('oss.fmanager.download') }}
+      </ContextMenuItem>
+      <ContextMenuItem name="copyLink" v-if="currentPolicy.public">
+        {{ $t('oss.fmanager.copyLink') }}
+      </ContextMenuItem>
+      <ContextMenuItem name="delete" v-if="!file.isDirectory">{{ $t('delete') }}</ContextMenuItem>
+    </ContextMenu>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
 import filesize from 'file-size';
+import { mapState } from 'vuex';
 
 export default {
   props: {
     file: Object,
+    bucket: String,
   },
   computed: {
+    ...mapState('oss', ['policy']),
     showDirIcon() {
       return !!this.file.isDirectory;
     },
@@ -37,6 +49,17 @@ export default {
         return filesize(this.file.size).human('si');
       } else {
         return '-';
+      }
+    },
+    currentPolicy() {
+      return this.policy[this.bucket] || {};
+    },
+  },
+  methods: {
+    handleContextClick(name) {
+      if (name === 'download') {
+      } else if (name === 'copyLink') {
+      } else if (name === 'delete') {
       }
     },
   },
