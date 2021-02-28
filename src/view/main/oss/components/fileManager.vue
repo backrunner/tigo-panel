@@ -10,13 +10,14 @@
           v-for="(route, index) in currentRoutes"
           :key="route"
         >
-          <span>{{ route }}</span>
+          <span @click="handleNavClick(route)">{{ route }}</span>
           <NavRightArrow v-if="index !== currentRoutes.length - 1" />
         </div>
       </div>
-      <i class="el-icon-refresh-right"></i>
+      <i class="el-icon-back" v-if="currentRoute !== '/'" @click="handleBack"></i>
+      <i class="el-icon-refresh-right fmanager-header__refresh" @click="handleRefresh"></i>
     </div>
-    <div class="fmanager-list n-scroll" v-if="!folderEmpty" @dblclick="handleListDblClick">
+    <div class="fmanager-list n-scroll" v-if="!folderEmpty" @click="handleListClick">
       <div class="fmanager-file fmanager-file--head">
         <span class="file-item__name">{{ $t('oss.fmanager.name') }}</span>
         <span class="file-item__lm">{{ $t('oss.fmanager.lastModified') }}</span>
@@ -25,7 +26,7 @@
       <FileItem v-for="file in currentDirectoryFiles" :key="file.key" :file="file" />
       <div class="fmanager-list__infinite"></div>
     </div>
-    <div class="fmanager-empty" v-else>
+    <div class="fmanager-empty" v-if="folderEmpty && !refreshing">
       <span>{{ $t('oss.fmanager.empty') }}</span>
     </div>
   </div>
@@ -73,7 +74,7 @@ export default {
         }
         this.currentDirectoryFiles = this.currentFiles[newVal];
         if (!this.currentDirectoryFiles.length) {
-          this.listObjects();
+          this.listObjects({ refresh: true });
         }
       },
     },
@@ -86,6 +87,7 @@ export default {
       currentRoute: null,
       currentFiles: null,
       currentDirectoryFiles: null,
+      refreshing: false,
     };
   },
   computed: {
@@ -94,13 +96,20 @@ export default {
     },
   },
   methods: {
-    async listObjects(startAt) {
+    async listObjects({ refresh, startAt }) {
+      if (refresh) {
+        if (this.refreshing) {
+          return;
+        }
+        this.refreshing = true;
+      }
+      const prefix = this.currentRoutes.join('/').replace(/\/+/, '') || '/';
       let res;
       try {
         res = await this.$pApi.get('/oss/listObjects', {
           params: {
             bucketName: this.bucket,
-            prefix: this.currentRoute,
+            prefix,
             startAt: startAt?.key || null,
             startAtType: startAt?.type || null,
             pageSize: 30,
@@ -113,11 +122,20 @@ export default {
         }
         return;
       }
-      this.currentDirectoryFiles.push(...res.data.data);
+      if (refresh) {
+        this.currentDirectoryFiles.splice(0, this.currentDirectoryFiles.length);
+        this.currentDirectoryFiles.push(...res.data.data);
+        this.refreshing = false;
+      } else {
+        this.currentDirectoryFiles.push(...res.data.data);
+      }
     },
-    handleListDblClick(e) {
+    handleListClick(e) {
       for (let i = 0; i < e.path.length; i++) {
         const el = e.path[i];
+        if (!el || !el.classList) {
+          continue;
+        }
         if (el.classList.contains('fmanager-file')) {
           if (el.dataset.directory === 'true') {
             this.currentRoutes.push(el.dataset.name);
@@ -125,6 +143,22 @@ export default {
           break;
         }
       }
+    },
+    async handleRefresh() {
+      await this.listObjects({ refresh: true });
+    },
+    async handleNavClick(route) {
+      if (route === this.currentRoute) {
+        return;
+      }
+      const idx = this.currentRoutes.findIndex((item) => item === route);
+      if (idx < 0) {
+        return;
+      }
+      this.currentRoutes.splice(idx + 1);
+    },
+    async handleBack() {
+      this.currentRoutes.splice(this.currentRoutes.length - 1);
     },
   },
 };
@@ -146,7 +180,7 @@ export default {
     align-items: center;
     border-bottom: 1px solid #323232;
     user-select: none;
-    padding: 10px 20px;
+    padding: 10px 16px;
     .fmanager-nav {
       color: #999;
       font-size: 13px;
@@ -178,8 +212,9 @@ export default {
     }
     i {
       color: var(--primary);
-      justify-content: flex-end;
       transition: color 100ms ease;
+      justify-content: flex-end;
+      margin-left: 10px;
     }
     i:hover {
       color: var(--regular-text);

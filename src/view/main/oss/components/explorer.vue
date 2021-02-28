@@ -12,7 +12,7 @@
       </el-button>
     </div>
     <div class="explorer-body">
-      <FileManager :bucket="bucket" />
+      <FileManager ref="fmanager" :bucket="bucket" />
     </div>
   </div>
 </template>
@@ -29,7 +29,9 @@ export default {
   },
   methods: {
     handleUploadClick() {
-      this.$emit('upload');
+      this.$emit('upload', {
+        prefix: `${this.$refs.fmanager.currentRoutes.join('/').substr(1) }/`,
+      });
     },
   },
 };

@@ -48,9 +48,9 @@ export default {
     },
   },
   methods: {
-    open() {
+    open(prefix) {
       this.show = true;
-      this.prefix = '';
+      this.prefix = prefix || '';
       this.$nextTick(() => {
         document.getElementById('ossUploadFile').value = '';
       });

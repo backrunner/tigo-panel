@@ -83,8 +83,8 @@ export default {
       this.buckets.push(bucketName);
       this.setSelected(bucketName);
     },
-    openUpload() {
-      this.$refs.uploader.open();
+    openUpload({ prefix }) {
+      this.$refs.uploader.open(prefix);
     },
     doUpload({ prefix, files, force }) {
       const bucketName = this.selected;
