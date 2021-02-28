@@ -104,7 +104,6 @@ export default {
         this.addUploading({
           bucket: bucketName,
           key,
-          file,
         });
         try {
           await this.$pApi.post('/oss/putObject', formData, {
@@ -122,7 +121,7 @@ export default {
           this.$message.error(`上传失败${message ? `: ${message}` : ''}`);
           return;
         }
-        this.$message.success('uploaded');
+        this.$message.success(this.$t('oss.uploader.uploaded'));
       });
     },
     onUploadProgress(e, bucket, key) {

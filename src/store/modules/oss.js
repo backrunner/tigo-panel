@@ -17,11 +17,17 @@ const mutations = {
       return;
     }
     state.uploading[idx].progress = progress;
+    if (progress >= 100) {
+      state.uploading[idx].status = 'success';
+    }
   },
   setUploadStatus(state, { bucket, key, status }) {
     const idx = state.uploading.findIndex((item) => item.bucket === bucket && item.key === key);
     if (idx < 0) {
       return;
+    }
+    if (status === 'failed') {
+      state.uploading[idx].progress = 0;
     }
     state.uploading[idx].status = status;
   },

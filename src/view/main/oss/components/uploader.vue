@@ -15,7 +15,9 @@
         <el-checkbox v-model="force">{{ $t('oss.uploader.force') }}</el-checkbox>
       </div>
     </div>
-    <div class="oss-upload__list" v-if="!showEmpty"></div>
+    <div class="oss-upload__list n-scroll" v-if="!showEmpty">
+      <UploadItem v-for="item in list" :key="item.key" :item="item" />
+    </div>
     <div class="oss-upload__empty" v-else>
       <span>{{ $t('oss.uploader.empty') }}</span>
     </div>
@@ -30,10 +32,15 @@
 </template>
 
 <script>
+import UploadItem from './uploadItem';
+
 export default {
   props: {
     bucket: String,
     list: Array,
+  },
+  components: {
+    UploadItem,
   },
   data() {
     return {
@@ -85,7 +92,14 @@ export default {
   &__list {
     margin-top: 16px;
     border-top: 1px solid #383838;
-    padding-top: 12px;
+    height: calc(100% - 102px);
+    max-height: calc(100% - 102px);
+    .n-scroll::-webkit-scrollbar-track {
+      background-color: #2e2e2e;
+    }
+    .n-scroll::-webkit-scrollbar-corner {
+      background-color: #2e2e2e;
+    }
   }
   &__empty {
     margin-top: 16px;
