@@ -23,7 +23,12 @@
         <span class="file-item__lm">{{ $t('oss.fmanager.lastModified') }}</span>
         <span class="file-item__size">{{ $t('oss.fmanager.size') }}</span>
       </div>
-      <FileItem v-for="file in currentDirectoryFiles" :key="file.key" :file="file" />
+      <FileItem
+        v-for="file in currentDirectoryFiles"
+        :key="file.key"
+        :file="file"
+        :bucket="bucket"
+      />
       <div class="fmanager-list__infinite"></div>
     </div>
     <div class="fmanager-empty" v-if="folderEmpty && !refreshing">
@@ -55,27 +60,9 @@ export default {
         if (!this.files[newVal]) {
           this.$set(this.files, newVal, {});
         }
-        this.currentRoutes = this.routes[newVal];
-        this.currentFiles = this.files[newVal];
-      },
-    },
-    currentRoutes: {
-      immediate: true,
-      deep: true,
-      handler() {
-        this.currentRoute = this.currentRoutes[this.currentRoutes.length - 1];
-      },
-    },
-    currentRoute: {
-      immediate: true,
-      handler(newVal) {
-        if (!this.currentFiles[newVal]) {
-          this.$set(this.currentFiles, newVal, []);
-        }
-        this.currentDirectoryFiles = this.currentFiles[newVal];
-        if (!this.currentDirectoryFiles.length) {
-          this.listObjects({ refresh: true });
-        }
+        this.$set(this, 'currentRoutes', this.routes[newVal]);
+        this.$set(this, 'currentFiles', this.files[newVal]);
+        this.refreshCurrent();
       },
     },
   },
@@ -96,6 +83,19 @@ export default {
     },
   },
   methods: {
+    refreshCurrent() {
+      this.$set(this, 'currentRoute', this.currentRoutes[this.currentRoutes.length - 1]);
+      this.setCurrentFiles(this.currentRoute);
+    },
+    setCurrentFiles(route) {
+      if (!this.currentFiles[route]) {
+        this.$set(this.currentFiles, route, []);
+      }
+      this.$set(this, 'currentDirectoryFiles', this.currentFiles[route]);
+      if (!this.currentDirectoryFiles.length) {
+        this.listObjects({ refresh: true });
+      }
+    },
     async listObjects({ refresh, startAt }) {
       if (refresh) {
         if (this.refreshing) {
@@ -120,6 +120,7 @@ export default {
           const message = err.response?.data?.message;
           this.$message.error(`文件列表获取失败${message ? `: ${message}` : ''}`);
         }
+        this.refreshing = false;
         return;
       }
       if (refresh) {
@@ -139,6 +140,7 @@ export default {
         if (el.classList.contains('fmanager-file')) {
           if (el.dataset.directory === 'true') {
             this.currentRoutes.push(el.dataset.name);
+            this.refreshCurrent();
           }
           break;
         }
@@ -156,9 +158,11 @@ export default {
         return;
       }
       this.currentRoutes.splice(idx + 1);
+      this.refreshCurrent();
     },
     async handleBack() {
       this.currentRoutes.splice(this.currentRoutes.length - 1);
+      this.refreshCurrent();
     },
   },
 };
