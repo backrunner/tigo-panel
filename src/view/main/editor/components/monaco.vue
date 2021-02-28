@@ -398,6 +398,7 @@ export default {
       i {
         cursor: pointer;
         margin-right: 8px;
+        transform: translateY(1px);
       }
       i:last-child {
         margin-right: 0;
