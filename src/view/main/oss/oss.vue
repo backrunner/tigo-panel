@@ -96,6 +96,9 @@ export default {
       }
     },
     handleListItemClick(bucketName) {
+      if (bucketName === this.selected) {
+        return;
+      }
       this.setSelected(bucketName);
     },
     handleNewBucketAdded(bucketName) {
