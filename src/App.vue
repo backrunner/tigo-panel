@@ -34,7 +34,10 @@ li:focus {
 }
 
 // scroll
-
+.c-scroll, .n-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .c-scroll::-webkit-scrollbar {
   width: 16px;
   left: -100px;
@@ -53,14 +56,8 @@ li:focus {
 .c-scroll::-webkit-scrollbar-corner {
   background-color: #282828;
 }
-
 .c-scroll__small::-webkit-scrollbar {
   width: 10px;
-}
-
-.n-scroll {
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 .n-scroll::-webkit-scrollbar {
   width: 4px;

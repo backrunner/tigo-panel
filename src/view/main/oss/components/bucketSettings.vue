@@ -5,7 +5,7 @@
     :modal="false"
     size="400px"
     :title="$t('oss.settings')"
-    >
+  >
     <el-form ref="form" :model="settings" label-width="80px" label-position="left">
       <el-form-item :label="$t('oss.settings.public')">
         <el-switch v-model="settings.public" @change="publicChanged"></el-switch>
@@ -48,7 +48,9 @@ export default {
             }
             this.$message.success(this.$t('oss.settings.success'));
             this.settings.public = true;
-            this.$emit('policy-updated', { bucket: this.bucket });
+            this.$emit('policy-updated', this.bucket, {
+              public: true,
+            });
           })
           .catch(() => {});
       } else {
@@ -66,7 +68,9 @@ export default {
             }
             this.settings.public = false;
             this.$message.success(this.$t('oss.settings.success'));
-            this.$emit('policy-updated', this.bucket);
+            this.$emit('policy-updated', this.bucket, {
+              public: false,
+            });
           })
           .catch(() => {});
       }

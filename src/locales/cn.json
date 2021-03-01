@@ -83,8 +83,15 @@
   "oss.fmanager.name": "文件名",
   "oss.fmanager.lastModified": "最后修改时间",
   "oss.fmanager.size": "文件大小",
+  "oss.fmanager.download": "下载",
+  "oss.fmanager.copyLink": "复制链接",
+  "oss.fmanager.copied": "文件链接已复制到剪贴板",
+  "oss.fmanager.downloadStart": "文件下载已开始，请耐心等待",
   "oss.settings": "空间设置",
   "oss.settings.public": "公开访问",
+  "oss.settings.enablePublic": "确认要将空间设置为可公开访问吗？",
+  "oss.settings.disablePublic": "确认要将空间设置为私有吗？",
+  "oss.settings.success": "空间策略修改成功",
   "confirm": "确认",
   "cancel": "取消",
   "save": "保存",
@@ -95,5 +102,6 @@
   "upload": "上传文件",
   "selectFile": "选择文件",
   "addSuccess": "添加成功",
-  "deleteSuccess": "删除成功"
+  "deleteSuccess": "删除成功",
+  "deleteFailed": "删除失败"
 }

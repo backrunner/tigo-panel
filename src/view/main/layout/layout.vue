@@ -69,9 +69,9 @@ export default {
     }
     // init nav
     const storedNav = window.localStorage.getItem('nav');
+    const path = this.$route.path.replace('/app', '');
     if (storedNav) {
       if (storedNav.uid === this.uid) {
-        const path = this.$route.path.replace('/app', '');
         let found = false;
         storedNav.tabs.forEach((tab) => {
           if (tab.path === path) {
@@ -89,8 +89,13 @@ export default {
       } else {
         window.localStorage.removeItem('nav');
       }
+    } else {
+      this.openTab({
+        uid: this.uid,
+        path,
+        name: PathNameMap[path],
+      });
     }
-    const path = this.$route.path.replace('/app', '');
     if (path === '' || path === '/') {
       this.setActivateTab('home');
     } else {

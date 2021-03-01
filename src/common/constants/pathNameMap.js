@@ -3,4 +3,5 @@ export default {
   '/cfs': 'cfs',
   '/debugger': 'debugger',
   '/keymanage': 'keymanage',
+  '/oss': 'oss',
 };

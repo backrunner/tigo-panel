@@ -80,11 +80,18 @@
   "oss.uploader.uploadTo": "Upload to",
   "oss.uploader.status.success": "Success",
   "oss.uploader.status.failed": "Failed",
-  "oss.settings": "Bucket settings",
-  "oss.settings.public": "Public access",
   "oss.fmanager.name": "Name",
   "oss.fmanager.lastModified": "Last Modified",
   "oss.fmanager.size": "Size",
+  "oss.fmanager.download": "Download",
+  "oss.fmanager.copyLink": "Copy link",
+  "oss.fmanager.copied": "Link has been copied to clipboard",
+  "oss.settings": "Bucket settings",
+  "oss.settings.public": "Public access",
+  "oss.settings.enablePublic": "Are you sure to make this bucket publicly accessible?",
+  "oss.settings.disablePublic": "Are you sure to make this bucket private?",
+  "oss.settings.success": "Bucket policy modified successfully",
+  "oss.fmanager.downloadStart": "Downloading started",
   "confirm": "Confirm",
   "cancel": "Cancel",
   "save": "Save",
@@ -95,5 +102,6 @@
   "upload": "Upload",
   "selectFile": "Select file",
   "addSuccess": "Add successfully",
-  "deleteSuccess": "Delete successfully"
+  "deleteSuccess": "Delete successfully",
+  "deleteFailed": "Delete failed"
 }

@@ -17,7 +17,7 @@
       </div>
       <div class="clearfix"></div>
       <Uploader ref="uploader" @upload="doUpload" :list="uploading" />
-      <BucketSettings ref="settings" />
+      <BucketSettings ref="settings" :bucket="selected" @policy-updated="handlePolicyUpdated" />
     </div>
   </Page>
 </template>
@@ -60,7 +60,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('oss', ['addUploading', 'updateUploadProgress', 'setPolicy']),
+    ...mapMutations('oss', [
+      'addUploading',
+      'updateUploadProgress',
+      'setUploadStatus',
+      'setPolicy',
+      'updatePolicy',
+    ]),
     async fetchBuckets() {
       const res = await this.$nApi.get('/oss/listBuckets');
       if (!res) {
@@ -73,11 +79,13 @@ export default {
     },
     setSelected(bucketName) {
       this.selected = bucketName;
-      this.$router.replace({
-        query: {
-          bucket: bucketName,
-        },
-      });
+      if (this.$route.query?.bucket !== bucketName) {
+        this.$router.replace({
+          query: {
+            bucket: bucketName,
+          },
+        });
+      }
       this.fetchPolicy(bucketName);
     },
     async fetchPolicy(bucket) {
@@ -108,7 +116,7 @@ export default {
     openUpload({ prefix }) {
       this.$refs.uploader.open(prefix);
     },
-    doUpload({ prefix, files, force }) {
+    doUpload({ prefix, files, timestamp, force }) {
       const bucketName = this.selected;
       files.forEach(async (file) => {
         let fixedPrefix;
@@ -126,32 +134,38 @@ export default {
         this.addUploading({
           bucket: bucketName,
           key,
+          timestamp,
         });
-        try {
-          await this.$pApi.post('/oss/putObject', formData, {
+        this.$pApi
+          .post('/oss/putObject', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
             onUploadProgress: (e) => {
               if (e.lengthComputable) {
-                this.onUploadProgress(e, bucketName, key);
+                this.onUploadProgress(e, bucketName, key, timestamp);
               }
             },
+          })
+          .then(() => {
+            this.setUploadStatus({ bucket: bucketName, key, timestamp, status: 'success' });
+          })
+          .catch((err) => {
+            const { message } = err.response.data;
+            this.$message.error(`上传失败${message ? `: ${message}` : ''}`);
+            this.setUploadStatus({ bucket: bucketName, key, timestamp, status: 'failed' });
           });
-        } catch (err) {
-          const { message } = err.response.data;
-          this.$message.error(`上传失败${message ? `: ${message}` : ''}`);
-          return;
-        }
-        this.$message.success(this.$t('oss.uploader.uploaded'));
       });
     },
-    onUploadProgress(e, bucket, key) {
+    onUploadProgress(e, bucket, key, timestamp) {
       const progress = (e.loaded / e.total) * 100;
-      this.updateUploadProgress({ bucket, key, progress });
+      this.updateUploadProgress({ bucket, key, progress, timestamp });
     },
     openSettings() {
       this.$refs.settings.open(this.policy[this.selected]);
+    },
+    handlePolicyUpdated(bucket, policy) {
+      this.updatePolicy({ bucket, policy });
     },
   },
 };

@@ -8,7 +8,7 @@
             'fmanager-nav__item--current': currentRoute === route,
           }"
           v-for="(route, index) in currentRoutes"
-          :key="route"
+          :key="route + index"
         >
           <span @click="handleNavClick(route)">{{ route }}</span>
           <NavRightArrow v-if="index !== currentRoutes.length - 1" />
@@ -25,7 +25,7 @@
       </div>
       <FileItem
         v-for="file in currentDirectoryFiles"
-        :key="file.key"
+        :key="file.key + Math.random()"
         :file="file"
         :bucket="bucket"
       />
@@ -82,6 +82,14 @@ export default {
       return !this.currentDirectoryFiles.length;
     },
   },
+  created() {
+    this.$bus.$on('oss-file-deleted', this.handleFileDeleted);
+    this.$bus.$on('oss-file-refresh', this.handleRefresh);
+  },
+  beforeDestroy() {
+    this.$bus.$off('oss-file-deleted', this.handleFileDeleted);
+    this.$bus.$off('oss-file-refresh', this.handleRefresh);
+  },
   methods: {
     refreshCurrent() {
       this.$set(this, 'currentRoute', this.currentRoutes[this.currentRoutes.length - 1]);
@@ -120,7 +128,10 @@ export default {
           const message = err.response?.data?.message;
           this.$message.error(`文件列表获取失败${message ? `: ${message}` : ''}`);
         }
-        this.refreshing = false;
+        if (refresh) {
+          this.currentDirectoryFiles.splice(0, this.currentDirectoryFiles.length);
+          this.refreshing = false;
+        }
         return;
       }
       if (refresh) {
@@ -147,7 +158,7 @@ export default {
       }
     },
     async handleRefresh() {
-      await this.listObjects({ refresh: true });
+      this.listObjects({ refresh: true });
     },
     async handleNavClick(route) {
       if (route === this.currentRoute) {
@@ -161,8 +172,35 @@ export default {
       this.refreshCurrent();
     },
     async handleBack() {
-      this.currentRoutes.splice(this.currentRoutes.length - 1);
+      if (this.currentRoutes.length > 1) {
+        this.currentRoutes.pop();
+      }
       this.refreshCurrent();
+    },
+    async handleFileDeleted(bucket, key) {
+      if (bucket === this.bucket) {
+        const idx = this.currentDirectoryFiles.findIndex((item) => item.key === key);
+        if (idx < 0) {
+          return;
+        }
+        this.currentDirectoryFiles.splice(idx, 1);
+        if (!this.currentDirectoryFiles.length) {
+          this.recursiveCheckEmpty();
+        }
+      }
+    },
+    async recursiveCheckEmpty() {
+      if (this.currentRoutes.length <= 1) {
+        return;
+      }
+      this.currentRoutes.pop();
+      this.refreshCurrent();
+      await this.listObjects({ refresh: true });
+      this.$forceUpdate();
+      await this.$nextTick();
+      if (!this.currentDirectoryFiles.length) {
+        this.recursiveCheckEmpty();
+      }
     },
   },
 };

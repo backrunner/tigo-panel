@@ -115,7 +115,6 @@ export default {
       white-space: pre-wrap;
       word-break: break-all;
       word-wrap: break-word;
-      overflow-y: auto;
     }
   }
 }

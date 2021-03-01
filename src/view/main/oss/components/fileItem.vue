@@ -7,13 +7,13 @@
     <span class="file-item__lm">{{ displayLastModified }}</span>
     <span class="file-item__size">{{ displaySize }}</span>
     <ContextMenu @item-clicked="handleContextClick">
-      <ContextMenuItem name="download" v-if="currentPolicy.public">
+      <ContextMenuItem name="download" v-if="showDownload">
         {{ $t('oss.fmanager.download') }}
       </ContextMenuItem>
-      <ContextMenuItem name="copyLink" v-if="currentPolicy.public">
+      <ContextMenuItem name="copyLink" v-if="showCopyLink">
         {{ $t('oss.fmanager.copyLink') }}
       </ContextMenuItem>
-      <ContextMenuItem name="delete" v-if="!file.isDirectory">{{ $t('delete') }}</ContextMenuItem>
+      <ContextMenuItem name="delete" v-if="showDelete">{{ $t('delete') }}</ContextMenuItem>
     </ContextMenu>
   </div>
 </template>
@@ -28,8 +28,25 @@ export default {
     file: Object,
     bucket: String,
   },
+  data() {
+    return {
+      currentPolicy: {},
+    };
+  },
+  created() {
+    this.$store.subscribe((mutation, state) => {
+      if (
+        mutation.type === 'oss/setPolicy'
+        || mutation.type === 'oss/updatePolicy'
+      ) {
+        this.currentPolicy = state.oss.policy[this.bucket] || {};
+      }
+    });
+  },
   computed: {
-    ...mapState('oss', ['policy']),
+    ...mapState({
+      scopeId: (state) => state.auth.scopeId,
+    }),
     showDirIcon() {
       return !!this.file.isDirectory;
     },
@@ -51,15 +68,50 @@ export default {
         return '-';
       }
     },
-    currentPolicy() {
-      return this.policy[this.bucket] || {};
+    showDownload() {
+      return !this.file?.isDirectory;
+    },
+    showCopyLink() {
+      return this.currentPolicy?.public && !this.file?.isDirectory;
+    },
+    showDelete() {
+      return !this.file?.isDirectory;
     },
   },
   methods: {
-    handleContextClick(name) {
+    async handleContextClick(name) {
       if (name === 'download') {
+        this.$message.success(this.$t('oss.fmanager.downloadStart'));
+        const res = await this.$nApi.get('/oss/getObject', {
+          params: {
+            bucketName: this.bucket,
+            key: this.file.key,
+          },
+          responseType: 'blob',
+        });
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]));
+        const fileLink = document.createElement('a');
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', this.file.name);
+        fileLink.click();
       } else if (name === 'copyLink') {
+        if (navigator.clipboard) {
+          const prefix = this.$apiConfig.https ? 'https://' : 'http://';
+          const url = `${prefix}${this.$apiConfig.host}/storage/${this.scopeId}/${this.bucket}/${this.file.key}`;
+          navigator.clipboard.writeText(url);
+        }
+        this.$message.success(this.$t('oss.fmanager.copied'));
       } else if (name === 'delete') {
+        try {
+          await this.$pApi.post('/oss/removeObject', {
+            bucketName: this.bucket,
+            key: this.file.key,
+          });
+          this.$bus.$emit('oss-file-deleted', this.bucket, this.file.key);
+          this.$message.success(this.$t('deleteSuccess'));
+        } catch {
+          this.$message.error(this.$t('deleteFailed'));
+        }
       }
     },
   },

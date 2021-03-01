@@ -18,13 +18,26 @@ export default {
   props: {
     item: Object,
   },
-  computed: {
-    progressStyle() {
-      return `background-image: linear-gradient(to right, #f16d41 0%, #f16d41 ${this.item.progress}%, #232323 ${this.item.progress}%, #232323 100%) !important;`;
+  data() {
+    return {
+      progressStyle: null,
+    };
+  },
+  watch: {
+    item: {
+      immediate: true,
+      deep: true,
+      handler(item) {
+        const fixedProgress = item.progress || 0;
+        this.progressStyle = `background-image: linear-gradient(to right, #f16d41 0%, #f16d41 ${fixedProgress}%, #232323 ${fixedProgress}%, #232323 100%)`;
+        this.$forceUpdate();
+      },
     },
+  },
+  computed: {
     displayProgress() {
       if (this.item.status === 'uploading') {
-        return `${this.item.upload}%`;
+        return `${this.item.progress}%`;
       }
       return this.$t(`oss.uploader.status.${this.item.status}`);
     },
@@ -40,18 +53,18 @@ export default {
   border-bottom: 1px solid #383838;
   user-select: none;
   &__to {
-    margin-bottom: 2px;
+    margin-bottom: 6px;
   }
   &__key {
-    margin-bottom: 2px;
+    margin-bottom: 8px;
   }
   &__progress {
     display: flex;
     align-items: center;
     .oss-upload-progress {
       flex: 1;
-      height: 4px;
-      margin-right: 8px;
+      height: 12px;
+      margin-right: 12px;
     }
   }
 }

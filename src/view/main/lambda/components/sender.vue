@@ -276,7 +276,6 @@ export default {
       }
       &__body {
         max-height: calc(100% - 36px);
-        overflow-y: auto;
         .sender-row {
           display: flex;
           margin-bottom: 8px;
