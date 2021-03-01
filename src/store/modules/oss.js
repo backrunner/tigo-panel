@@ -45,7 +45,6 @@ const mutations = {
   },
   updatePolicy(state, { bucket, policy }) {
     state.policy[bucket] = merge(state.policy[bucket], policy);
-    console.log(state.policy[bucket]);
   },
 };
 
