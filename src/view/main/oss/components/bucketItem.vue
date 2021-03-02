@@ -5,8 +5,12 @@
       'oss-list-item__selected': selected === name,
     }"
     :data-name="name"
+    v-context
   >
     <span>{{ name }}</span>
+    <ContextMenu @item-clicked="handleContextClicked">
+      <ContextMenuItem name="delete">{{ $t('delete') }}</ContextMenuItem>
+    </ContextMenu>
   </div>
 </template>
 
@@ -19,6 +23,20 @@ export default {
     },
     selected: {
       type: String,
+    },
+  },
+  methods: {
+    async handleContextClicked(name) {
+      if (name === 'delete') {
+        const res = await this.$nApi.post('/oss/removeBucket', {
+          bucketName: this.name,
+        });
+        if (!res) {
+          return;
+        }
+        this.$message.success(this.$t('deleteSuccess'));
+        this.$bus.$emit('oss-bucket-deleted', this.name);
+      }
     },
   },
 };

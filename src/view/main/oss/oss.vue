@@ -58,6 +58,11 @@ export default {
     if (queryBucket) {
       this.setSelected(queryBucket);
     }
+    // listen event
+    this.$bus.$on('oss-bucket-deleted', this.handleBucketDeleted);
+  },
+  beforeDestroy() {
+    this.$bus.$off('oss-bucket-deleted', this.handleBucketDeleted);
   },
   methods: {
     ...mapMutations('oss', [
@@ -166,6 +171,16 @@ export default {
     },
     handlePolicyUpdated(bucket, policy) {
       this.updatePolicy({ bucket, policy });
+    },
+    handleBucketDeleted(name) {
+      const idx = this.buckets.findIndex((item) => item === name);
+      if (idx < 0) {
+        return;
+      }
+      this.buckets.splice(idx, 1);
+      if (name === this.selected) {
+        this.selected = null;
+      }
     },
   },
 };
