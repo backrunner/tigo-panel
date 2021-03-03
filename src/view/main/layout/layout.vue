@@ -79,22 +79,29 @@ export default {
           }
         });
         if (!found) {
-          this.openTab({
-            uid: this.uid,
-            path,
-            name: PathNameMap[path],
-          });
+          const name = PathNameMap[path];
+          if (name) {
+            this.openTab({
+              uid: this.uid,
+              path,
+              name,
+            });
+          }
         }
         this.setTabs(storedNav.tabs);
       } else {
         window.localStorage.removeItem('nav');
       }
     } else {
-      this.openTab({
-        uid: this.uid,
-        path,
-        name: PathNameMap[path],
-      });
+      const name = PathNameMap[path];
+      console.log(path);
+      if (path && name) {
+        this.openTab({
+          uid: this.uid,
+          path,
+          name,
+        });
+      }
     }
     if (path === '' || path === '/') {
       this.setActivateTab('home');
