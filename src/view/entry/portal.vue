@@ -11,14 +11,21 @@
         <div class="portal-form-title">
           <span>登录到 tigo</span>
         </div>
-        <el-form-item>
+        <el-form-item
+          prop="username"
+          :rules="[{ required: true, message: $t('portal.usernameEmpty') }]"
+        >
           <el-input v-model="loginForm.username" :placeholder="$t('portal.username')"> </el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item
+          prop="password"
+          :rules="[{ required: true, message: $t('portal.passwordEmpty') }]"
+        >
           <el-input
             v-model="loginForm.password"
             type="password"
             :placeholder="$t('portal.password')"
+            @keyup.native.enter="handleLoginEnter"
           >
           </el-input>
         </el-form-item>
@@ -46,11 +53,24 @@
         <div class="portal-form-title">
           <span>开始使用 tigo</span>
         </div>
-        <el-form-item>
+        <el-form-item
+          prop="username"
+          :rules="[
+            { required: true, message: $t('portal.usernameEmpty') },
+            { min: 6, message: $t('portal.usernameLengthInvalid') },
+            { pattern: /[a-zA-Z0-9_]+/, message: $t('portal.usernameInvalid') },
+          ]"
+        >
           <el-input v-model="registerForm.username" :placeholder="$t('portal.username')">
           </el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item
+          prop="password"
+          :rules="[
+            { required: true, message: $t('portal.passwordEmpty') },
+            { min: 6, message: $t('portal.passwordLengthInvalid') },
+          ]"
+        >
           <el-input
             v-model="registerForm.password"
             type="password"
@@ -58,11 +78,18 @@
           >
           </el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item
+          prop="confirmPassword"
+          :rules="[
+            { required: true, message: $t('portal.confirmPasswordEmpty') },
+            { validator: confirmPasswordValidator, message: $t('portal.confirmPasswordInvalid') },
+          ]"
+        >
           <el-input
             v-model="registerForm.confirmPassword"
             :placeholder="$t('portal.confirmPassword')"
             type="password"
+            @keyup.native.enter="handleRegisterEnter"
           >
           </el-input>
         </el-form-item>
@@ -89,6 +116,13 @@ export default {
     EntryFooter,
   },
   data() {
+    const confirmPasswordValidator = (rule, value, callback) => {
+      if (value !== this.registerForm.password) {
+        callback(new Error(this.$t('portal.passwordNotSame')));
+      } else {
+        callback();
+      }
+    };
     return {
       formType: 'login',
       loginForm: {
@@ -103,6 +137,7 @@ export default {
       },
       loginLoading: false,
       registerLoading: false,
+      confirmPasswordValidator,
     };
   },
   computed: {
@@ -135,27 +170,39 @@ export default {
   },
   methods: {
     // actions
-    async login() {
-      this.loginLoading = true;
-      const res = await doLogin(this.loginForm);
-      if (res) {
-        this.$message.success('登录成功');
-        this.$router.push(this.$route.query?.path || '/app');
-      }
-      this.loginLoading = false;
+    login() {
+      this.$refs.loginForm.validate(async (valid) => {
+        if (!valid) {
+          return;
+        }
+        this.loginLoading = true;
+        const res = await doLogin(this.loginForm);
+        if (res) {
+          this.$message.success(this.$t('portal.loginSuccess'));
+          this.$router.push(this.$route.query?.path || '/app');
+        }
+        this.loginLoading = false;
+      });
     },
     async register() {
-      if (this.registerForm.password !== this.registerForm.confirmPassword) {
-        this.$message.error('两次输入的密码不一致');
-        return;
-      }
-      this.registerLoading = true;
-      const res = await doRegister(this.registerForm);
-      if (res) {
-        this.switchToLogin();
-        this.$message.success('注册成功！请使用您刚才填写的用户信息登录');
-      }
-      this.registerLoading = false;
+      this.$refs.registerForm.validate(async (valid) => {
+        if (!valid) {
+          return;
+        }
+        this.registerLoading = true;
+        const res = await doRegister(this.registerForm);
+        if (res) {
+          this.switchToLogin();
+          this.$message.success(this.$t('portal.registerSuccess'));
+        }
+        this.registerLoading = false;
+      });
+    },
+    handleLoginEnter() {
+      this.login();
+    },
+    handleRegisterEnter() {
+      this.register();
     },
     // switch
     switchToLogin() {
