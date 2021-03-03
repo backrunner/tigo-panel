@@ -94,7 +94,6 @@ export default {
       }
     } else {
       const name = PathNameMap[path];
-      console.log(path);
       if (path && name) {
         this.openTab({
           uid: this.uid,
