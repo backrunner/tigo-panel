@@ -69,7 +69,7 @@ export const checkAuthStatus = async () => {
   if (!store.state.auth.token) {
     return false;
   }
-  const res = await nApi.get('/auth/checkStatus');
+  const res = await nApi.get('/auth/getUserInfo');
   if (res) {
     const { uid, username, scopeId } = res.data.data;
     store.commit('auth/setUserInfo', {
