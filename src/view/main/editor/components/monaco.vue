@@ -73,6 +73,10 @@ import { lambdaTester, exportTester } from '../constants/patterns';
 
 const DRAFT_SAVE_TIMEOUT = 500;
 const DRAFT_ENABLED_TYPE = ['cfs', 'lambda'];
+const API_TARGET = {
+  lambda: 'faas',
+  cfs: 'cfs',
+};
 
 export default {
   components: {
@@ -216,7 +220,7 @@ export default {
           id: this.item.id,
         });
       }
-      const res = await this.$nApi.post(`/${this.type}/save`, params);
+      const res = await this.$nApi.post(`/${API_TARGET[this.type]}/save`, params);
       this.$set(this.saving, this.item.id, false);
       if (!res) {
         return;
