@@ -19,7 +19,7 @@ import { mapMutations } from 'vuex';
 import List from './components/list';
 import Monaco from './components/monaco';
 import ScriptEnv from './components/scriptEnv';
-import apiBaseMap from './constants/ApiBaseMap.js';
+import apiBaseMap from './constants/apiBaseMap.js';
 
 export default {
   props: {

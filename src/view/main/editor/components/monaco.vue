@@ -66,10 +66,10 @@ import DraftTip from './draftTip';
 import Utf8 from 'crypto-js/enc-utf8';
 import Base64 from 'crypto-js/enc-base64';
 import moment from 'moment';
-import apiBaseMap from '../constants/ApiBaseMap';
+import apiBaseMap from '../constants/apiBaseMap';
 import { getTabPath } from '@/utils/path';
 import { mapMutations, mapState } from 'vuex';
-import { lambdaTester } from '../constants/TestPattern';
+import { lambdaTester, exportTester } from '../constants/patterns';
 
 const DRAFT_SAVE_TIMEOUT = 500;
 const DRAFT_ENABLED_TYPE = ['cfs', 'lambda'];
@@ -180,7 +180,7 @@ export default {
       if (this.type === 'lambda') {
         const testRes = lambdaTester.test(this.content);
         if (!testRes) {
-          this.$message.error('未检测到必需的 handleRequest 方法');
+          this.$message.error(this.$t('editor.failed.lambdaTest'));
         }
         return testRes;
       }
@@ -188,66 +188,45 @@ export default {
     },
     async save() {
       if (!this.content) {
-        this.$message.error('请先输入内容再保存');
+        this.$message.error(this.$t('editor.save.emptyContent'));
         return;
+      }
+      if (this.type === 'lambda' && !exportTester.test(this.content)) {
+        // current code does not have an export
+        this.content += '\nmodule.exports = handleRequest;\n';
       }
       this.$set(this.saving, this.item.id, true);
       if (!this.validateContent()) {
         return;
       }
-      if (`${this.item.id}`.startsWith('new')) {
-        let res;
-        // add
-        if (this.type === 'cfs') {
-          res = await this.$nApi.post('/cfs/save', {
-            action: 'add',
-            content: Base64.stringify(Utf8.parse(this.content)),
-            name: this.item.name,
-            type: this.item.type,
-          });
-        } else if (this.type === 'lambda') {
-          res = await this.$nApi.post('/faas/save', {
-            action: 'add',
-            content: Base64.stringify(Utf8.parse(this.content)),
-            name: this.item.name,
-          });
-        }
-        if (!res) {
-          this.$set(this.saving, this.item.id, false);
-          return;
-        }
-        const { id } = res.data.data;
-        this.clearDraftTimeout(this.item.id);
-        this.$parent.modifyItemId(this.item.id, id);
-        this.$message.success(this.$t('edtior.save.success'));
-        this.$set(this.saving, this.item.id, false);
-      } else {
-        // edit
-        // eslint-disable-next-line no-lonely-if
-        let res;
-        if (this.type === 'cfs') {
-          res = await this.$nApi.post('/cfs/save', {
-            action: 'edit',
-            id: this.item.id,
-            content: Base64.stringify(Utf8.parse(this.content)),
-            name: this.item.name,
-            type: this.item.type,
-          });
-        } else if (this.type === 'lambda') {
-          res = await this.$nApi.post('/faas/save', {
-            action: 'edit',
-            id: this.item.id,
-            content: Base64.stringify(Utf8.parse(this.content)),
-            name: this.item.name,
-          });
-        }
-        if (!res) {
-          this.$set(this.saving, this.item.id, false);
-          return;
-        }
-        this.clearDraftTimeout(this.item.id);
-        this.$message.success(this.$t('edtior.save.success'));
+      const action = `${this.item.id}`.startsWith('new') ? 'add' : 'edit';
+      // send save request
+      const params = {
+        action,
+        content: Base64.stringify(Utf8.parse(this.content)),
+        name: this.item.name,
+      };
+      if (this.type === 'cfs') {
+        Object.assign(params, {
+          type: this.item.type,
+        });
       }
+      if (action === 'edit') {
+        Object.assign(params, {
+          id: this.item.id,
+        });
+      }
+      const res = await this.$nApi.post(`/${this.type}/save`, params);
+      this.$set(this.saving, this.item.id, false);
+      if (!res) {
+        return;
+      }
+      this.clearDraftTimeout(this.item.id);
+      if (action === 'add') {
+        const { id } = res.data.data;
+        this.$parent.modifyItemId(this.item.id, id);
+      }
+      this.$message.success(this.$t('edtior.save.success'));
       if (this.drafts[this.item.id]) {
         delete this.drafts[this.item.id];
         if (!Object.keys(this.drafts).length) {
@@ -275,8 +254,9 @@ export default {
         this.$set(this.contentLoadFailed, id, true);
         return;
       }
-      const { content } = res.data.data;
-      this.content = Utf8.stringify(Base64.parse(content));
+      let { content } = res.data.data;
+      content = Utf8.stringify(Base64.parse(content));
+      this.content = content;
       this.$set(this.saveDisabled, id, false);
       this.$set(this.contentLoading, id, false);
       this.$set(this.contentLoadFailed, id, false);
