@@ -193,7 +193,7 @@ export default {
       }
       if (this.type === 'lambda' && !exportTester.test(this.content)) {
         // current code does not have an export
-        this.content += '\nmodule.exports = handleRequest;\n';
+        this.content += '\n\nmodule.exports = handleRequest;';
       }
       this.$set(this.saving, this.item.id, true);
       if (!this.validateContent()) {
