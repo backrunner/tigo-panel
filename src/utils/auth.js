@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { tApi, nApi } from './request';
+import { tApi, nApi, ptApi } from './request';
 import store from '../store';
 import sha256 from 'crypto-js/sha256';
 
@@ -33,13 +33,10 @@ export const doLogin = async ({
   password,
   remember,
 }) => {
-  const res = await tApi.post('/auth/login', {
+  const res = await ptApi.post('/auth/login', {
     username,
     password: sha256(password).toString(),
   });
-  if (!res) {
-    return false;
-  }
   if (remember) {
     store.commit('auth/setAuth', res.data.data);
   } else {
@@ -49,7 +46,7 @@ export const doLogin = async ({
   setTimeout(() => {
     doTokenRefresh(store.state.auth.token);
   }, 1000 * 60 * 58);
-  return true;
+  return res;
 };
 
 export const doRegister = async ({
@@ -57,12 +54,12 @@ export const doRegister = async ({
   password,
   confirmPassword,
 }) => {
-  const res = await tApi.post('/auth/register', {
+  const res = await ptApi.post('/auth/register', {
     username,
     password: sha256(password).toString(),
     confirmPassword: sha256(confirmPassword).toString(),
   });
-  return !!res;
+  return res;
 };
 
 export const checkAuthStatus = async () => {

@@ -18,6 +18,7 @@ const tApi = axios.create(requestConfig);
 const nApi = axios.create(requestConfig);
 // internal api without res interceptor
 const pApi = axios.create(requestConfig);
+const ptApi = axios.create(requestConfig);
 
 const errorHandler = (err) => {
   const message = err?.response?.data?.message;
@@ -59,4 +60,5 @@ export {
   tApi,
   nApi,
   pApi,
+  ptApi,
 };

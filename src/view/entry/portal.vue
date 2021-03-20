@@ -176,12 +176,22 @@ export default {
           return;
         }
         this.loginLoading = true;
-        const res = await doLogin(this.loginForm);
+        let res;
+        try {
+          res = await doLogin(this.loginForm);
+        } catch (err) {
+          const message = err?.response?.data?.message;
+          if (message) {
+            this.$message.error(message);
+          } else {
+            this.$message.error(this.$t('portal.loginFailed'));
+          }
+          // eslint-disable-next-line no-console
+          console.error('Login error.', err);
+        }
         if (res) {
           this.$message.success(this.$t('portal.loginSuccess'));
           this.$router.push(this.$route.query?.path || '/app');
-        } else {
-          this.$message.success(this.$t('portal.loginFailed'));
         }
         this.loginLoading = false;
       });
@@ -192,12 +202,23 @@ export default {
           return;
         }
         this.registerLoading = true;
-        const res = await doRegister(this.registerForm);
+        let res;
+        try {
+          res = await doRegister(this.registerForm);
+        } catch (err) {
+          const message = err?.response?.data?.message;
+          if (message) {
+            this.$message.error(message);
+          } else {
+            this.$message.error(this.$t('portal.registerFailed'));
+          }
+          // eslint-disable-next-line no-console
+          console.error('Register error.', err);
+          return;
+        }
         if (res) {
           this.switchToLogin();
           this.$message.success(this.$t('portal.registerSuccess'));
-        } else {
-          this.$message.success(this.$t('portal.registerFailed'));
         }
         this.registerLoading = false;
       });
