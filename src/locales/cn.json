@@ -120,5 +120,6 @@
   "selectFile": "选择文件",
   "addSuccess": "添加成功",
   "deleteSuccess": "删除成功",
-  "deleteFailed": "删除失败"
+  "deleteFailed": "删除失败",
+  "networkError": "网络错误"
 }

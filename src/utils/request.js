@@ -4,6 +4,7 @@ import { Message } from 'element-ui';
 import store from '../store';
 import router from '../router';
 import siteConf from '../config';
+import i18n from '../plugins/i18n';
 
 // Set up axios
 const protocol = siteConf.https ? 'https://' : 'http://';
@@ -21,9 +22,11 @@ const pApi = axios.create(requestConfig);
 const ptApi = axios.create(requestConfig);
 
 const errorHandler = (err) => {
-  const message = err?.response?.data?.message;
+  const message = err.response?.data?.message;
   if (message) {
     Message.error(message);
+  } else {
+    Message.error(i18n.t('networkError'));
   }
   console.error('Request API error.', err);
   return Promise.resolve(null);

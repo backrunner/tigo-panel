@@ -120,5 +120,6 @@
   "selectFile": "Select file",
   "addSuccess": "Add successfully",
   "deleteSuccess": "Delete successfully",
-  "deleteFailed": "Delete failed"
+  "deleteFailed": "Delete failed",
+  "networkError": "Network error"
 }
