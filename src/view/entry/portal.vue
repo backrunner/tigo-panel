@@ -9,7 +9,7 @@
         v-show="showLoginForm"
       >
         <div class="portal-form-title">
-          <span>登录到 tigo</span>
+          <span>{{ $t('portal.login.title') }}</span>
         </div>
         <el-form-item
           prop="username"
@@ -40,7 +40,7 @@
           </el-button>
         </el-form-item>
         <div class="form-footer">
-          <span @click="switchToRegister">注册</span>
+          <span @click="switchToRegister">{{ $t('portal.toRegister') }}</span>
         </div>
       </el-form>
       <el-form
@@ -51,7 +51,7 @@
         v-show="showRegisterForm"
       >
         <div class="portal-form-title">
-          <span>开始使用 tigo</span>
+          <span>{{ $t('portal.register.title') }}</span>
         </div>
         <el-form-item
           prop="username"
@@ -99,7 +99,7 @@
           </el-button>
         </el-form-item>
         <div class="form-footer">
-          <span @click="switchToLogin">已有帐户？登录</span>
+          <span @click="switchToLogin">{{ $t('portal.toLogin') }}</span>
         </div>
       </el-form>
       <EntryFooter />
@@ -180,6 +180,8 @@ export default {
         if (res) {
           this.$message.success(this.$t('portal.loginSuccess'));
           this.$router.push(this.$route.query?.path || '/app');
+        } else {
+          this.$message.success(this.$t('portal.loginFailed'));
         }
         this.loginLoading = false;
       });
@@ -194,6 +196,8 @@ export default {
         if (res) {
           this.switchToLogin();
           this.$message.success(this.$t('portal.registerSuccess'));
+        } else {
+          this.$message.success(this.$t('portal.registerFailed'));
         }
         this.registerLoading = false;
       });
