@@ -95,6 +95,8 @@
   "oss.uploader.force": "Overwrite existing files",
   "oss.uploader.uploaded": "File uploaded",
   "oss.uploader.uploadTo": "Upload to",
+  "oss.uploader.failed": "Upload Failed",
+  "oss.uploader.status.hash": "Scanning",
   "oss.uploader.status.success": "Success",
   "oss.uploader.status.failed": "Failed",
   "oss.fmanager.name": "Name",

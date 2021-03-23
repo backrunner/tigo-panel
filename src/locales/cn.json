@@ -95,6 +95,8 @@
   "oss.uploader.force": "覆盖已有文件",
   "oss.uploader.uploaded": "文件已成功上传",
   "oss.uploader.uploadTo": "上传至",
+  "oss.uploader.failed": "上传失败",
+  "oss.uploader.status.hash": "正在扫描文件",
   "oss.uploader.status.success": "上传成功",
   "oss.uploader.status.failed": "上传失败",
   "oss.fmanager.name": "文件名",

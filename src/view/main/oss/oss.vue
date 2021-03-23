@@ -29,6 +29,7 @@ import Explorer from './components/explorer';
 import Uploader from './components/uploader';
 import BucketSettings from './components/bucketSettings';
 import tigoGear from '@/common/icon/tigoGear';
+import calcFileMd5 from '@/utils/fileHash';
 import { mapMutations, mapState } from 'vuex';
 
 export default {
@@ -131,16 +132,39 @@ export default {
           fixedPrefix = '';
         }
         const key = `${fixedPrefix}${file.name}`;
+        this.addUploading({
+          bucket: bucketName,
+          key,
+          timestamp,
+          status: 'hash',
+        });
+        const hash = await calcFileMd5(file);
+        try {
+          // instantly upload by hash
+          const hashCheckRes = await this.$pApi.post('/oss/instantlyPutObject', {
+            bucketName,
+            key,
+            force,
+            hash,
+            meta: {
+              lastModified: file.lastModifiedDate.toISOString(),
+              size: file.size,
+              type: file.type,
+            },
+          });
+          if (hashCheckRes.data?.success) {
+            this.setUploadStatus({ bucket: bucketName, key, timestamp, status: 'success' });
+            return;
+          }
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Try to upload instantly failed.', err);
+        }
         const formData = new FormData();
         formData.append('bucketName', bucketName);
         formData.append('key', key);
         formData.append('file', file);
         formData.append('force', force);
-        this.addUploading({
-          bucket: bucketName,
-          key,
-          timestamp,
-        });
         this.$pApi
           .post('/oss/putObject', formData, {
             headers: {
@@ -157,7 +181,7 @@ export default {
           })
           .catch((err) => {
             const { message } = err.response.data;
-            this.$message.error(`上传失败${message ? `: ${message}` : ''}`);
+            this.$message.error(`${this.$t('oss.uploader.failed')}${message ? `: ${message}` : ''}`);
             this.setUploadStatus({ bucket: bucketName, key, timestamp, status: 'failed' });
           });
       });
