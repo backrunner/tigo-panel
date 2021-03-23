@@ -105,7 +105,7 @@ export default {
         try {
           await this.$pApi.post('/oss/removeObject', {
             bucketName: this.bucket,
-            key: this.file.key,
+            key: this.file.key || `${this.$parent.currentRoutes.join('')}${this.file.name}`.substr(1),
           });
           this.$bus.$emit('oss-file-deleted', this.bucket, this.file.key);
           this.$message.success(this.$t('deleteSuccess'));
