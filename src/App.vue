@@ -236,8 +236,13 @@ li:focus {
     &__header {
       padding: 18px 24px 12px 24px;
       margin-bottom: 0;
+      user-select: 0;
       .el-drawer__close-btn {
         transform: translateX(10px);
+        transition: color 200ms ease;
+      }
+      .el-drawer__close-btn:hover {
+        color: var(--primary);
       }
     }
     &__body {
