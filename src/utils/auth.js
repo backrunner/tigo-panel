@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { tApi, nApi, ptApi } from './request';
 import store from '../store';
-import sha256 from 'crypto-js/sha256';
+import { sha256 } from 'hash-wasm';
 
 export const doTokenRefresh = async (token) => {
   const res = await tApi.get('/auth/refresh', {
@@ -35,7 +35,7 @@ export const doLogin = async ({
 }) => {
   const res = await ptApi.post('/auth/login', {
     username,
-    password: sha256(password).toString(),
+    password: await sha256(password),
   });
   if (remember) {
     store.commit('auth/setAuth', res.data.data);
@@ -56,8 +56,8 @@ export const doRegister = async ({
 }) => {
   const res = await ptApi.post('/auth/register', {
     username,
-    password: sha256(password).toString(),
-    confirmPassword: sha256(confirmPassword).toString(),
+    password: await sha256(password),
+    confirmPassword: await sha256(confirmPassword),
   });
   return res;
 };
