@@ -40,6 +40,15 @@ const mutations = {
     }
     state.uploading[idx].status = status;
   },
+  removeUploadItem(state, { bucket, key, timestamp }) {
+    const idx = state.uploading.findIndex(
+      (item) => item.bucket === bucket && item.key === key && item.timestamp === timestamp,
+    );
+    if (idx < 0) {
+      return;
+    }
+    state.uploading.splice(idx, 1);
+  },
   setPolicy(state, { bucket, policy }) {
     state.policy[bucket] = policy || {};
   },

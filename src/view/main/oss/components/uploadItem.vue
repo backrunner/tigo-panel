@@ -2,6 +2,7 @@
   <div class="oss-upload-item">
     <div class="oss-upload-item__to">
       <span>{{ $t('oss.uploader.uploadTo') }} {{ item.bucket }}</span>
+      <i class="el-icon-close oss-upload-item__close" v-if="closable" @click="handleClose" />
     </div>
     <div class="oss-upload-item__key">
       <span>{{ item.key }}</span>
@@ -14,6 +15,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   props: {
     item: Object,
@@ -41,6 +44,15 @@ export default {
       }
       return this.$t(`oss.uploader.status.${this.item.status}`);
     },
+    closable() {
+      return this.item.status === 'success' || this.item.status === 'failed';
+    },
+  },
+  methods: {
+    ...mapMutations('oss', ['removeUploadItem']),
+    handleClose() {
+      this.removeUploadItem(this.item);
+    },
   },
 };
 </script>
@@ -54,6 +66,20 @@ export default {
   user-select: none;
   &__to {
     margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    span {
+      flex: 1;
+    }
+    .oss-upload-item__close {
+      justify-self: flex-end;
+      color: rgb(114, 118, 123);
+      cursor: pointer;
+      transition: color 200ms ease;
+    }
+    .oss-upload-item__close:hover {
+      color: var(--primary);
+    }
   }
   &__key {
     margin-bottom: 8px;
