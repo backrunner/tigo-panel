@@ -268,20 +268,32 @@ export default {
     handleTypeChanged(type) {
       this.$parent.modifyItemType(this.item.id, type);
     },
+    saveDraft(value) {
+      this.lastSaveDraftTime = new Date().valueOf();
+      if (!this.drafts[this.item.id] || this.drafts[this.item.id] !== value) {
+        this.setCannotClose({
+          path: getTabPath(this.$route.path),
+          status: { msg: this.$t('editor.closeTip.haveDraft') },
+        });
+        this.drafts[this.item.id] = value;
+      }
+      this.$set(this.draftSaveTime, this.item.id, moment().format('HH:mm:ss'));
+    },
     handleEditorChange(value) {
       if (this.draftEnabled) {
         if (this.draftSaveTimeout[this.item.id]) {
           clearTimeout(this.draftSaveTimeout[this.item.id]);
         }
+        if (
+          this.lastSaveDraftTime &&
+          new Date().valueOf() - this.lastSaveDraftTime >= DRAFT_SAVE_TIMEOUT
+        ) {
+          // run immediately
+          this.saveDraft(value);
+          return;
+        }
         this.draftSaveTimeout[this.item.id] = setTimeout(() => {
-          if (!this.drafts[this.item.id] || this.drafts[this.item.id] !== value) {
-            this.setCannotClose({
-              path: getTabPath(this.$route.path),
-              status: { msg: this.$t('editor.closeTip.haveDraft') },
-            });
-            this.drafts[this.item.id] = value;
-          }
-          this.$set(this.draftSaveTime, this.item.id, moment().format('HH:mm:ss'));
+          this.saveDraft(value);
         }, DRAFT_SAVE_TIMEOUT);
       }
     },
