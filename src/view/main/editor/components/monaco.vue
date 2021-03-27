@@ -285,7 +285,7 @@ export default {
         }
         if (
           this.lastSaveDraftCall &&
-          new Date().valueOf() - this.lastSaveDraftCall >= 2 * DRAFT_SAVE_TIMEOUT
+          new Date().valueOf() - this.lastSaveDraftCall >= DRAFT_SAVE_TIMEOUT
         ) {
           // run immediately
           this.lastSaveDraftCall = null;
