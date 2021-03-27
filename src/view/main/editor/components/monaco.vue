@@ -269,7 +269,6 @@ export default {
       this.$parent.modifyItemType(this.item.id, type);
     },
     saveDraft(value) {
-      this.lastSaveDraftTime = new Date().valueOf();
       if (!this.drafts[this.item.id] || this.drafts[this.item.id] !== value) {
         this.setCannotClose({
           path: getTabPath(this.$route.path),
@@ -285,14 +284,17 @@ export default {
           clearTimeout(this.draftSaveTimeout[this.item.id]);
         }
         if (
-          this.lastSaveDraftTime &&
-          new Date().valueOf() - this.lastSaveDraftTime >= DRAFT_SAVE_TIMEOUT
+          this.lastSaveDraftCall &&
+          new Date().valueOf() - this.lastSaveDraftCall >= 2 * DRAFT_SAVE_TIMEOUT
         ) {
           // run immediately
+          this.lastSaveDraftCall = null;
           this.saveDraft(value);
           return;
         }
+        this.lastSaveDraftCall = new Date().valueOf();
         this.draftSaveTimeout[this.item.id] = setTimeout(() => {
+          this.lastSaveDraftCall = null;
           this.saveDraft(value);
         }, DRAFT_SAVE_TIMEOUT);
       }
