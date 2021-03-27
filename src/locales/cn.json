@@ -22,7 +22,7 @@
   "portal.usernameInvalid": "用户名只能含有字母、数字和下划线",
   "portal.passwordEmpty": "密码不能为空",
   "portal.passwordLengthInvalid": "密码不能少于6个字符",
-  "portal.comfirmPasswordEmpty": "确认密码不能为空",
+  "portal.confirmPasswordEmpty": "确认密码不能为空",
   "portal.confirmPasswordInvalid": "两次输入的密码不一致",
   "portal.loginSuccess": "登录成功",
   "portal.loginFailed": "出现错误，登录失败",

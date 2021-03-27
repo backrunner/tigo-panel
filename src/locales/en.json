@@ -22,7 +22,7 @@
   "portal.usernameInvalid": "Username can only contain letters, numbers and underscores ",
   "portal.passwordEmpty": "Password can't be empty",
   "portal.passwordLengthInvalid": "Password should can't be less than 6 characters",
-  "portal.comfirmPasswordEmpty": "Please enter your password twice",
+  "portal.confirmPasswordEmpty": "Please enter your password twice",
   "portal.confirmPasswordInvalid": "The two passwords entered are inconsistent",
   "portal.loginSuccess": "Login successful",
   "portal.loginFailed": "Login failed because of an error.",
