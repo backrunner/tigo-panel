@@ -5,12 +5,17 @@
         <div
           :class="{
             'fmanager-nav__item': true,
-            'fmanager-nav__item--current': currentRoute === route,
+            // eslint-disable-next-line max-len
+            'fmanager-nav__item--current':currentRoute === currentRoutes.slice(0, index + 1).join('/'),
           }"
           v-for="(route, index) in currentRoutes"
-          :key="route + index"
+          :key="currentRoutes.slice(0, index).join('/')"
         >
-          <span @click="handleNavClick(route)">{{ route }}</span>
+          <span
+            @click="handleNavClick(currentRoutes.slice(0, index + 1).join('/'))"
+            >
+            {{ route }}
+          </span>
           <NavRightArrow v-if="index !== currentRoutes.length - 1" />
         </div>
       </div>
@@ -92,8 +97,9 @@ export default {
   },
   methods: {
     refreshCurrent() {
-      this.$set(this, 'currentRoute', this.currentRoutes[this.currentRoutes.length - 1]);
-      this.setCurrentFiles(this.currentRoute);
+      const currentRoute = this.currentRoutes.join('/');
+      this.$set(this, 'currentRoute', currentRoute);
+      this.setCurrentFiles(currentRoute);
     },
     setCurrentFiles(route) {
       if (!this.currentFiles[route]) {
@@ -164,12 +170,13 @@ export default {
       if (route === this.currentRoute) {
         return;
       }
-      const idx = this.currentRoutes.findIndex((item) => item === route);
-      if (idx < 0) {
-        return;
+      for (let i = 0; i < this.currentRoutes.length; i++) {
+        if (this.currentRoutes.slice(0, i + 1).join('/') === route) {
+          this.currentRoutes.splice(i + 1);
+          this.refreshCurrent();
+          return;
+        }
       }
-      this.currentRoutes.splice(idx + 1);
-      this.refreshCurrent();
     },
     async handleBack() {
       if (this.currentRoutes.length > 1) {
