@@ -204,10 +204,10 @@ export default {
       this.currentRoutes.pop();
       this.refreshCurrent();
       await this.listObjects({ refresh: true });
-      this.$forceUpdate();
-      await this.$nextTick();
       if (!this.currentDirectoryFiles.length) {
         this.recursiveCheckEmpty();
+      } else {
+        this.$forceUpdate();
       }
     },
   },
