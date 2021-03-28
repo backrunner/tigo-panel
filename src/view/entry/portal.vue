@@ -186,6 +186,7 @@ export default {
           } else {
             this.$message.error(this.$t('portal.loginFailed'));
           }
+          this.loginLoading = false;
           // eslint-disable-next-line no-console
           console.error('Login error.', err);
         }
@@ -212,6 +213,7 @@ export default {
           } else {
             this.$message.error(this.$t('portal.registerFailed'));
           }
+          this.registerLoading = false;
           // eslint-disable-next-line no-console
           console.error('Register error.', err);
           return;
