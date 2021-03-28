@@ -97,6 +97,7 @@ export default {
   },
   methods: {
     refreshCurrent() {
+      // the first item is "/", so the currentRoute have double "/" at the beginning, just ignore it
       const currentRoute = this.currentRoutes.join('/');
       this.$set(this, 'currentRoute', currentRoute);
       this.setCurrentFiles(currentRoute);
