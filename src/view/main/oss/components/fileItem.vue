@@ -39,7 +39,7 @@ export default {
         mutation.type === 'oss/setPolicy'
         || mutation.type === 'oss/updatePolicy'
       ) {
-        this.currentPolicy = state.oss.policy[this.bucket] || {};
+        this.$set(this, 'currentPolicy', state.oss.policy[this.bucket] || {});
       }
     });
   },
