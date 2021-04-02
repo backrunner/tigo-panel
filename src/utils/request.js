@@ -33,10 +33,9 @@ const errorHandler = (err) => {
 };
 
 const authInteceptor = (config) => {
-  // eslint-disable-next-line no-param-reassign
-  config.headers = {
+  Object.assign(config.headers, {
     Authorization: `Bearer ${store.state.auth.token}`,
-  };
+  });
   return config;
 };
 
