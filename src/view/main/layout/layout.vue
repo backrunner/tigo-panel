@@ -117,13 +117,9 @@ export default {
   },
   mounted() {
     if (!this.heartbeatInterval) {
+      this.sendHeartBeat();
       this.heartbeatInterval = setInterval(async () => {
-        const res = await this.$tApi.get('/common/heartbeat');
-        if (!res) {
-          this.setHeartbeat(false);
-        } else {
-          this.setHeartbeat(true);
-        }
+        this.sendHeartBeat();
       }, 60 * 1000);
     }
   },
@@ -131,6 +127,14 @@ export default {
     ...mapMutations('service', ['setHeartbeat', 'setPluginInfo']),
     ...mapMutations('auth', ['clearAuthInfo']),
     ...mapMutations('nav', ['openTab', 'setActivateTab', 'setTabs']),
+    async sendHeartBeat() {
+      try {
+        await this.$ptApi.get('/common/heartbeat');
+        this.setHeartbeat(true);
+      } catch (err) {
+        this.setHeartbeat(false);
+      }
+    },
     async getPluginInfo() {
       const res = await this.$nApi.get('/common/listPlugins');
       let pluginInfo = res.data.data?.packages;
