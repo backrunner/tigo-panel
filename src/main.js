@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 import './utils/extend';
 import config from './config';
-import { tApi, nApi, pApi } from './utils/request';
+import { tApi, nApi, pApi, ptApi } from './utils/request';
 import idb from './utils/db';
 
 import store from './store';
@@ -30,6 +30,7 @@ Vue.prototype.$idb = idb;
 Vue.prototype.$tApi = tApi;
 Vue.prototype.$nApi = nApi;
 Vue.prototype.$pApi = pApi;
+Vue.prototype.$ptApi = ptApi;
 
 Vue.prototype.$bus = new Vue();
 
