@@ -69,7 +69,6 @@ import moment from 'moment';
 import apiBaseMap from '../constants/apiBaseMap';
 import { getTabPath } from '@/utils/path';
 import { mapMutations, mapState } from 'vuex';
-import { lambdaTester, exportTester } from '../constants/patterns';
 
 const DRAFT_SAVE_TIMEOUT = 500;
 const DRAFT_ENABLED_TYPE = ['cfs', 'lambda'];
@@ -107,18 +106,26 @@ export default {
         if (!`${newItem.id}`.startsWith('new')) {
           this.getContent(newItem.id);
           this.content = '';
+          // set query
+          if (this.$route.query?.id !== `${newItem.id}`) {
+            this.$router.replace({
+              query: {
+                id: newItem.id,
+              },
+            });
+            this.setTabQuery({
+              path: this.$route.path,
+              query: this.$route.query,
+            });
+          }
         } else {
           this.content = '';
-        }
-        if (this.$route.query?.id !== `${newItem.id}`) {
           this.$router.replace({
-            query: {
-              id: newItem.id,
-            },
+            query: null,
           });
           this.setTabQuery({
             path: this.$route.path,
-            query: this.$route.query,
+            query: null,
           });
         }
       },
@@ -181,24 +188,13 @@ export default {
   methods: {
     ...mapMutations('nav', ['openTab', 'setCannotClose', 'setTabQuery']),
     validateContent() {
-      if (this.type === 'lambda') {
-        const testRes = lambdaTester.test(this.content);
-        if (!testRes) {
-          this.$message.error(this.$t('editor.failed.lambdaTest'));
-        }
-        return testRes;
+      if (!this.content.trim()) {
+        this.$message.error(this.$t('editor.save.emptyContent'));
+        return false;
       }
       return true;
     },
     async save() {
-      if (!this.content) {
-        this.$message.error(this.$t('editor.save.emptyContent'));
-        return;
-      }
-      if (this.type === 'lambda' && !exportTester.test(this.content)) {
-        // current code does not have an export
-        this.content += '\n\nmodule.exports = handleRequest;';
-      }
       this.$set(this.saving, this.item.id, true);
       if (!this.validateContent()) {
         return;
@@ -316,7 +312,6 @@ export default {
         newName,
       });
       if (!res) {
-        this.$refs.headerName.setToOriginal();
         this.$refs.headerName.setEditable(false);
         return;
       }
