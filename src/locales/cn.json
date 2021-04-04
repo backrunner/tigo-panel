@@ -55,6 +55,7 @@
   "editor.name.edit": "修改名称",
   "editor.name.edit.emptyError": "名称不能为空",
   "editor.name.edit.success": "名称修改成功",
+  "editor.name.view": "在新窗口中打开",
   "editor.name.copy": "复制访问链接",
   "editor.name.copy.success": "访问链接已复制到剪贴板",
   "editor.name.copy.failed": "复制访问链接失败",

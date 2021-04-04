@@ -5,9 +5,11 @@
         'monaco-header__name_editing': editable,
       }"
       ref="name"
+      :key="nameKey"
       :contenteditable="editable"
-      >{{ name }}</span
-    >
+      >
+      {{ name }}
+    </span>
     <el-tooltip
       class="item"
       effect="light"
@@ -30,9 +32,9 @@
       class="item"
       effect="light"
       :open-delay="1000"
-      :content="$t('editor.name.copy')"
+      :content="$t('editor.name.view')"
       placement="bottom"
-      v-show="showView"
+      v-if="showView"
     >
       <i class="el-icon-view" @click="handleViewClick" v-show="showDefaultIcons"></i>
     </el-tooltip>
@@ -42,7 +44,7 @@
       :open-delay="1000"
       :content="$t('editor.name.debug')"
       placement="bottom"
-      v-show="showDebug"
+      v-if="showDebug"
     >
       <i class="el-icon-cpu" @click="handleDebugClick" v-show="showDefaultIcons"></i>
     </el-tooltip>
@@ -92,6 +94,7 @@ export default {
     return {
       editable: false,
       originName: false,
+      nameKey: 0,
     };
   },
   computed: {
@@ -136,7 +139,7 @@ export default {
       this.$emit('edit', this.$refs.name.innerText);
     },
     handleCancelClick() {
-      this.$refs.name.innerText = this.name;
+      this.nameKey++;
       this.editable = false;
     },
     handleMenuCommand(cmd) {
@@ -145,10 +148,10 @@ export default {
       }
     },
     setEditable(status) {
+      if (!status) {
+        this.nameKey++;
+      }
       this.editable = status;
-    },
-    setToOriginal() {
-      this.$refs.name.innerText = this.name;
     },
   },
 };
