@@ -6,7 +6,7 @@
   "entry.notfound.back": "返回",
   "entry.cantuse": "服务不可用",
   "entry.cantuse.message": "很抱歉，服务暂时不可用...",
-  "entry.cantuse.recheck": "重新检查服务可用性",
+  "entry.cantuse.recheck": "重新检测服务可用性",
   "portal.username": "用户名",
   "portal.password": "密码",
   "portal.confirmPassword": "确认密码",
