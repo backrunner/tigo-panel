@@ -118,6 +118,13 @@ export default {
   methods: {
     handleEditClick() {
       this.editable = true;
+      if (this.editorType === 'cfs') {
+        const name = this.$refs.name.innerText.trim();
+        const idx = name.lastIndexOf('.');
+        if (idx > 0) {
+          this.$refs.name.innerText = name.substring(0, idx);
+        }
+      }
     },
     handleCopyClick() {
       this.$parent.copyUrl();
