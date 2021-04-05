@@ -326,7 +326,9 @@ export default {
     copyUrl() {
       const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.host}`;
       try {
-        const path = `${basePath}/${this.type}/${this.userScopeId}/${this.item.name}`;
+        const scope = this.type === 'cfs' ? 'config' : 'lambda';
+        const type = this.type === 'cfs' ? `.${this.item.type}` : '';
+        const path = `${basePath}/${scope}/${this.userScopeId}/${this.item.name}${type}`;
         window.navigator.clipboard.writeText(path);
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -338,7 +340,8 @@ export default {
     },
     openConfig() {
       const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.host}`;
-      const path = `${basePath}/config/${this.userScopeId}/${this.item.name}`;
+      const type = this.type === 'cfs' ? `.${this.item.type}` : '';
+      const path = `${basePath}/config/${this.userScopeId}/${this.item.name}${type}`;
       window.open(path, '_blank');
     },
     openDebug() {
