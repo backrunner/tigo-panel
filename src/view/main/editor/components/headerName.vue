@@ -136,11 +136,11 @@ export default {
         this.$message.error(this.$t('editor.name.edit.emptyError'));
         return;
       }
-      if (this.$refs.name.innerText === this.name) {
+      if (newName === this.name) {
         this.editable = false;
         return;
       }
-      this.$emit('edit', this.$refs.name.innerText);
+      this.$emit('edit', newName);
     },
     handleCancelClick() {
       this.nameKey++;
