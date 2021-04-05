@@ -25,6 +25,7 @@
       :open-delay="1000"
       :content="$t('editor.name.copy')"
       placement="bottom"
+      v-if="showCopy"
     >
       <i class="el-icon-link" @click="handleCopyClick" v-show="showDefaultIcons"></i>
     </el-tooltip>
@@ -101,8 +102,11 @@ export default {
     showDefaultIcons() {
       return !this.editable;
     },
+    showCopy() {
+      return !`${this.scriptId}`.startsWith('new');
+    },
     showView() {
-      return this.editorType === 'cfs';
+      return this.editorType === 'cfs' && !`${this.scriptId}`.startsWith('new');
     },
     showDebug() {
       return this.editorType === 'lambda' && !`${this.scriptId}`.startsWith('new');
