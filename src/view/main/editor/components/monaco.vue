@@ -58,17 +58,17 @@
 </template>
 
 <script>
+import { Utf8 } from 'crypto-es/lib/core';
+import { Base64 } from 'crypto-es/lib/enc-base64';
+import moment from 'moment';
+import { mapMutations, mapState } from 'vuex';
 import tigoGear from '@/common/icon/tigoGear';
 import MonacoEditor from './monacoEditor';
 import TypeSelector from './typeSelector';
 import HeaderName from './headerName';
 import DraftTip from './draftTip';
-import { Utf8 } from 'crypto-es/lib/core';
-import { Base64 } from 'crypto-es/lib/enc-base64';
-import moment from 'moment';
 import apiBaseMap from '../constants/apiBaseMap';
 import { getTabPath } from '@/utils/path';
-import { mapMutations, mapState } from 'vuex';
 
 const DRAFT_SAVE_TIMEOUT = 500;
 const DRAFT_ENABLED_TYPE = ['cfs', 'lambda'];
