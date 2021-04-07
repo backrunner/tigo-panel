@@ -7,6 +7,7 @@
       ref="name"
       :key="nameKey"
       :contenteditable="editable"
+      @keydown.enter="() => { editable && handleConfirmClick() }"
       >
       {{ name }}
     </span>
