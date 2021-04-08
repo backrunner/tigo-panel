@@ -188,8 +188,8 @@ export default {
         this.$emit('sent', {
           req,
           res: {
-            status: err.response.status,
-            headers: err.response.headers,
+            status: err.response?.status || 500,
+            headers: err.response?.headers,
             body,
             text: body,
           },
