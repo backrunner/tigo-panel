@@ -147,7 +147,7 @@ export default {
             force,
             hash,
             meta: {
-              lastModified: file.lastModifiedDate.toISOString(),
+              lastModified: file.lastModified,
               size: file.size,
               type: file.type,
             },
