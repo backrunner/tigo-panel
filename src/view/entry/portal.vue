@@ -40,7 +40,9 @@
           </el-button>
         </el-form-item>
         <div class="form-footer">
-          <span @click="switchToRegister">{{ $t('portal.toRegister') }}</span>
+          <span @click="switchToRegister" v-if="showRegisterEntry">
+            {{ $t('portal.toRegister') }}
+          </span>
         </div>
       </el-form>
       <el-form
@@ -138,6 +140,7 @@ export default {
       loginLoading: false,
       registerLoading: false,
       confirmPasswordValidator,
+      registerDisabled: false,
     };
   },
   computed: {
@@ -147,9 +150,12 @@ export default {
     showRegisterForm() {
       return this.formType === 'register';
     },
+    showRegisterEntry() {
+      return !this.registerDisabled;
+    },
   },
   async created() {
-    // 存在验证信息，自动跳转
+    // auth info existed, jump to the main page
     const { token, refreshToken } = this.$store.state.auth;
     if (token) {
       const res = await checkAuthStatus();
@@ -163,12 +169,30 @@ export default {
         this.$router.push(this.$route.query?.path || '/app');
       }
     }
+    // check server configuration
+    await this.checkServerConf();
   },
   mounted() {
     // remove nav info when user come this page
     window.localStorage.removeItem('nav');
   },
   methods: {
+    // init
+    async checkServerConf() {
+      let res;
+      try {
+        res = await this.$ptApi.get('/auth/getConf');
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Cannot get server auth configuration.', err);
+        this.$message.error(this.$t('portal.getConfFailed'));
+        return;
+      }
+      if (!res) {
+        return;
+      }
+      this.registerDisabled = res.data.data?.disableRegister || false;
+    },
     // actions
     login() {
       this.$refs.loginForm.validate(async (valid) => {
@@ -197,7 +221,7 @@ export default {
         this.loginLoading = false;
       });
     },
-    async register() {
+    register() {
       this.$refs.registerForm.validate(async (valid) => {
         if (!valid) {
           return;

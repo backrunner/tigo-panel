@@ -28,6 +28,7 @@
   "portal.loginFailed": "Login failed because of an error.",
   "portal.registerSuccess": "Register successful",
   "portal.registerFailed": "Register failed because of an error.",
+  "portal.getConfFailed": "Cannot fetch the configuration of portal.",
   "nav.tab.close": "Close",
   "nav.user.logout": "Logout",
   "nav.logout.success": "Logout successfully",

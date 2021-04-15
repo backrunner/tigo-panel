@@ -28,6 +28,7 @@
   "portal.loginFailed": "出现错误，登录失败",
   "portal.registerSuccess": "注册成功！请使用您刚才填写的用户信息登录",
   "portal.registerFailed": "出现错误，注册失败",
+  "portal.getConfFailed": "页面配置获取失败",
   "nav.tab.close": "关闭",
   "nav.user.logout": "登出",
   "nav.logout.success": "登出成功",
