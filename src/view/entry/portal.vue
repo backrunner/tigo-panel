@@ -40,9 +40,11 @@
           </el-button>
         </el-form-item>
         <div class="form-footer">
-          <span @click="switchToRegister" v-if="showRegisterEntry">
-            {{ $t('portal.toRegister') }}
-          </span>
+          <transition mode="out-in" name="fade">
+            <span @click="switchToRegister" v-if="showRegisterEntry">
+              {{ $t('portal.toRegister') }}
+            </span>
+          </transition>
         </div>
       </el-form>
       <el-form
@@ -140,7 +142,7 @@ export default {
       loginLoading: false,
       registerLoading: false,
       confirmPasswordValidator,
-      registerDisabled: false,
+      registerDisabled: true,
     };
   },
   computed: {
