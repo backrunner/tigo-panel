@@ -12,7 +12,15 @@
         <div class="keymanage-body-table">
           <el-table class="el-table-dark" :data="data" height="100%">
             <el-table-column prop="ak" label="Access Key" width="360px"></el-table-column>
-            <el-table-column prop="sk" label="Secret Key" width="360px"></el-table-column>
+            <el-table-column prop="sk" label="Secret Key" width="360px">
+              <template slot-scope="scope">
+                <div class="keymanage-sk">
+                  <span v-if="showSk[scope.row.id]">{{ scope.row.sk }}</span>
+                  <span v-else>{{ strTimes('*', 32) }}</span>
+                  <i class="el-icon-view" @click="viewSk(scope.row.id)"></i>
+                </div>
+              </template>
+            </el-table-column>
             <el-table-column :label="$t('op')">
               <template slot-scope="scope">
                 <el-popconfirm
@@ -36,6 +44,7 @@
 
 <script>
 import Page from '../layout/components/page';
+import { strTimes } from '@/utils/string';
 
 export default {
   components: {
@@ -44,6 +53,8 @@ export default {
   data() {
     return {
       data: null,
+      showSk: {},
+      strTimes,
     };
   },
   created() {
@@ -82,6 +93,17 @@ export default {
       this.$message.success(this.$t('deleteSuccess'));
       this.fetchListData();
     },
+    viewSk(id) {
+      if (!this.showSk[id]) {
+        this.$confirm(this.$t('keymanage.viewSk'), this.$t('confirm'))
+          .then(() => {
+            this.$set(this.showSk, id, true);
+          })
+          .catch(() => {});
+      } else {
+        this.$set(this.showSk, id, false);
+      }
+    },
   },
 };
 </script>
@@ -114,6 +136,18 @@ export default {
     }
     &-table {
       height: 100%;
+    }
+  }
+  &-sk {
+    display: flex;
+    align-items: center;
+    i {
+      margin-left: 6px;
+      cursor: pointer;
+      transition: 200ms ease;
+    }
+    i:hover {
+      color: var(--primary);
     }
   }
 }

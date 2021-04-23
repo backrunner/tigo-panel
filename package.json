@@ -1,6 +1,6 @@
 {
   "name": "tigo-panel",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production vue-cli-service build",
