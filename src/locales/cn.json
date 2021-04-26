@@ -11,6 +11,7 @@
   "portal.password": "密码",
   "portal.confirmPassword": "确认密码",
   "portal.remember": "记住我",
+  "portal.autoLogin": "自动登录中",
   "portal.login": "登录",
   "portal.login.title": "登录到 tigo",
   "portal.register": "创建帐户",

@@ -35,8 +35,8 @@
           </el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="login" :loading="loginLoading">
-            {{ $t('portal.login') }}
+          <el-button type="primary" @click="login" :loading="autoLogin || loginLoading">
+            {{ autoLogin ? $t('portal.autoLogin') : $t('portal.login') }}
           </el-button>
         </el-form-item>
         <div class="form-footer">
@@ -128,6 +128,7 @@ export default {
       }
     };
     return {
+      autoLogin: false,
       formType: 'login',
       loginForm: {
         username: '',
@@ -160,12 +161,14 @@ export default {
     // auth info existed, jump to the main page
     const { token, refreshToken } = this.$store.state.auth;
     if (token) {
+      this.autoLogin = true;
       const res = await checkAuthStatus();
       if (res) {
         this.$router.push(this.$route.query?.path || '/app');
       }
     }
     if (!token && refreshToken) {
+      this.autoLogin = true;
       const res = await doTokenRefresh(refreshToken);
       if (res) {
         this.$router.push(this.$route.query?.path || '/app');

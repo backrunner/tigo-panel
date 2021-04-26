@@ -11,6 +11,7 @@
   "portal.password": "Password",
   "portal.confirmPassword": "Confirm Your Password",
   "portal.remember": "Remember me",
+  "portal.autoLogin": "Trying auto login",
   "portal.login": "Login",
   "portal.login.title": "Log into tigo",
   "portal.register": "Create Account",
