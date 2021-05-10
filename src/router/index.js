@@ -61,6 +61,13 @@ const routes = [
         },
       },
       {
+        path: 'lambda-log',
+        component: () => import(/* webpackChunkName: "app.lambda.log" */ '@/view/main/lambda/log.vue'),
+        meta: {
+          title: 'lambda.log',
+        },
+      },
+      {
         path: 'hostbinder',
         component: () => import(/* webpackChunkName: "app.hostbinder" */ '@/view/main/hostbinder/hostbinder.vue'),
         meta: {

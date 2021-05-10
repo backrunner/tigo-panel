@@ -345,16 +345,33 @@ export default {
       window.open(path, '_blank');
     },
     openDebug() {
+      const query = {
+        scriptName: this.item.name,
+      };
       this.openTab({
         uid: this.userId,
         name: 'debugger',
         path: '/lambda-debugger',
+        query,
       });
       this.$router.replace({
         path: '/app/lambda-debugger',
-        query: {
-          scriptName: this.item.name,
-        },
+        query,
+      });
+    },
+    openLog() {
+      const query = {
+        lambdaName: this.item.name,
+      };
+      this.openTab({
+        uid: this.userId,
+        name: 'lambda.log',
+        path: '/lambda-log',
+        query,
+      });
+      this.$router.replace({
+        path: '/app/lambda-log',
+        query,
       });
     },
   },

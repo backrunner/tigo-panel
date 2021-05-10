@@ -7,8 +7,12 @@
       ref="name"
       :key="nameKey"
       :contenteditable="editable"
-      @keydown.enter="() => { editable && handleConfirmClick() }"
-      >
+      @keydown.enter="
+        () => {
+          editable && handleConfirmClick();
+        }
+      "
+    >
       {{ name }}
     </span>
     <el-tooltip
@@ -53,9 +57,12 @@
     <el-dropdown @command="handleMenuCommand" size="small" placement="bottom" trigger="click">
       <i class="el-icon-more el-dropdown-link" v-show="showDefaultIcons && showMore"></i>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="env" v-if="editorType === 'lambda'">{{
-          $t('editor.env.title')
-        }}</el-dropdown-item>
+        <el-dropdown-item command="env" v-if="showEnv">
+          {{ $t('editor.env.title') }}
+        </el-dropdown-item>
+        <el-dropdown-menu-item command="log" v-if="showLog">
+          {{ $t('editor.name.log') }}
+        </el-dropdown-menu-item>
       </el-dropdown-menu>
     </el-dropdown>
     <el-tooltip
@@ -97,9 +104,13 @@ export default {
       editable: false,
       originName: false,
       nameKey: 0,
+      enabledFeats: null,
     };
   },
   computed: {
+    isLambda() {
+      return this.editorType === 'lambda';
+    },
     showDefaultIcons() {
       return !this.editable;
     },
@@ -107,16 +118,39 @@ export default {
       return !`${this.scriptId}`.startsWith('new');
     },
     showView() {
-      return this.editorType === 'cfs' && !`${this.scriptId}`.startsWith('new');
+      return this.isLambda && !`${this.scriptId}`.startsWith('new');
     },
     showDebug() {
-      return this.editorType === 'lambda' && !`${this.scriptId}`.startsWith('new');
+      return this.isLambda && !`${this.scriptId}`.startsWith('new');
     },
     showMore() {
-      return this.editorType === 'lambda';
+      return this.isLambda;
+    },
+    showEnv() {
+      return this.isLambda;
+    },
+    showLog() {
+      return this.isLambda && this.enabledFeats && this.enabledFeats.log;
     },
   },
+  async created() {
+    if (this.editorType === 'lambda') {
+      await this.fetchEnabledFeats();
+    }
+  },
   methods: {
+    async fetchEnabledFeats() {
+      let res;
+      try {
+        res = await this.$pApi.get('/faas/enabledFeats');
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch enabled feats.', err);
+        return;
+      }
+      this.$set(this, 'enabledFeats', res.data.data);
+    },
+    // icon button handlers
     handleEditClick() {
       this.editable = true;
       if (this.editorType === 'cfs') {
@@ -157,6 +191,8 @@ export default {
     handleMenuCommand(cmd) {
       if (cmd === 'env') {
         this.$parent.$parent.openScriptEnv();
+      } else if (cmd === 'log') {
+        this.$parent.openLog();
       }
     },
     setEditable(status) {
