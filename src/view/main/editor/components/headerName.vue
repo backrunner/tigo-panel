@@ -48,7 +48,7 @@
       placement="bottom"
       v-if="showDebug"
     >
-      <i class="el-icon-cpu" @click="handleDebugClick" v-show="showDefaultIcons"></i>
+      <i class="el-icon-cpu" @click="handleDebugClick" v-show="showDefaultIcons && showDebug"></i>
     </el-tooltip>
     <el-dropdown @command="handleMenuCommand" size="small" placement="bottom" trigger="click">
       <i class="el-icon-more el-dropdown-link" v-show="showDefaultIcons && showMore"></i>
