@@ -43,6 +43,7 @@
   "home.pluginInfo.error": "Failed to fetch plugin info",
   "lambda": "Lambda",
   "lambda.log": "Lambda Logs",
+  "lambda.log.loadError": "Failed to load data",
   "cfs": "CFS",
   "edtior.save.success": "Successfully saved",
   "editor.save.emptyContent": "Please enter the content first.",

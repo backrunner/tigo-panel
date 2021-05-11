@@ -43,6 +43,7 @@
   "home.pluginInfo.error": "获取系统插件信息失败",
   "lambda": "函数计算",
   "lambda.log": "函数日志",
+  "lambda.log.loadError": "数据加载失败",
   "cfs": "配置文件存储",
   "edtior.save.success": "保存成功",
   "editor.save.emptyContent": "请先输入内容再保存",
