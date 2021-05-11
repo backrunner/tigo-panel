@@ -70,7 +70,7 @@
   "editor.env.delete.confirm": "Are you sure to delete this data? ",
   "editor.env.fetchFailed": "Fetching nvironment KV data failed",
   "editor.env.duplicated": "Do not add duplicate key",
-  "editor.draft.save.at": "Save at",
+  "editor.draft.save.at": "Draft save at",
   "debugger": "Lambda Debugger",
   "debugger.history.title": "History",
   "debugger.history.empty": "No history yet...",

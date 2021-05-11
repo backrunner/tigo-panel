@@ -20,6 +20,7 @@
         <span class="monaco-ctrl monaco-ctrl__btn">
           <el-button
             type="primary"
+            size="small"
             :disabled="saveButtonStatus"
             @loading="saveButtonLoading"
             @click="save"
@@ -381,23 +382,23 @@ export default {
 <style lang="less">
 .monaco {
   box-sizing: border-box;
-  padding: 8px 24px 24px 24px;
+  padding: 12px 18px 18px 18px;
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
   &-header {
     display: flex;
-    height: 48px;
+    height: 32px;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     &__name {
       flex: 1;
       color: var(--primary);
-      font-size: 15px;
+      font-size: 14px;
       justify-self: flex-start;
       span {
-        margin-right: 8px;
+        margin-right: 4px;
         br {
           display: none;
         }
@@ -422,7 +423,8 @@ export default {
     }
     &__name_editing {
       background-color: #1e1e1e;
-      padding: 8px 12px;
+      padding: 6px 10px 7px 10px;
+      margin-right: 8px !important;
     }
     &__ctrl {
       .monaco-ctrl {
@@ -434,6 +436,7 @@ export default {
       .monaco-ctrl__btn {
         .el-button {
           padding: 8px 16px;
+          font-size: 13px;
         }
       }
     }

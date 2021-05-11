@@ -71,7 +71,7 @@
   "editor.env.delete.confirm": "确定要删除这条数据吗？",
   "editor.env.fetchFailed": "环境变量数据获取失败",
   "editor.env.duplicated": "请勿添加重复的 Key",
-  "editor.draft.save.at": "保存于",
+  "editor.draft.save.at": "草稿保存于",
   "debugger": "函数调试器",
   "debugger.history.title": "历史记录",
   "debugger.history.empty": "暂无历史记录",
