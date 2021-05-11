@@ -60,9 +60,9 @@
         <el-dropdown-item command="env" v-if="showEnv">
           {{ $t('editor.env.title') }}
         </el-dropdown-item>
-        <el-dropdown-menu-item command="log" v-if="showLog">
+        <el-dropdown-item command="log" v-if="showLog">
           {{ $t('editor.name.log') }}
-        </el-dropdown-menu-item>
+        </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <el-tooltip
