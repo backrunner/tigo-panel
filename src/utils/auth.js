@@ -65,8 +65,9 @@ export const checkAuthStatus = async () => {
   }
   let res;
   try {
-    await pApi.get('/auth/getUserInfo');
-  } catch {
+    res = await pApi.get('/auth/getUserInfo');
+  } catch (err) {
+    console.error('Failed to get user info.', err);
     return false;
   }
   if (res) {

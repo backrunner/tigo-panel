@@ -63,7 +63,7 @@ export default {
     if (!this.uid || !this.username) {
       const res = await checkAuthStatus();
       if (!res) {
-        this.clearAuthInfo();
+        this.clearUserInfo();
         this.$router.replace('/portal');
       }
     }
@@ -113,7 +113,7 @@ export default {
       }
     }
     // init pluginInfo
-    this.getPluginInfo();
+    await this.getPluginInfo();
   },
   mounted() {
     if (!this.heartbeatInterval) {
@@ -125,7 +125,7 @@ export default {
   },
   methods: {
     ...mapMutations('service', ['setHeartbeat', 'setPluginInfo']),
-    ...mapMutations('auth', ['clearAuthInfo']),
+    ...mapMutations('auth', ['clearUserInfo']),
     ...mapMutations('nav', ['openTab', 'setActivateTab', 'setTabs']),
     async sendHeartBeat() {
       try {
@@ -137,6 +137,9 @@ export default {
     },
     async getPluginInfo() {
       const res = await this.$nApi.get('/common/listPlugins');
+      if (!res) {
+        return;
+      }
       let pluginInfo = res.data.data?.packages;
       if (!pluginInfo) {
         this.$message.error(this.$t('home.pluginInfo.error'));
