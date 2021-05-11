@@ -165,6 +165,8 @@ export default {
       const res = await checkAuthStatus();
       if (res) {
         this.$router.push(this.$route.query?.path || '/app');
+      } else {
+        this.autoLogin = false;
       }
     }
     if (!token && refreshToken) {
@@ -172,6 +174,8 @@ export default {
       const res = await doTokenRefresh(refreshToken);
       if (res) {
         this.$router.push(this.$route.query?.path || '/app');
+      } else {
+        this.autoLogin = false;
       }
     }
     // check server configuration

@@ -1,14 +1,19 @@
 /* eslint-disable no-console */
-import { tApi, nApi, ptApi } from './request';
+import { pApi, ptApi } from './request';
 import store from '../store';
 import { sha256 } from 'hash-wasm';
 
 export const doTokenRefresh = async (token) => {
-  const res = await tApi.get('/auth/refresh', {
-    params: {
-      token,
-    },
-  });
+  let res;
+  try {
+    res = await ptApi.get('/auth/refresh', {
+      params: {
+        token,
+      },
+    });
+  } catch {
+    return false;
+  }
   if (!res) {
     return false;
   }
@@ -28,11 +33,7 @@ export const doTokenRefresh = async (token) => {
   return true;
 };
 
-export const doLogin = async ({
-  username,
-  password,
-  remember,
-}) => {
+export const doLogin = async ({ username, password, remember }) => {
   const res = await ptApi.post('/auth/login', {
     username,
     password: await sha256(password),
@@ -49,11 +50,7 @@ export const doLogin = async ({
   return res;
 };
 
-export const doRegister = async ({
-  username,
-  password,
-  confirmPassword,
-}) => {
+export const doRegister = async ({ username, password, confirmPassword }) => {
   const res = await ptApi.post('/auth/register', {
     username,
     password: await sha256(password),
@@ -66,7 +63,12 @@ export const checkAuthStatus = async () => {
   if (!store.state.auth.token) {
     return false;
   }
-  const res = await nApi.get('/auth/getUserInfo');
+  let res;
+  try {
+    await pApi.get('/auth/getUserInfo');
+  } catch {
+    return false;
+  }
   if (res) {
     const { uid, username, scopeId } = res.data.data;
     store.commit('auth/setUserInfo', {
