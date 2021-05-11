@@ -7,18 +7,22 @@ const state = {
 };
 
 const mutations = {
-  openTab(state, { uid, name, path }) {
+  openTab(state, { uid, name, path, query }) {
     const idx = state.tabs.findIndex((item) => item.path === path);
     if (idx >= 0) {
       state.activatedTab = state.tabs[idx].id;
       return;
     }
     const id = (Math.random() + new Date().valueOf()).toString();
-    state.tabs.push({
+    const tabInfo = {
       id,
       name,
       path,
-    });
+    };
+    if (query) {
+      Object.assign(tabInfo, { query });
+    }
+    state.tabs.push(tabInfo);
     state.activatedTab = id;
     window.localStorage.setItem('nav', {
       uid,
