@@ -200,6 +200,12 @@ li:focus {
     padding: 0 10px;
   }
 }
+.el-input--prefix .el-input__inner {
+  padding-left: 30px !important;
+}
+.el-date-editor.el-input--small {
+  line-height: 32px;
+}
 .el-checkbox__inner {
   border-radius: 0;
 }
