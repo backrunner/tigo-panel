@@ -13,7 +13,7 @@
           @change="handleDateChange"
         ></el-date-picker>
         <el-button class="loglist-refresh" type="primary" size="small" @click="handleRefresh">
-          刷新
+          {{ $t('refresh') }}
         </el-button>
       </div>
     </div>
@@ -25,12 +25,12 @@
       >
         <el-table-column
           prop="time"
-          label="创建时间"
+          :label="$t('lambda.log.time')"
           :formatter="timeFormatter"
           width="192"
         ></el-table-column>
-        <el-table-column prop="type" label="类别" width="150"></el-table-column>
-        <el-table-column prop="message" label="日志内容"></el-table-column>
+        <el-table-column prop="type" :label="$t('lambda.log.type')" width="150"></el-table-column>
+        <el-table-column prop="message" :label="$t('lambda.log.content')"></el-table-column>
       </el-table>
       <el-pagination
         class="loglist-body__pagination"
