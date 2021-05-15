@@ -129,6 +129,7 @@
   "op": "Operation",
   "upload": "Upload",
   "refresh": "Refresh",
+  "loading": "Loading",
   "selectFile": "Select file",
   "addSuccess": "Add successfully",
   "deleteSuccess": "Delete successfully",

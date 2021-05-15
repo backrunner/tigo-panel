@@ -130,6 +130,7 @@
   "op": "操作",
   "upload": "上传文件",
   "refresh": "刷新",
+  "loading": "加载中",
   "selectFile": "选择文件",
   "addSuccess": "添加成功",
   "deleteSuccess": "删除成功",

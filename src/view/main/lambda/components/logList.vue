@@ -50,7 +50,7 @@ import moment from 'moment';
 export default {
   data() {
     return {
-      lambdaName: null,
+      lambdaName: `${this.$t('loading') }...`,
       date: new Date(),
       datePickerOpts: {
         disabledDate: (date) => {
@@ -74,9 +74,25 @@ export default {
   async created() {
     this.lambdaId = this.$route.query.lambdaId;
     this.date = new Date();
+    await this.fetchName();
     await this.fetchData();
   },
   methods: {
+    async fetchName() {
+      let res;
+      try {
+        res = await this.$pApi.get('/faas/getName', {
+          params: {
+            id: this.lambdaId,
+          },
+        });
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch lambda name.', err);
+        this.lambdaName = `[ID] ${this.lambdaId}`;
+      }
+      this.lambdaName = res.data.data;
+    },
     async fetchData() {
       let res;
       try {
