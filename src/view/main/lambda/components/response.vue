@@ -41,6 +41,9 @@ export default {
       if (!this.response) {
         return '';
       }
+      if ((!this.response.body || JSON.stringify(this.response.body) === '{}') && this.response.text) {
+        return this.response.text;
+      }
       return this.response.body;
     },
     status() {
