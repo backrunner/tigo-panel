@@ -112,9 +112,9 @@ export default {
     },
   },
   created() {
-    const { scriptName } = this.$route.query;
-    if (scriptName) {
-      this.path = scriptName;
+    const { name: lambdaName } = this.$route.query;
+    if (lambdaName) {
+      this.path = lambdaName;
     }
   },
   methods: {

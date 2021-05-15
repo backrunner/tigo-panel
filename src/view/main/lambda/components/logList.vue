@@ -71,10 +71,10 @@ export default {
       pageSize: 30,
     };
   },
-  created() {
-    this.lambdaName = this.$route.query.lambdaName;
+  async created() {
+    this.lambdaId = this.$route.query.lambdaId;
     this.date = new Date();
-    this.fetchData();
+    await this.fetchData();
   },
   methods: {
     async fetchData() {
@@ -82,7 +82,7 @@ export default {
       try {
         res = await this.$pApi.get('/faas/queryLogs', {
           params: {
-            lambdaName: this.lambdaName,
+            lambdaId: this.lambdaId,
             beginTime: moment(this.date)
               .startOf('day')
               .valueOf(),

@@ -3,7 +3,7 @@
     <div class="monaco-header">
       <HeaderName
         ref="headerName"
-        :scriptId="item.id"
+        :lambdaId="item.id"
         :editorType="type"
         :name="displayName"
         @edit="handleNameEdit"
@@ -347,7 +347,7 @@ export default {
     },
     openDebug() {
       const query = {
-        scriptName: this.item.name,
+        name: this.item.name,
       };
       this.openTab({
         uid: this.userId,
@@ -362,7 +362,7 @@ export default {
     },
     openLog() {
       const query = {
-        lambdaName: this.item.name,
+        lambdaId: this.item.id,
       };
       this.openTab({
         uid: this.userId,

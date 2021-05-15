@@ -94,7 +94,7 @@ export default {
       required: true,
       default: '',
     },
-    scriptId: {
+    lambdaId: {
       type: [String, Number],
     },
     editorType: String,
@@ -115,13 +115,13 @@ export default {
       return !this.editable;
     },
     showCopy() {
-      return !`${this.scriptId}`.startsWith('new');
+      return !`${this.lambdaId}`.startsWith('new');
     },
     showView() {
-      return this.isLambda && !`${this.scriptId}`.startsWith('new');
+      return this.isLambda && !`${this.lambdaId}`.startsWith('new');
     },
     showDebug() {
-      return this.isLambda && !`${this.scriptId}`.startsWith('new');
+      return this.isLambda && !`${this.lambdaId}`.startsWith('new');
     },
     showMore() {
       return this.isLambda;
@@ -190,7 +190,7 @@ export default {
     },
     handleMenuCommand(cmd) {
       if (cmd === 'env') {
-        this.$parent.$parent.openScriptEnv();
+        this.$parent.$parent.openLambdaEnv();
       } else if (cmd === 'log') {
         this.$parent.openLog();
       }

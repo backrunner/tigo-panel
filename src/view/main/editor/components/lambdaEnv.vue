@@ -48,7 +48,7 @@
 <script>
 export default {
   props: {
-    scriptId: {
+    lambdaId: {
       type: [Number, String],
     },
   },
@@ -61,14 +61,14 @@ export default {
         value: '',
       },
       addBtnDisabled: false,
-      newScriptCache: {},
+      newLambdaCache: {},
     };
   },
   methods: {
     async fetchData() {
       const res = await this.$nApi.get('/faas/env/get', {
         params: {
-          scriptId: this.scriptId,
+          lambdaId: this.lambdaId,
         },
       });
       if (!res) {
@@ -95,15 +95,15 @@ export default {
         this.addBtnDisabled = false;
         return;
       }
-      if (`${this.scriptId}`.startsWith('new')) {
-        if (this.newScriptCache[key]) {
+      if (`${this.lambdaId}`.startsWith('new')) {
+        if (this.newLambdaCache[key]) {
           this.$message.error(this.$t('editor.env.duplicated'));
           return;
         }
-        this.newScriptCache[key] = value;
+        this.newLambdaCache[key] = value;
       } else {
         const res = await this.$nApi.post('/faas/env/add', {
-          scriptId: this.scriptId,
+          lambdaId: this.lambdaId,
           k: key,
           v: value,
         });
@@ -119,7 +119,7 @@ export default {
     handleEditClick() {},
     async handleDeleteConfirm(row) {
       const res = await this.$nApi.post('/faas/env/delete', {
-        scriptId: this.scriptId,
+        lambdaId: this.lambdaId,
         k: row.key,
       });
       if (!res) {
