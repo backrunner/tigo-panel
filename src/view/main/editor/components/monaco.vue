@@ -382,7 +382,7 @@ export default {
 <style lang="less">
 .monaco {
   box-sizing: border-box;
-  padding: 12px 18px 18px 18px;
+  padding: 6px 8px 12px 16px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -391,7 +391,7 @@ export default {
     display: flex;
     height: 32px;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     &__name {
       flex: 1;
       color: var(--primary);
@@ -445,6 +445,7 @@ export default {
     flex: 1;
     position: relative;
     width: 100%;
+    max-height: calc(100% - 42px);
     box-sizing: border-box;
     &-editor {
       width: 100%;
