@@ -17,8 +17,10 @@
         autocomplete="off"
       ></el-input>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleAddClick" :disabled="addDisabled">确定</el-button>
+        <el-button @click="addDialogVisible = false">{{ $t('cancel') }}</el-button>
+        <el-button type="primary" @click="handleAddClick" :disabled="addDisabled">
+          {{ $t('confirm') }}
+        </el-button>
       </div>
     </el-dialog>
   </div>

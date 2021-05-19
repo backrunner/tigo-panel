@@ -42,6 +42,33 @@
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog
+      class="senv-edit"
+      :title="$t('editor.env.edit.title')"
+      :visible.sync="editDialogVisible"
+      append-to-body
+    >
+      <el-input
+        v-model="editForm.key"
+        placeholder="Key"
+        autocomplete="off"
+        spellcheck="false"
+        :disabled="true"
+      ></el-input>
+      <el-input
+        v-model="editForm.value"
+        placeholder="Value"
+        autocomplete="off"
+        spellcheck="false"
+        @change="handleEditValueChanged"
+      ></el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editorDialogVisible = false">{{ $t('cancel') }}</el-button>
+        <el-button type="primary" @click="handleEditConfirm" :disabled="editConfirmDisabled">
+          {{ $t('confirm') }}
+        </el-button>
+      </div>
+    </el-dialog>
   </el-drawer>
 </template>
 
@@ -49,7 +76,7 @@
 export default {
   props: {
     lambdaId: {
-      type: [Number, String],
+      type: String,
     },
   },
   data() {
@@ -60,7 +87,14 @@ export default {
         key: '',
         value: '',
       },
+      editForm: {
+        key: '',
+        value: '',
+      },
+      editValueChanged: false,
       addBtnDisabled: false,
+      editDialogVisible: false,
+      editConfirmDisabled: false,
       newLambdaCache: {},
     };
   },
@@ -86,6 +120,20 @@ export default {
         };
       });
     },
+    refreshDataFromCache() {
+      this.data = Object.keys(this.newLambdaCache[this.lambdaId]).map((key) => {
+        return {
+          key,
+          value: this.newLambdaCache[this.lambdaId][key],
+        };
+      });
+    },
+    clearForm() {
+      this.$set(this, 'addForm', {
+        key: '',
+        value: '',
+      });
+    },
     async handleAddClick() {
       this.addBtnDisabled = true;
       const key = this.addForm.key.trim();
@@ -95,12 +143,16 @@ export default {
         this.addBtnDisabled = false;
         return;
       }
-      if (`${this.lambdaId}`.startsWith('new')) {
-        if (this.newLambdaCache[key]) {
+      if (this.lambdaId.startsWith('new')) {
+        if (!this.newLambdaCache[this.lambdaId]) {
+          this.newLambdaCache[this.lambdaId] = {};
+        }
+        if (this.newLambdaCache[this.lambdaId][key]) {
           this.$message.error(this.$t('editor.env.duplicated'));
           return;
         }
-        this.newLambdaCache[key] = value;
+        this.newLambdaCache[this.lambdaId][key] = value;
+        this.refreshDataFromCache();
       } else {
         const res = await this.$nApi.post('/faas/env/add', {
           lambdaId: this.lambdaId,
@@ -115,9 +167,52 @@ export default {
       }
       this.$message.success(this.$t('addSuccess'));
       this.addBtnDisabled = false;
+      this.clearForm();
     },
-    handleEditClick() {},
+    handleEditClick(row) {
+      this.editDialogVisible = true;
+      this.editForm.key = row.key;
+      this.editForm.value = row.value;
+      this.editValueChanged = false;
+    },
+    handleEditValueChanged() {
+      this.editValueChanged = true;
+    },
+    async handleEditConfirm() {
+      if (!this.editValueChanged) {
+        this.editDialogVisible = false;
+        return;
+      }
+      if (!this.editForm.value) {
+        this.$message.error(this.$t('editor.env.error.emptyValue'));
+      }
+      if (this.lambdaId.startsWith('new')) {
+        this.newLambdaCache[this.lambdaId][this.ditForm.key] = this.editForm.value;
+        this.refreshDataFromCache();
+      } else {
+        this.editConfirmDisabled = true;
+        try {
+          await this.$pApi.post('/faas/env/edit', {
+            lambdaId: this.lambdaId,
+            k: this.editForm.key,
+            v: this.editForm.value,
+          });
+          this.fetchData();
+          this.editDialogVisible = false;
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to submit env edit.', err);
+          this.$message.error(this.$t('editor.env.error.editFailed'));
+          this.editConfirmDisabled = false;
+        }
+      }
+    },
     async handleDeleteConfirm(row) {
+      if (this.lambdaId.startsWith('new')) {
+        delete this.newLambdaCache[this.lambdaId][row.key];
+        this.refreshDataFromCache();
+        return;
+      }
       const res = await this.$nApi.post('/faas/env/delete', {
         lambdaId: this.lambdaId,
         k: row.key,
@@ -130,11 +225,20 @@ export default {
     },
     open() {
       this.visible = true;
-      this.fetchData();
+      // init data
+      this.clearForm();
+      this.addBtnDisabled = false;
+      // try to fetch
+      if (!this.lambdaId.startsWith('new')) {
+        this.fetchData();
+      } else if (this.newLambdaCache[this.lambdaId]) {
+        this.refreshDataFromCache();
+      } else {
+        this.data = [];
+      }
     },
-    close() {
-      this.visible = false;
-      this.data = [];
+    getFromCache(lambdaId) {
+      return this.newLambdaCache[lambdaId];
     },
   },
 };
@@ -179,6 +283,14 @@ export default {
     .el-table__body-wrapper::-webkit-scrollbar-corner {
       background-color: #2e2e2e;
     }
+  }
+}
+.senv-edit {
+  .el-input {
+    margin-bottom: 12px;
+  }
+  .el-input:last-child {
+    margin-bottom: 0;
   }
 }
 </style>

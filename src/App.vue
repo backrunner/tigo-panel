@@ -152,10 +152,10 @@ li:focus {
   box-shadow: 4px 4px 0px #323232;
 }
 .el-button--text {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .el-button--text:hover {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .el-dropdown {
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);

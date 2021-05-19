@@ -60,6 +60,9 @@
         <el-dropdown-item command="env" v-if="showEnv">
           {{ $t('editor.env.title') }}
         </el-dropdown-item>
+        <el-dropdown-item command="policy" v-if="showPolicy">
+          {{ $t('lambda.policy.title') }}
+        </el-dropdown-item>
         <el-dropdown-item command="log" v-if="showLog">
           {{ $t('editor.name.log') }}
         </el-dropdown-item>
@@ -115,18 +118,21 @@ export default {
       return !this.editable;
     },
     showCopy() {
-      return !`${this.lambdaId}`.startsWith('new');
+      return !this.lambdaId.startsWith('new');
     },
     showView() {
-      return this.isLambda && !`${this.lambdaId}`.startsWith('new');
+      return this.isLambda && !this.lambdaId.startsWith('new');
     },
     showDebug() {
-      return this.isLambda && !`${this.lambdaId}`.startsWith('new');
+      return this.isLambda && !this.lambdaId.startsWith('new');
     },
     showMore() {
       return this.isLambda;
     },
     showEnv() {
+      return this.isLambda;
+    },
+    showPolicy() {
       return this.isLambda;
     },
     showLog() {
@@ -190,9 +196,11 @@ export default {
     },
     handleMenuCommand(cmd) {
       if (cmd === 'env') {
-        this.$parent.$parent.openLambdaEnv();
+        this.$bus.$emit('open-lambda-env');
+      } else if (cmd === 'policy') {
+        this.$bus.$emit('open-lambda-policy');
       } else if (cmd === 'log') {
-        this.$parent.openLog();
+        this.$bus.$emit('open-lambda-log');
       }
     },
     setEditable(status) {

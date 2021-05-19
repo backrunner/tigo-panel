@@ -186,6 +186,12 @@ export default {
       draftSaveTimeout: {},
     };
   },
+  created() {
+    this.$bus.$on('open-lambda-log', this.openLambdaLog);
+  },
+  beforeDestroy() {
+    this.$bus.$off('open-lambda-log', this.openLambdaLog);
+  },
   methods: {
     ...mapMutations('nav', ['openTab', 'setCannotClose', 'setTabQuery']),
     validateContent() {
@@ -201,7 +207,7 @@ export default {
         return;
       }
       const action = `${this.item.id}`.startsWith('new') ? 'add' : 'edit';
-      // send save request
+      // build request params
       const params = {
         action,
         content: Base64.stringify(Utf8.parse(this.content)),
@@ -217,6 +223,12 @@ export default {
           id: this.item.id,
         });
       }
+      if (this.type === 'lambda' && action === 'add') {
+        // assign policy and env
+        const cached = this.$parent.getNewLambdaCache(this.item.id);
+        Object.assign(params, cached);
+      }
+      // send save request
       const res = await this.$nApi.post(`/${API_TARGET[this.type]}/save`, params);
       this.$set(this.saving, this.item.id, false);
       if (!res) {
@@ -360,7 +372,7 @@ export default {
         query,
       });
     },
-    openLog() {
+    openLambdaLog() {
       const query = {
         lambdaId: this.item.id,
       };

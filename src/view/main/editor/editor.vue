@@ -7,7 +7,8 @@
       <Monaco ref="monaco" :item="editItem" :type="type" />
     </div>
     <div class="clearfix"></div>
-    <LambdaEnv ref="lambdaEnv" :lambdaId="lambdaEnvItemId" v-if="renderLambdaEnv" />
+    <LambdaEnv ref="lambdaEnv" :lambdaId="lambdaId" v-if="renderLambdaDrawers" />
+    <LambdaPolicy ref="lambdaPolicy" :lambdaId="lambdaId" v-if="renderLambdaDrawers" />
     <ContextMenu ref="listContextMenu" @item-clicked="handleListContextClick">
       <ContextMenuItem name="refresh">刷新列表</ContextMenuItem>
     </ContextMenu>
@@ -19,6 +20,7 @@ import { mapMutations } from 'vuex';
 import List from './components/list';
 import Monaco from './components/monaco';
 import LambdaEnv from './components/lambdaEnv';
+import LambdaPolicy from './components/lambdaPolicy';
 import apiBaseMap from './constants/apiBaseMap.js';
 
 export default {
@@ -29,12 +31,13 @@ export default {
     List,
     Monaco,
     LambdaEnv,
+    LambdaPolicy,
   },
   computed: {
-    renderLambdaEnv() {
+    renderLambdaDrawers() {
       return this.type === 'lambda';
     },
-    lambdaEnvItemId() {
+    lambdaId() {
       return this.editItem?.id;
     },
   },
@@ -44,6 +47,14 @@ export default {
       editItem: null,
       dataLoading: false,
     };
+  },
+  created() {
+    this.$bus.$on('open-lambda-env', this.openLambdaEnv);
+    this.$bus.$on('open-lambda-policy', this.openLambdaPolicy);
+  },
+  beforeDestroy() {
+    this.$bus.$off('open-lambda-env', this.openLambdaEnv);
+    this.$bus.$off('open-lambda-policy', this.openLambdaPolicy);
   },
   async mounted() {
     await this.initList();
@@ -170,9 +181,21 @@ export default {
         }
       }
     },
-    // script env
+    // lambda drawers
     openLambdaEnv() {
       this.$refs.lambdaEnv.open();
+    },
+    openLambdaPolicy() {
+      this.$refs.lambdaPolicy.open();
+    },
+    // get new lambda cache
+    getNewLambdaCache(lambdaId) {
+      const cachedEnv = this.$refs.lambdaEnv.getFromCache(lambdaId);
+      const cachedPolicy = this.$refs.lambdaPolicy.getFromCache(lambdaId);
+      return {
+        env: cachedEnv || {},
+        policy: cachedPolicy || {},
+      };
     },
   },
 };
