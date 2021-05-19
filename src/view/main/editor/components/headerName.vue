@@ -196,11 +196,11 @@ export default {
     },
     handleMenuCommand(cmd) {
       if (cmd === 'env') {
-        this.$bus.$emit('open-lambda-env');
+        this.$bus.$emit('open-lambda-env', this.itemId);
       } else if (cmd === 'policy') {
-        this.$bus.$emit('open-lambda-policy');
+        this.$bus.$emit('open-lambda-policy', this.itemId);
       } else if (cmd === 'log') {
-        this.$bus.$emit('open-lambda-log');
+        this.$bus.$emit('open-lambda-log', this.itemId);
       }
     },
     setEditable(status) {

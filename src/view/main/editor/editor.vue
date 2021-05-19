@@ -7,8 +7,8 @@
       <Monaco ref="monaco" :item="editItem" :type="type" />
     </div>
     <div class="clearfix"></div>
-    <LambdaEnv ref="lambdaEnv" :lambdaId="lambdaId" v-if="renderLambdaDrawers" />
-    <LambdaPolicy ref="lambdaPolicy" :lambdaId="lambdaId" v-if="renderLambdaDrawers" />
+    <LambdaEnv ref="lambdaEnv" :lambdaId="itemId" v-if="renderLambdaDrawers" />
+    <LambdaPolicy ref="lambdaPolicy" :lambdaId="itemId" v-if="renderLambdaDrawers" />
     <ContextMenu ref="listContextMenu" @item-clicked="handleListContextClick">
       <ContextMenuItem name="refresh">刷新列表</ContextMenuItem>
     </ContextMenu>
@@ -37,7 +37,7 @@ export default {
     renderLambdaDrawers() {
       return this.type === 'lambda';
     },
-    lambdaId() {
+    itemId() {
       return this.editItem?.id;
     },
   },
@@ -184,10 +184,16 @@ export default {
       }
     },
     // lambda drawers
-    openLambdaEnv() {
+    openLambdaEnv(id) {
+      if (id !== this.itemId) {
+        return;
+      }
       this.$refs.lambdaEnv.open();
     },
-    openLambdaPolicy() {
+    openLambdaPolicy(id) {
+      if (id !== this.itemId) {
+        return;
+      }
       this.$refs.lambdaPolicy.open();
     },
     // get new lambda cache

@@ -373,9 +373,12 @@ export default {
       });
       this.$bus.$emit('debugger-path-changed', this.item.name);
     },
-    openLambdaLog() {
+    openLambdaLog(id) {
+      if (this.item.id !== id) {
+        return;
+      }
       const query = {
-        lambdaId: this.item.id,
+        lambdaId: id,
       };
       this.openTab({
         uid: this.userId,
