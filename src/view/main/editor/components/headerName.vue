@@ -97,7 +97,7 @@ export default {
       required: true,
       default: '',
     },
-    lambdaId: {
+    itemId: {
       type: [String, Number],
     },
     editorType: String,
@@ -118,13 +118,13 @@ export default {
       return !this.editable;
     },
     showCopy() {
-      return !this.lambdaId.startsWith('new');
+      return !`${this.itemId}`.startsWith('new');
     },
     showView() {
-      return this.isLambda && !this.lambdaId.startsWith('new');
+      return this.isLambda && !`${this.itemId}`.startsWith('new');
     },
     showDebug() {
-      return this.isLambda && !this.lambdaId.startsWith('new');
+      return this.isLambda && !`${this.itemId}`.startsWith('new');
     },
     showMore() {
       return this.isLambda;

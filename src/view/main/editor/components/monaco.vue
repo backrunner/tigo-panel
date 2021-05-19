@@ -3,7 +3,7 @@
     <div class="monaco-header">
       <HeaderName
         ref="headerName"
-        :lambdaId="item.id"
+        :itemId="item.id"
         :editorType="type"
         :name="displayName"
         @edit="handleNameEdit"
