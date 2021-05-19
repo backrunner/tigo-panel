@@ -116,8 +116,17 @@ export default {
     if (lambdaName) {
       this.path = lambdaName;
     }
+    this.$bus.$on('debugger-path-changed', this.handlePathChanged);
+  },
+  beforeDestroy() {
+    this.$bus.$off('debugger-path-changed', this.handlePathChanged);
   },
   methods: {
+    // events
+    handlePathChanged(path) {
+      this.path = path;
+    },
+    // editor
     addHeader() {
       this.headers.push({
         id: new Date().valueOf(),

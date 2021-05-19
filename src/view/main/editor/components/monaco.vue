@@ -371,6 +371,7 @@ export default {
         path: '/app/lambda-debugger',
         query,
       });
+      this.$bus.$emit('debugger-path-changed', this.item.name);
     },
     openLambdaLog() {
       const query = {
