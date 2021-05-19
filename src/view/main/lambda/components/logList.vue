@@ -29,7 +29,25 @@
           :formatter="timeFormatter"
           width="192"
         ></el-table-column>
-        <el-table-column prop="type" :label="$t('lambda.log.type')" width="150"></el-table-column>
+        <el-table-column prop="type" :label="$t('lambda.log.type')" width="150">
+          <template slot-scope="scope">
+            <el-tag size="small" type="info" v-if="scope.row.type === 'debug'" effect="dark">
+              {{ $t('lambda.log.debug') }}
+            </el-tag>
+            <el-tag size="small" v-if="scope.row.type === 'info'" effect="dark">
+              {{ $t('lambda.log.info') }}
+            </el-tag>
+            <el-tag size="small" type="warn" v-if="scope.row.type === 'warn'" effect="dark">
+              {{ $t('lambda.log.warn') }}
+            </el-tag>
+            <el-tag size="small" type="error" v-if="scope.row.type === 'error'" effect="dark">
+              {{ $t('lambda.log.error') }}
+            </el-tag>
+            <el-tag size="small" color="#c94d4d" v-if="scope.row.type === 'fatal'" effect="dark">
+              {{ $t('lambda.log.fatal') }}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="message" :label="$t('lambda.log.content')"></el-table-column>
       </el-table>
       <el-pagination
@@ -50,7 +68,7 @@ import moment from 'moment';
 export default {
   data() {
     return {
-      lambdaName: `${this.$t('loading') }...`,
+      lambdaName: `${this.$t('loading')}...`,
       date: new Date(),
       datePickerOpts: {
         disabledDate: (date) => {

@@ -12,4 +12,8 @@
 
 - Fix: the edit button in lambda environment KV is not functional.
 
+- Fix: target path in debugger sender cannot change automatically when query changed.
+
+- Fix: now the tabs will saved to local storage after dragged.
+
 - Minor: upgrade `monaco-editor`.

@@ -143,6 +143,9 @@ li:focus {
 }
 
 // element cover
+.el-tag {
+  user-select: none;
+}
 .el-button {
   border-radius: 0 !important;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.175);

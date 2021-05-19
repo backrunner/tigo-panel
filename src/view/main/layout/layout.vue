@@ -75,7 +75,6 @@ export default {
     const storedNav = window.localStorage.getItem('nav');
     const path = this.$route.path.replace('/app', '');
     if (storedNav) {
-      console.log(storedNav.uid, this.uid);
       if (storedNav.uid === this.uid) {
         let found = false;
         storedNav.tabs.forEach((tab) => {
