@@ -64,8 +64,7 @@ export default {
       const idx = this.list.findIndex((item) => `${item.id}` === id);
       if (idx >= 0) {
         this.editItem = this.list[idx];
-        let parsedId = parseInt(id, 10);
-        parsedId = isNaN(parsedId) ? id : parsedId;
+        const parsedId = /^\d+$/.test(id) ? parseInt(id, 10) : id;
         this.$refs.list.setSelected(parsedId);
         this.setTabQuery({
           path: this.$route.path,
