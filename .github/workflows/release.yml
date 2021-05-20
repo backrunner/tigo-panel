@@ -1,0 +1,36 @@
+name: Build and pack when tagged
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-and-pack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Tar files
+        run: tar -zcvf tigo-panel_${{ github.ref }}.tar.gz ./dist
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          name: ${{ github.ref }}
+          tag: ${{ github.ref }}
+          artifact: ./tigo-panel_${{ github.ref }}.tar.gz
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
