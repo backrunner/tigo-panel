@@ -24,13 +24,13 @@ jobs:
         run: npm run build
 
       - name: Tar files
-        run: tar -zcvf tigo-panel_${{ github.ref }}.tar.gz ./dist
+        run: tar -zcvf dist.tar.gz ./dist
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           name: ${{ github.ref }}
           tag: ${{ github.ref }}
-          artifact: ./tigo-panel_${{ github.ref }}.tar.gz
+          artifact: dist.tar.gz
           draft: true
           token: ${{ secrets.GH_TOKEN }}
