@@ -33,4 +33,4 @@ jobs:
           tag: ${{ github.ref }}
           artifact: ./tigo-panel_${{ github.ref }}.tar.gz
           draft: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
