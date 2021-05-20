@@ -16,4 +16,6 @@
 
 - Fix: now the tabs will saved to local storage after dragged.
 
+- Fix: apiBaseMap.js cannot be located when bundling the panel.
+
 - Minor: upgrade `monaco-editor`.
