@@ -32,6 +32,7 @@
     </div>
     <div class="monaco-body">
       <MonacoEditor
+        ref="editor"
         class="monaco-body-editor"
         v-model="content"
         :language="editorLanguage"
@@ -188,6 +189,8 @@ export default {
   },
   created() {
     this.$bus.$on('open-lambda-log', this.openLambdaLog);
+    this.$bus.$on('import-lambda', this.importLambda);
+    this.$bus.$on('export-lambda', this.exportLambda);
   },
   beforeDestroy() {
     this.$bus.$off('open-lambda-log', this.openLambdaLog);
@@ -337,7 +340,8 @@ export default {
       this.draftSaveTimeout[id] = null;
     },
     copyUrl() {
-      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.publicHost || this.$apiConfig.host}`;
+      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.publicHost ||
+        this.$apiConfig.host}`;
       try {
         const scope = this.type === 'cfs' ? 'config' : 'lambda';
         const type = this.type === 'cfs' ? `.${this.item.type}` : '';
@@ -352,7 +356,8 @@ export default {
       this.$message.success(this.$t('editor.name.copy.success'));
     },
     openConfig() {
-      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.publicHost || this.$apiConfig.host}`;
+      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.publicHost ||
+        this.$apiConfig.host}`;
       const type = this.type === 'cfs' ? `.${this.item.type}` : '';
       const path = `${basePath}/config/${this.userScopeId}/${this.item.name}${type}`;
       window.open(path, '_blank');
@@ -390,6 +395,39 @@ export default {
         path: '/app/lambda-log',
         query,
       });
+    },
+    // import export
+    importLambda(id) {
+      if (id !== this.item.id) {
+        return;
+      }
+      const selector = document.createElement('input');
+      selector.type = 'file';
+      selector.onchange = async () => {
+        if (!selector.files.length) {
+          return;
+        }
+        const file = selector.files[0];
+        this.content = await file.text();
+        this.$bus.$emit('close-lambda-imexport', this.item.id);
+        this.$message.success(this.$t('editor.import.success'));
+      };
+      selector.click();
+    },
+    exportLambda(id) {
+      if (id !== this.item.id) {
+        return;
+      }
+      const blob = new Blob([this.content], {
+        type: 'text/plain',
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${this.item.name}.js`;
+      a.click();
+      this.$bus.$emit('close-lambda-imexport', this.item.id);
+      this.$message.success(this.$t('editor.export.success'));
     },
   },
 };

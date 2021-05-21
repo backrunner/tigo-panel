@@ -7,10 +7,11 @@
       <Monaco ref="monaco" :item="editItem" :type="type" />
     </div>
     <div class="clearfix"></div>
-    <LambdaEnv ref="lambdaEnv" :lambdaId="itemId" v-if="renderLambdaDrawers" />
-    <LambdaPolicy ref="lambdaPolicy" :lambdaId="itemId" v-if="renderLambdaDrawers" />
+    <LambdaEnv ref="lambdaEnv" :lambdaId="itemId" v-if="renderLambdaComps" />
+    <LambdaPolicy ref="lambdaPolicy" :lambdaId="itemId" v-if="renderLambdaComps" />
+    <LambdaImExport ref="lambdaImExport" :lambdaId="itemId" v-if="renderLambdaComps" />
     <ContextMenu ref="listContextMenu" @item-clicked="handleListContextClick">
-      <ContextMenuItem name="refresh">刷新列表</ContextMenuItem>
+      <ContextMenuItem name="refresh">{{ $t('refresh') }}</ContextMenuItem>
     </ContextMenu>
   </div>
 </template>
@@ -21,6 +22,7 @@ import List from './components/list';
 import Monaco from './components/monaco';
 import LambdaEnv from './components/lambdaEnv';
 import LambdaPolicy from './components/lambdaPolicy';
+import LambdaImExport from './components/lambdaImExport';
 import apiBaseMap from './constants/apiBaseMap.js';
 
 export default {
@@ -32,9 +34,10 @@ export default {
     Monaco,
     LambdaEnv,
     LambdaPolicy,
+    LambdaImExport,
   },
   computed: {
-    renderLambdaDrawers() {
+    renderLambdaComps() {
       return this.type === 'lambda';
     },
     itemId() {
@@ -51,10 +54,12 @@ export default {
   created() {
     this.$bus.$on('open-lambda-env', this.openLambdaEnv);
     this.$bus.$on('open-lambda-policy', this.openLambdaPolicy);
+    this.$bus.$on('open-lambda-imexport', this.openLambdaImExport);
   },
   beforeDestroy() {
     this.$bus.$off('open-lambda-env', this.openLambdaEnv);
     this.$bus.$off('open-lambda-policy', this.openLambdaPolicy);
+    this.$bus.$off('open-lambda-imexport', this.openLambdaImExport);
   },
   async mounted() {
     await this.initList();
@@ -182,7 +187,7 @@ export default {
         }
       }
     },
-    // lambda drawers
+    // lambda comps
     openLambdaEnv(id) {
       if (id !== this.itemId) {
         return;
@@ -194,6 +199,12 @@ export default {
         return;
       }
       this.$refs.lambdaPolicy.open();
+    },
+    openLambdaImExport(id) {
+      if (id !== this.itemId) {
+        return;
+      }
+      this.$refs.lambdaImExport.open();
     },
     // get new lambda cache
     getNewLambdaCache(lambdaId) {

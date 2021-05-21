@@ -66,6 +66,9 @@
         <el-dropdown-item command="log" v-if="showLog">
           {{ $t('editor.name.log') }}
         </el-dropdown-item>
+        <el-dropdown-item command="imexport" v-if="showImportExport">
+          {{ $t('editor.name.imexport') }}
+        </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <el-tooltip
@@ -135,6 +138,9 @@ export default {
     showPolicy() {
       return this.isLambda;
     },
+    showImportExport() {
+      return this.isLambda;
+    },
     showLog() {
       return this.isLambda && this.enabledFeats && this.enabledFeats.log;
     },
@@ -201,6 +207,8 @@ export default {
         this.$bus.$emit('open-lambda-policy', this.itemId);
       } else if (cmd === 'log') {
         this.$bus.$emit('open-lambda-log', this.itemId);
+      } else if (cmd === 'imexport') {
+        this.$bus.$emit('open-lambda-imexport', this.itemId);
       }
     },
     setEditable(status) {
