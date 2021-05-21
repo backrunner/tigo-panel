@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.6.2
+
+- Fix: prevent useless refresh when saving a new item in editor.
+
 ## v1.6.1
 
 - Feat: output panel version info to console.
