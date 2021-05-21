@@ -245,12 +245,7 @@ export default {
         return;
       }
       this.clearDraftTimeout(this.item.id);
-      if (action === 'add') {
-        const { id } = res.data.data;
-        this.$parent.modifyItemId(this.item.id, id);
-        this.newIdsMap[id] = true;
-      }
-      this.$message.success(this.$t('edtior.save.success'));
+      // process draft
       if (this.drafts[this.item.id]) {
         delete this.drafts[this.item.id];
         if (!Object.keys(this.drafts).length) {
@@ -261,6 +256,13 @@ export default {
         }
         this.$set(this.draftSaveTime, this.item.id, null);
       }
+      // modify item id
+      if (action === 'add') {
+        const { id } = res.data.data;
+        this.$parent.modifyItemId(this.item.id, id);
+        this.newIdsMap[id] = true;
+      }
+      this.$message.success(this.$t('edtior.save.success'));
     },
     reload() {
       this.getContent(this.item.id);
