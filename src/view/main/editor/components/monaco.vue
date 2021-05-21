@@ -337,7 +337,7 @@ export default {
       this.draftSaveTimeout[id] = null;
     },
     copyUrl() {
-      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.host}`;
+      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.publicHost || this.$apiConfig.host}`;
       try {
         const scope = this.type === 'cfs' ? 'config' : 'lambda';
         const type = this.type === 'cfs' ? `.${this.item.type}` : '';
@@ -352,7 +352,7 @@ export default {
       this.$message.success(this.$t('editor.name.copy.success'));
     },
     openConfig() {
-      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.host}`;
+      const basePath = `http${this.$apiConfig.https ? 's' : ''}://${this.$apiConfig.publicHost || this.$apiConfig.host}`;
       const type = this.type === 'cfs' ? `.${this.item.type}` : '';
       const path = `${basePath}/config/${this.userScopeId}/${this.item.name}${type}`;
       window.open(path, '_blank');

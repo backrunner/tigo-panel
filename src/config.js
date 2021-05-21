@@ -8,6 +8,7 @@ const getConfig = () => {
     : {
       https: true,
       host: 'api.tigo.pwp.app',
+      publicHost: 'public.tigo.pwp.app',
       base: '',
     };
 };

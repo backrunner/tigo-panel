@@ -97,7 +97,7 @@ export default {
       } else if (name === 'copyLink') {
         if (navigator.clipboard) {
           const prefix = this.$apiConfig.https ? 'https://' : 'http://';
-          const url = `${prefix}${this.$apiConfig.host}/storage/${this.scopeId}/${this.bucket}/${this.file.key}`;
+          const url = `${prefix}${this.$apiConfig.publicHost || this.$apiConfig.host}/storage/${this.scopeId}/${this.bucket}/${this.file.key}`;
           navigator.clipboard.writeText(url);
         }
         this.$message.success(this.$t('oss.fmanager.copied'));
