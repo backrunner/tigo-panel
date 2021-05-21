@@ -4,6 +4,8 @@
 
 - Feat: add `publicHost` option to the `config.js`.
 
+- Fix: some texts are not internationalized.
+
 ## v1.5.0
 
 - Breaking change: the `host` in `config.js` now has been changed to `internalHost` and `externalHost` to fit `@tigojs/api-proxy@0.2.0`.
