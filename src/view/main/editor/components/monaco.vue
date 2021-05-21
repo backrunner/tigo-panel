@@ -100,6 +100,10 @@ export default {
           this.content = '';
           return;
         }
+        if (this.newIdsMap[newItem.id]) {
+          delete this.newIdsMap[newItem.id];
+          return;
+        }
         this.fileType = newItem.type;
         if (this.drafts[newItem.id]) {
           this.content = this.drafts[newItem.id];
@@ -187,6 +191,7 @@ export default {
       drafts: {},
       draftSaveTime: {},
       draftSaveTimeout: {},
+      newIdsMap: {}, // cache new ids from server
     };
   },
   created() {
@@ -243,6 +248,7 @@ export default {
       if (action === 'add') {
         const { id } = res.data.data;
         this.$parent.modifyItemId(this.item.id, id);
+        this.newIdsMap[id] = true;
       }
       this.$message.success(this.$t('edtior.save.success'));
       if (this.drafts[this.item.id]) {
