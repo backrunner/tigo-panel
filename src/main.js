@@ -42,4 +42,3 @@ new Vue({
   i18n,
   render: (h) => h(App),
 }).$mount('#app');
-

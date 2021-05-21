@@ -156,8 +156,8 @@ export default {
       if (this.editItem.id === item.id) {
         this.editItem = null;
       }
-      if (!this.list.length) {
-        this.router.replace({
+      if (!this.list.length && Object.keys(this.$router.query).length) {
+        this.$router.replace({
           query: null,
         });
         this.setTabQuery({

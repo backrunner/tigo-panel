@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.1
+
+- Feat: output panel version info to console.
+
+- Fix: prevent redundant navigation when the query is empty.
+
 ## v1.6.0
 
 - Feat: add `publicHost` option to the `config.js`.

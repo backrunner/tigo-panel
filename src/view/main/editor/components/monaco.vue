@@ -122,13 +122,15 @@ export default {
           }
         } else {
           this.content = '';
-          this.$router.replace({
-            query: null,
-          });
-          this.setTabQuery({
-            path: this.$route.path,
-            query: null,
-          });
+          if (Object.keys(this.$route.query).length) {
+            this.$router.replace({
+              query: null,
+            });
+            this.setTabQuery({
+              path: this.$route.path,
+              query: null,
+            });
+          }
         }
       },
     },
