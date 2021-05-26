@@ -1,8 +1,10 @@
 # Changelog
 
-## v1.6.4
+## v1.6.4 - v1.6.5
 
 - Minor: upgrade dependencies.
+
+- Fix: presist `console.log` methods in production build.
 
 ## v1.6.3
 

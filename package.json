@@ -1,10 +1,11 @@
 {
   "name": "tigo-panel",
-  "version": "1.6.3",
+  "version": "1.6.5",
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production vue-cli-service build",
     "dev": "cross-env NODE_ENV=dev vue-cli-service serve",
+    "serve:dist": "npm run build && http-server ./dist -b",
     "f2elint-fix": "f2elint fix",
     "f2elint-scan": "f2elint scan",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
