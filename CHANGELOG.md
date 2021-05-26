@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.6.4
+
+- Minor: upgrade dependencies.
+
 ## v1.6.3
 
 - Fix: the warning dialog always show after saving a new item in editor.
