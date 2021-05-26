@@ -153,7 +153,7 @@ export default {
       if (idx >= 0) {
         this.list.splice(idx, 1);
       }
-      if (this.editItem.id === item.id) {
+      if (this.editItmem && this.editItem.id === item.id) {
         this.editItem = null;
       }
       if (!this.list.length && Object.keys(this.$router.query).length) {
