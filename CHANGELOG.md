@@ -6,6 +6,8 @@
 
 - Fix: presist `console.log` methods in production build.
 
+- Fix: an error will be thrown when delete and item from editor.
+
 ## v1.6.3
 
 - Fix: the warning dialog always show after saving a new item in editor.
