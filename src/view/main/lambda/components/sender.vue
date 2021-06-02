@@ -8,17 +8,15 @@
       <el-input size="small" v-model="path">
         <template slot="prepend">{{ pathPrepend }}</template>
       </el-input>
-      <el-button size="small" type="primary" @click="send" :disabled="sending"
-        ><i class="el-icon-s-promotion"></i
-      ></el-button>
+      <el-button size="small" type="primary" @click="send" :disabled="sending">
+        <i class="el-icon-s-promotion"></i>
+      </el-button>
     </div>
     <div class="debugger-sender__body">
       <div class="sender-form sender-headers">
         <div class="sender-form__header">
           <span>Headers</span>
-          <el-button size="mini" type="primary" @click="addHeader">{{
-            $t('add')
-          }}</el-button>
+          <el-button size="mini" type="primary" @click="addHeader">{{ $t('add') }}</el-button>
         </div>
         <div class="c-scroll sender-form__body">
           <div class="sender-row" v-for="(header, index) in headers" :key="header.id">
@@ -45,9 +43,7 @@
       <div class="sender-form sender-values">
         <div class="sender-form__header">
           <span>{{ valuesHeader }}</span>
-          <el-button size="mini" type="primary" @click="addValue">{{
-            $t('add')
-          }}</el-button>
+          <el-button size="mini" type="primary" @click="addValue">{{ $t('add') }}</el-button>
         </div>
         <div class="c-scroll sender-form__body">
           <div class="sender-row" v-for="(v, index) in values" :key="v.id">
@@ -221,7 +217,7 @@ export default {
           key,
           value: headers[key],
         }));
-        headerList.length ? this.headers = headerList : this.resetHeaders();
+        headerList.length ? (this.headers = headerList) : this.resetHeaders();
       } else {
         this.resetHeaders();
       }
@@ -231,7 +227,7 @@ export default {
           key,
           value: values[key],
         }));
-        valueList.length ? this.values = valueList : this.resetValues();
+        valueList.length ? (this.values = valueList) : this.resetValues();
       } else {
         this.resetValues();
       }
