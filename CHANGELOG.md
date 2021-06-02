@@ -4,6 +4,8 @@
 
 - Feat: support lambda performance statistics.
 
+- Fix: query of router targets always lost in the portal page.
+
 ## v1.6.4 - v1.6.5
 
 - Minor: upgrade dependencies.
