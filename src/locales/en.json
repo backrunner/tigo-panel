@@ -57,6 +57,8 @@
   "lambda.log.fatal": "Fatal",
   "lambda.perm": "Performance Statistics",
   "lambda.perm.chart.request": "Network Request",
+  "lambda.perm.chart.execTime": "Lambda Execution Time",
+  "lambda.perm.chart.reqStatus": "Success Rate",
   "cfs": "CFS",
   "edtior.save.success": "Successfully saved",
   "editor.save.emptyContent": "Please enter the content first.",

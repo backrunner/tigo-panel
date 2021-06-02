@@ -57,6 +57,8 @@
   "lambda.policy.maxWaitTime": "最长等待时间",
   "lambda.perm": "性能统计",
   "lambda.perm.chart.request": "网络请求调用",
+  "lambda.perm.chart.execTime": "函数执行时间",
+  "lambda.perm.chart.reqStatus": "请求成功率",
   "cfs": "配置文件存储",
   "edtior.save.success": "保存成功",
   "editor.save.emptyContent": "请先输入内容再保存",
