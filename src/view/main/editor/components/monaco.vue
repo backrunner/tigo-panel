@@ -196,6 +196,7 @@ export default {
   },
   created() {
     this.$bus.$on('open-lambda-log', this.openLambdaLog);
+    this.$bus.$on('open-lambda-perm', this.openLambdaPerm);
     this.$bus.$on('import-lambda', this.importLambda);
     this.$bus.$on('export-lambda', this.exportLambda);
   },
@@ -403,6 +404,24 @@ export default {
       });
       this.$router.replace({
         path: '/app/lambda-log',
+        query,
+      });
+    },
+    openLambdaPerm(id) {
+      if (this.item.id !== id) {
+        return;
+      }
+      const query = {
+        lambdaId: id,
+      };
+      this.openTab({
+        uid: this.userId,
+        name: 'lambda.perm',
+        path: '/lambda-perm',
+        query,
+      });
+      this.$router.replace({
+        path: '/app/lambda-perm',
         query,
       });
     },

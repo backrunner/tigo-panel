@@ -90,13 +90,36 @@ export default {
     };
   },
   async created() {
-    this.lambdaId = this.$route.query.lambdaId;
     this.date = new Date();
-    await this.fetchName();
-    await this.fetchData();
+  },
+  watch: {
+    lambdaId: {
+      immediate: true,
+      handler: async (newId) => {
+        if (!newId) {
+          return;
+        }
+        await this.fetchName();
+        await this.fetchData();
+      },
+    },
+  },
+  computed: {
+    lambdaId() {
+      if (!Object.keys(this.$route.query).length) {
+        return null;
+      }
+      return this.$route.query.lambdaId || null;
+    },
   },
   methods: {
     async fetchName() {
+      if (this.$route.path !== '/app/lambda-log') {
+        return;
+      }
+      if (!this.lambdaId) {
+        return;
+      }
       let res;
       try {
         res = await this.$pApi.get('/faas/getName', {
@@ -112,6 +135,12 @@ export default {
       this.lambdaName = res.data.data;
     },
     async fetchData() {
+      if (this.$route.path !== '/app/lambda-log') {
+        return;
+      }
+      if (!this.lambdaId) {
+        return;
+      }
       let res;
       try {
         res = await this.$pApi.get('/faas/queryLogs', {

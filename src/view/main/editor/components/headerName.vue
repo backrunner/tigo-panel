@@ -66,6 +66,9 @@
         <el-dropdown-item command="log" v-if="showLog">
           {{ $t('editor.name.log') }}
         </el-dropdown-item>
+        <el-dropdown-item command="perm" v-if="showPerm">
+          {{ $t('editor.name.perm') }}
+        </el-dropdown-item>
         <el-dropdown-item command="imexport" v-if="showImportExport">
           {{ $t('editor.name.imexport') }}
         </el-dropdown-item>
@@ -144,6 +147,9 @@ export default {
     showLog() {
       return this.isLambda && this.enabledFeats && this.enabledFeats.log;
     },
+    showPerm() {
+      return this.isLambda && this.enabledFeats && this.enabledFeats.perm;
+    },
   },
   async created() {
     if (this.editorType === 'lambda') {
@@ -207,6 +213,8 @@ export default {
         this.$bus.$emit('open-lambda-policy', this.itemId);
       } else if (cmd === 'log') {
         this.$bus.$emit('open-lambda-log', this.itemId);
+      } else if (cmd === 'perm') {
+        this.$bus.$emit('open-lambda-perm', this.itemId);
       } else if (cmd === 'imexport') {
         this.$bus.$emit('open-lambda-imexport', this.itemId);
       }

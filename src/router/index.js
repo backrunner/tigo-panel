@@ -48,28 +48,40 @@ const routes = [
       },
       {
         path: 'lambda',
-        component: () => import(/* webpackChunkName: "app.editor" */ '@/view/main/lambda/lambda.vue'),
+        component: () =>
+          import(/* webpackChunkName: "app.editor" */ '@/view/main/lambda/lambda.vue'),
         meta: {
           title: 'lambda',
         },
       },
       {
         path: 'lambda-debugger',
-        component: () => import(/* webpackChunkName: "app.lambda.debugger" */ '@/view/main/lambda/debugger.vue'),
+        component: () =>
+          import(/* webpackChunkName: "app.lambda.debugger" */ '@/view/main/lambda/debugger.vue'),
         meta: {
           title: 'debugger',
         },
       },
       {
         path: 'lambda-log',
-        component: () => import(/* webpackChunkName: "app.lambda.log" */ '@/view/main/lambda/log.vue'),
+        component: () =>
+          import(/* webpackChunkName: "app.lambda.log" */ '@/view/main/lambda/log.vue'),
         meta: {
           title: 'lambda.log',
         },
       },
       {
+        path: 'lambda-perm',
+        component: () =>
+          import(/* webpackChunkName: "app.lambda.perm" */ '@/view/main/lambda/perm.vue'),
+        meta: {
+          title: 'lambda.perm',
+        },
+      },
+      {
         path: 'hostbinder',
-        component: () => import(/* webpackChunkName: "app.hostbinder" */ '@/view/main/hostbinder/hostbinder.vue'),
+        component: () =>
+          import(/* webpackChunkName: "app.hostbinder" */ '@/view/main/hostbinder/hostbinder.vue'),
         meta: {
           title: 'hostbinder',
         },
@@ -83,7 +95,8 @@ const routes = [
       },
       {
         path: 'keymanage',
-        component: () => import(/* webpackChunkName: "app.keymanage" */ '@/view/main/keymanage/keymanage.vue'),
+        component: () =>
+          import(/* webpackChunkName: "app.keymanage" */ '@/view/main/keymanage/keymanage.vue'),
         meta: {
           title: 'keymanage',
         },
@@ -127,10 +140,10 @@ router.beforeEach((to, from, next) => {
     return;
   }
   if (
-    !store.state.auth.token
-    && to.path.startsWith('/app')
-    && to.path !== '/'
-    && to.path !== '/portal'
+    !store.state.auth.token &&
+    to.path.startsWith('/app') &&
+    to.path !== '/' &&
+    to.path !== '/portal'
   ) {
     next(false);
     if (!store.state.service.available) {

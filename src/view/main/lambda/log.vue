@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style lang="less">
-.page-main {
+.lambdalog {
   padding: 12px 14px;
 }
 </style>
