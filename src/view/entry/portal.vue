@@ -160,11 +160,19 @@ export default {
   async created() {
     // auth info existed, jump to the main page
     const { token, refreshToken } = this.$store.state.auth;
+    const target = {
+      path: this.$route.query?.path || '/app',
+    };
+    if (this.$route.query.q) {
+      Object.assign(target, {
+        query: JSON.parse(this.$route.query.q),
+      });
+    }
     if (token) {
       this.autoLogin = true;
       const res = await checkAuthStatus();
       if (res) {
-        this.$router.push(this.$route.query?.path || '/app');
+        this.$router.push(target);
       } else {
         this.autoLogin = false;
       }
@@ -173,7 +181,7 @@ export default {
       this.autoLogin = true;
       const res = await doTokenRefresh(refreshToken);
       if (res) {
-        this.$router.push(this.$route.query?.path || '/app');
+        this.$router.push(target);
       } else {
         this.autoLogin = false;
       }
@@ -225,7 +233,15 @@ export default {
         }
         if (res) {
           this.$message.success(this.$t('portal.loginSuccess'));
-          this.$router.push(this.$route.query?.path || '/app');
+          const target = {
+            path: this.$route.query?.path || '/app',
+          };
+          if (this.$route.query.q) {
+            Object.assign(target, {
+              query: JSON.parse(this.$route.query.q),
+            });
+          }
+          this.$router.push(target);
         }
         this.loginLoading = false;
       });

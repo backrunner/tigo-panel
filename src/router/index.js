@@ -151,6 +151,7 @@ router.beforeEach((to, from, next) => {
         path: '/',
         query: {
           path: to.path,
+          q: JSON.stringify(to.query),
         },
       });
     } else {
@@ -158,6 +159,7 @@ router.beforeEach((to, from, next) => {
         path: '/portal',
         query: {
           path: to.path,
+          q: JSON.stringify(to.query),
         },
       });
     }
