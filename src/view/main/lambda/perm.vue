@@ -259,7 +259,7 @@ export default {
       }
       let res;
       try {
-        res = await this.$pApi.get('/faas/getRequestPermData', {
+        res = await this.$pApi.get('/faas/perm/requestExecTime', {
           params: {
             lambdaId: this.lambdaId,
             beginTime: moment(this.date)
@@ -299,7 +299,7 @@ export default {
       }
       let res;
       try {
-        res = await this.$pApi.get('/faas/getRequestStatusData', {
+        res = await this.$pApi.get('/faas/perm/requestStatus', {
           params: {
             lambdaId: this.lambdaId,
             beginTime: moment(this.date)

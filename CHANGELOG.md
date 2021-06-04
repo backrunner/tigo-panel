@@ -6,6 +6,8 @@
 
 - Fix: query of router targets always lost in the portal page.
 
+- Minor: fit the latest API URL changes.
+
 ## v1.6.4 - v1.6.5
 
 - Minor: upgrade dependencies.

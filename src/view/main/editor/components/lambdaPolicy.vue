@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     async fetchPolicy() {
-      const res = await this.$nApi('/faas/getPolicy', {
+      const res = await this.$nApi('/faas/policy/get', {
         params: {
           lambdaId: this.lambdaId,
         },

@@ -143,7 +143,7 @@ export default {
       }
       let res;
       try {
-        res = await this.$pApi.get('/faas/queryLogs', {
+        res = await this.$pApi.get('/faas/log/list', {
           params: {
             lambdaId: this.lambdaId,
             beginTime: moment(this.date)
