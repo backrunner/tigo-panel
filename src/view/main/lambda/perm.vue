@@ -56,14 +56,28 @@ export default {
     return {
       lambdaName: `${this.$t('loading')}...`,
       date: new Date(),
+      maxKeepDays: null,
       datePickerOpts: {
         disabledDate: (date) => {
-          return (
-            date.valueOf() >
-            moment()
-              .startOf('day')
-              .valueOf()
-          );
+          if (!this.maxKeepDays) {
+            return (
+              date.valueOf() >
+              moment()
+                .startOf('day')
+                .valueOf()
+            );
+          } else {
+            return (
+              date.valueOf() <=
+                moment()
+                  .subtract(this.maxKeepDays, 'day')
+                  .endOf('day') ||
+              date.valueOf() >
+                moment()
+                  .startOf('day')
+                  .valueOf()
+            );
+          }
         },
       },
       requestChartOpts: {
@@ -193,8 +207,9 @@ export default {
     },
   },
   async created() {
-    await this.fetchName();
-    await this.refreshCharts();
+    this.fetchOptions();
+    this.fetchName();
+    this.refreshCharts();
   },
   watch: {
     lambdaId: {
@@ -228,6 +243,13 @@ export default {
         }
       }
       return arr;
+    },
+    async fetchOptions() {
+      const res = await this.$nApi.get('/faas/log/getOptions');
+      if (!res) {
+        return;
+      }
+      this.maxKeepDays = res.data.data.maxKeepDays;
     },
     async fetchName() {
       if (this.$route.path !== '/app/lambda-perm') {
@@ -316,7 +338,7 @@ export default {
         this.$message.error(this.$t('permlog.request.failed'));
       }
       const chartData = res.data.data[0];
-      const rate = chartData.success / (chartData.success + chartData.error) * 100;
+      const rate = (chartData.success / (chartData.success + chartData.error)) * 100;
       this.requestStatusOpts.series[0].data[0].value = rate;
     },
     handleDateChange() {
