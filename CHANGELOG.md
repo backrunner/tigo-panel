@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.7.1
+
+- Minor: upgrade dependencies.
+
 ## v1.7.0
 
 - Feat: support lambda performance statistics.
