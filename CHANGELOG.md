@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.7.3
+
+- Fix: missing `resetAddForm` method in hostbinder page.
+
+- Fix: button will show loading when saving response not ready.
+
+- Fix: change `getContent` request timeout to 1 min.
+
 ## v1.7.1 - v1.7.2
 
 - Minor: upgrade dependencies.

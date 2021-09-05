@@ -61,6 +61,7 @@
   "lambda.perm.chart.reqStatus": "请求成功率",
   "cfs": "配置文件存储",
   "edtior.save.success": "保存成功",
+  "edtior.save.failed": "保存失败",
   "editor.save.emptyContent": "请先输入内容再保存",
   "editor.list.failed": "获取列表数据失败",
   "editor.failed.text": "内容加载失败",

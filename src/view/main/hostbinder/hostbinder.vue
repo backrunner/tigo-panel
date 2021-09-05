@@ -99,7 +99,7 @@ export default {
       if (!res) {
         return;
       }
-      this.tableData = res.data.data;
+      this.$set(this, 'tableData', res.data.data || []);
     },
     async handleAdd() {
       const { domain, target } = this.addForm;
@@ -141,6 +141,10 @@ export default {
       }
       this.$message.success(this.$t('deleteSuccess'));
       this.fetchData();
+    },
+    resetAddForm() {
+      this.addForm.domain = '';
+      this.addForm.target = '';
     },
   },
 };

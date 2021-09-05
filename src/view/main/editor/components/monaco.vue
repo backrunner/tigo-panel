@@ -21,8 +21,8 @@
           <el-button
             type="primary"
             size="small"
-            :disabled="saveButtonStatus"
-            @loading="saveButtonLoading"
+            :disabled="saveButtonDisabled"
+            :loading="saveButtonLoading"
             @click="save"
           >
             {{ $t('save') }}
@@ -162,7 +162,7 @@ export default {
     saveButtonLoading() {
       return !!this.saving[this.item.id];
     },
-    saveButtonStatus() {
+    saveButtonDisabled() {
       return !!this.saveDisabled[this.item.id];
     },
     editorLanguage() {
@@ -185,6 +185,7 @@ export default {
       content: '',
       fileType: '',
       saving: {},
+      savingTimeout: {},
       saveDisabled: {},
       contentLoading: {},
       contentLoadFailed: {},
@@ -213,7 +214,10 @@ export default {
       return true;
     },
     async save() {
-      this.$set(this.saving, this.item.id, true);
+      this.savingTimeout[this.item.id] = setTimeout(() => {
+        this.$set(this.saving, this.item.id, true);
+      }, 2000);
+      this.$set(this.saveDisabled, this.item.id, false);
       if (!this.validateContent()) {
         return;
       }
@@ -240,8 +244,20 @@ export default {
         Object.assign(params, cached);
       }
       // send save request
-      const res = await this.$nApi.post(`/${API_TARGET[this.type]}/save`, params);
+      let res;
+      try {
+        res = await this.$nApi.post(`/${API_TARGET[this.type]}/save`, params);
+      } catch (err) {
+        this.$set(this.saving, this.item.id, false);
+        this.$set(this.saveDisabled, this.item.id, false);
+        this.$messag.error(this.$t('edtior.save.failed'));
+        return;
+      }
+      if (this.savingTimeout[this.item.id]) {
+        clearTimeout(this.savingTimeout[this.item.id]);
+      }
       this.$set(this.saving, this.item.id, false);
+      this.$set(this.saveDisabled, this.item.id, false);
       if (!res) {
         return;
       }
@@ -275,6 +291,7 @@ export default {
         params: {
           id,
         },
+        timeout: 60 * 1000, // 1 min
       });
       if (!res) {
         this.$set(this.contentLoading, id, false);

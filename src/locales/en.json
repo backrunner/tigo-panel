@@ -61,6 +61,7 @@
   "lambda.perm.chart.reqStatus": "Success Rate",
   "cfs": "CFS",
   "edtior.save.success": "Successfully saved",
+  "edtior.save.failed": "Cannot save content",
   "editor.save.emptyContent": "Please enter the content first.",
   "editor.list.failed": "Failed to get list data",
   "editor.failed.text": "Failed to load content",
