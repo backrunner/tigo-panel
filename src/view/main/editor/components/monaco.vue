@@ -38,6 +38,7 @@
         :language="editorLanguage"
         v-loading="editorLoading"
         @change="handleEditorChange"
+        @save="save"
       />
       <div class="monaco-body-failed" v-if="showFailed">
         <div class="monaco-body-failed__icon">

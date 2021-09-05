@@ -67,6 +67,18 @@ export default {
           this.$emit('change', value);
         }
       });
+      // action
+      this.editor.addAction({
+        id: 'save',
+        label: 'Save content',
+        keybindings: [
+          // eslint-disable-next-line no-bitwise
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S,
+        ],
+        run: () => {
+          this.$emit('save');
+        },
+      });
     },
     routeChanged() {
       if (this.$route.path === this.pagePath && this.autoResize) {
