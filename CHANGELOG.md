@@ -2,6 +2,8 @@
 
 ## v1.7.3
 
+- Feat: add `Ctrl + S` save shortcut for editor.
+
 - Fix: missing `resetAddForm` method in hostbinder page.
 
 - Fix: button will show loading when saving response not ready.
